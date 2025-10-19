@@ -103,14 +103,6 @@
             background-color: #f3f4f6;
             font-weight: 600;
         }
-        .answer-reveal {
-            display: none;
-            background-color: #f9fafb;
-            border-left: 4px solid #6366f1;
-            padding: 1rem;
-            margin-top: 1rem;
-            border-radius: 0.25rem;
-        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -264,10 +256,10 @@
                         { q: "Which Big Data processing tool is built on top of Hadoop and provides a SQL-like query language (HiveQL)?", options: ["MongoDB", "Apache Spark", "Apache Hive", "Cassandra"], a: "Apache Hive", type: "mcq" },
                         { q: "The transformation strategy that converts continuous numeric values (like age) into conceptual labels (like 'teen', 'adult') or intervals is known as:", options: ["Smoothing", "Aggregation", "Discretization", "Generalization"], a: "Discretization", type: "mcq" },
                         // Open
-                        { q: "Briefly explain the core difference between Real-Time Processing and Batch Processing in the context of Big Data Velocity. Provide one real-world application for each.", a: "Real-Time Processing: Data is captured and processed instantly as it streams. It allows for immediate action. Application Example: Fraud detection in financial transactions. Batch Processing: Data is collected, cleaned, stored in chunks, and processed later. There is a delay before action. Application Example: Monthly payroll processing or generating quarterly sales reports.", type: "open" },
-                        { q: "Discuss the concept of Veracity and why it becomes a significant challenge when dealing with Social Media and IoT Sensor Data, as opposed to traditional Enterprise Data.", a: "Veracity is the quality and trustworthiness of data. It is a challenge because: Social Media Data is unstructured, imprecise (slang, emojis), and often biased, making automated analysis difficult and uncertain. IoT Sensor Data arrives at extremely high velocity in massive streams, often containing errors, noise, or incomplete readings that cannot be cleaned using traditional ETL processes. Enterprise Data (in comparison) is structured and has established quality assurance processes (ETL), leading to lower uncertainty.", type: "open" },
-                        { q: "Compare and contrast the architecture and intended use cases of RDBMS (Traditional Databases) versus Big Data Systems in terms of hardware and data type handled.", a: "RDBMS (Traditional Databases): Hardware: High-end, expensive servers (vertical scaling). Data Type: Primarily Structured data (fixed schema). Use Case: Transactional data, frequent reads/writes. Big Data Systems: Hardware: Commodity hardware clusters (horizontal scaling). Data Type: Unstructured, Semi-Structured, and Structured data (dynamic schema). Use Case: Analytics, massive storage, write-once/read-many patterns.", type: "open" },
-                        { q: "Name and define the three main types of Analytics and provide a business example for each.", a: "The three main types of Analytics are: Descriptive Analytics: Defines 'what happened' by looking at past data. Example: Generating a monthly sales report showing revenue made last quarter. Predictive Analytics: Defines 'what will happen' by using models to forecast future outcomes. Example: Building a model to predict which customers are likely to cancel their subscription (churn prediction). Prescriptive Analytics: Defines 'what should we do' by recommending actions based on predictions. Example: Recommending the optimal dynamic pricing strategy for an e-commerce product based on predicted demand.", type: "open" }
+                        { type: "open", prompt: "Briefly explain the core difference between Real-Time Processing and Batch Processing in the context of Big Data Velocity. Provide one real-world application for each.", modelAnswer: "Real-Time Processing: Data is captured and processed instantly as it streams. It allows for immediate action. Application Example: Fraud detection in financial transactions. Batch Processing: Data is collected, cleaned, stored in chunks, and processed later. There is a delay before action. Application Example: Monthly payroll processing or generating quarterly sales reports." },
+                        { type: "open", prompt: "Discuss the concept of Veracity and why it becomes a significant challenge when dealing with Social Media and IoT Sensor Data, as opposed to traditional Enterprise Data.", modelAnswer: "Veracity is the quality and trustworthiness of data. It is a challenge because: Social Media Data is unstructured, imprecise (slang, emojis), and often biased, making automated analysis difficult and uncertain. IoT Sensor Data arrives at extremely high velocity in massive streams, often containing errors, noise, or incomplete readings that cannot be cleaned using traditional ETL processes. Enterprise Data (in comparison) is structured and has established quality assurance processes (ETL), leading to lower uncertainty." },
+                        { type: "open", prompt: "Compare and contrast the architecture and intended use cases of RDBMS (Traditional Databases) versus Big Data Systems in terms of hardware and data type handled.", modelAnswer: "RDBMS (Traditional Databases): Hardware: High-end, expensive servers (vertical scaling). Data Type: Primarily Structured data (fixed schema). Use Case: Transactional data, frequent reads/writes. Big Data Systems: Hardware: Commodity hardware clusters (horizontal scaling). Data Type: Unstructured, Semi-Structured, and Structured data (dynamic schema). Use Case: Analytics, massive storage, write-once/read-many patterns." },
+                        { type: "open", prompt: "Name and define the three main types of Analytics and provide a business example for each.", modelAnswer: "The three main types of Analytics are: Descriptive Analytics: Defines 'what happened' by looking at past data. Example: Generating a monthly sales report showing revenue made last quarter. Predictive Analytics: Defines 'what will happen' by using models to forecast future outcomes. Example: Building a model to predict which customers are likely to cancel their subscription (churn prediction). Prescriptive Analytics: Defines 'what should we do' by recommending actions based on predictions. Example: Recommending the optimal dynamic pricing strategy for an e-commerce product based on predicted demand." }
                     ]
                 },
                 {
@@ -389,10 +381,10 @@
                         { q: "Which database category aims to combine the horizontal scalability of NoSQL with the ACID properties of RDBMS?", options: ["Distributed File Systems (DFS)", "NoSQL Databases", "NewSQL Databases", "Key-Value Databases"], a: "NewSQL Databases", type: "mcq" },
                         { q: "Which category of NoSQL database is MongoDB an example of?", options: ["Key-value", "Document", "Column", "Graph"], a: "Document", type: "mcq" },
                         // Open
-                        { q: "Explain the primary benefit of combining Sharding and Replication in a Big Data cluster architecture, and how it addresses the individual limitations of each technique.", a: "The primary benefit is achieving High Availability and Fault Tolerance along with Scalability. Sharding Limitation: If a node fails, the unique shard data on it is lost. Replication Limitation: Increases redundancy but does not inherently distribute volume. Combination: The dataset is split into unique shards (solving volume/performance), and then each shard is replicated across different nodes (solving data loss/SPOF).", type: "open" },
-                        { q: "Define the CAP Theorem (including the meaning of C, A, and P). Explain the typical trade-off that a distributed NoSQL database makes compared to a traditional RDBMS.", a: "The CAP Theorem states a distributed store can only guarantee 2 of 3 properties: Consistency (C): Every read gets the most recent write. Availability (A): Every request gets a response. Partition Tolerance (P): The system operates despite network failures. Trade-off: RDBMS prioritizes CA. Distributed NoSQL databases typically prioritize AP, sacrificing strict Consistency to remain available during network partitions.", type: "open" },
-                        { q: "Describe the four primary challenges (Errors, Incompleteness, Inconsistency, Redundancy) addressed during the Data Preprocessing step of the Big Data Life Cycle.", a: "The four challenges are: Errors (correcting invalid data like negative salary), Incompleteness (handling missing values), Inconsistency (resolving contradictory data like conflicting date/age fields), and Redundancy (removing duplicates).", type: "open" },
-                        { q: "Explain the difference between the Master-Slave and Peer-to-Peer data replication models, specifically concerning responsibility and scalability.", a: "Master-Slave Model: Responsibility is centralized; the Master handles all writes, Slaves handle reads. It has high read scalability but limited write scalability. Peer-to-Peer Model: Responsibility is decentralized; all nodes are equal. It supports both read and write scalability and eliminates the single point of failure.", type: "open" }
+                        { type: "open", prompt: "Explain the primary benefit of combining Sharding and Replication in a Big Data cluster architecture, and how it addresses the individual limitations of each technique.", modelAnswer: "The primary benefit is achieving High Availability and Fault Tolerance along with Scalability. Sharding Limitation: If a node fails, the unique shard data on it is lost. Replication Limitation: Increases redundancy but does not inherently distribute volume. Combination: The dataset is split into unique shards (solving volume/performance), and then each shard is replicated across different nodes (solving data loss/SPOF)." },
+                        { type: "open", prompt: "Define the CAP Theorem (including the meaning of C, A, and P). Explain the typical trade-off that a distributed NoSQL database makes compared to a traditional RDBMS.", modelAnswer: "The CAP Theorem states a distributed store can only guarantee 2 of 3 properties: Consistency (C): Every read gets the most recent write. Availability (A): Every request gets a response. Partition Tolerance (P): The system operates despite network failures. Trade-off: RDBMS prioritizes CA. Distributed NoSQL databases typically prioritize AP, sacrificing strict Consistency to remain available during network partitions." },
+                        { type: "open", prompt: "Describe the four primary challenges (Errors, Incompleteness, Inconsistency, Redundancy) addressed during the Data Preprocessing step of the Big Data Life Cycle.", modelAnswer: "The four challenges are: Errors (correcting invalid data like negative salary), Incompleteness (handling missing values), Inconsistency (resolving contradictory data like conflicting date/age fields), and Redundancy (removing duplicates)." },
+                        { type: "open", prompt: "Explain the difference between the Master-Slave and Peer-to-Peer data replication models, specifically concerning responsibility and scalability.", modelAnswer: "Master-Slave Model: Responsibility is centralized; the Master handles all writes, Slaves handle reads. It has high read scalability but limited write scalability. Peer-to-Peer Model: Responsibility is decentralized; all nodes are equal. It supports both read and write scalability and eliminates the single point of failure." }
                     ]
                 },
                 {
@@ -501,10 +493,10 @@
                         { q: "Which of the following is a NoSQL database developed for low-latency, real-time access and often integrated with Hadoop?", options: ["MySQL", "Apache Hive", "Apache HBase", "PostgreSQL"], a: "Apache HBase", type: "mcq" },
                         { q: "The development of Hadoop was primarily motivated by the fact that scaling out (using many disks) greatly reduces the time required for:", options: ["CPU processing speed", "Network latency", "Data retrieval/read time", "Software development costs"], a: "Data retrieval/read time", type: "mcq" },
                         // Open
-                        { q: "Explain the concept of Data Locality and its significance in the performance and design of the Hadoop ecosystem.", a: "Data Locality is moving computation logic (code) to the server where data is stored, rather than moving large data volumes across the network. Significance: This minimizes network congestion, reduces transfer time for massive files, and dramatically increases overall throughput. It's the core reason Hadoop is efficient for data-intensive applications.", type: "open" },
-                        { q: "Describe the roles and responsibilities of the two main types of nodes in the HDFS Master/Slave architecture. What is the fundamental difference in what they store?", a: "NameNode (Master): Manages the file system namespace (metadata, directory structure). It stores metadata in memory and log files, but not user data. DataNodes (Slaves): Store and manage the actual data blocks. They store user data on local disks and report their status to the NameNode.", type: "open" },
-                        { q: "Compare the goals and implementation of the Default HDFS Rack Awareness Policy versus the Rack-Fault-Tolerant Policy for 3 replicas.", a: "Default Policy: Goal is to balance fault tolerance and performance. One replica is on the local rack, and two are on a single second rack. Rack-Fault-Tolerant Policy: Goal is maximum fault tolerance. All three replicas are on three different racks. This increases network overhead but provides better protection against rack failure.", type: "open" },
-                        { q: "Describe the functions of three different components found in the Hadoop Ecosystem Layer above YARN (e.g., Hive, Spark, or Zookeeper).", a: "Apache Hive: A data warehousing component for querying HDFS data using a SQL-like language (HiveQL). Apache Spark: An in-memory distributed processing engine for large-scale analytics, faster than MapReduce. Apache HBase: A NoSQL, column-oriented database on HDFS for low-latency, random read/write access to massive datasets.", type: "open" }
+                        { type: "open", prompt: "Explain the concept of Data Locality and its significance in the performance and design of the Hadoop ecosystem.", modelAnswer: "Data Locality is moving computation logic (code) to the server where data is stored, rather than moving large data volumes across the network. Significance: This minimizes network congestion, reduces transfer time for massive files, and dramatically increases overall throughput. It's the core reason Hadoop is efficient for data-intensive applications." },
+                        { type: "open", prompt: "Describe the roles and responsibilities of the two main types of nodes in the HDFS Master/Slave architecture. What is the fundamental difference in what they store?", modelAnswer: "NameNode (Master): Manages the file system namespace (metadata, directory structure). It stores metadata in memory and log files, but not user data. DataNodes (Slaves): Store and manage the actual data blocks. They store user data on local disks and report their status to the NameNode." },
+                        { type: "open", prompt: "Compare the goals and implementation of the Default HDFS Rack Awareness Policy versus the Rack-Fault-Tolerant Policy for 3 replicas.", modelAnswer: "Default Policy: Goal is to balance fault tolerance and performance. One replica is on the local rack, and two are on a single second rack. Rack-Fault-Tolerant Policy: Goal is maximum fault tolerance. All three replicas are on three different racks. This increases network overhead but provides better protection against rack failure." },
+                        { type: "open", prompt: "Describe the functions of three different components found in the Hadoop Ecosystem Layer above YARN (e.g., Hive, Spark, or Zookeeper).", modelAnswer: "Apache Hive: A data warehousing component for querying HDFS data using a SQL-like language (HiveQL). Apache Spark: An in-memory distributed processing engine for large-scale analytics, faster than MapReduce. Apache HBase: A NoSQL, column-oriented database on HDFS for low-latency, random read/write access to massive datasets." }
                     ]
                 },
                 {
@@ -744,6 +736,14 @@ DROP DATABASE [IF EXISTS] db_name [CASCADE];
                         </code></pre>
 
                         <h4>CREATE, DROP, and TRUNCATE Table</h4>
+                        <p><strong>Example (Transactional Table):</strong></p>
+                        <pre><code>CREATE TABLE employee_txn (
+  id INT,
+  name STRING,
+  salary FLOAT
+)
+STORED AS ORC
+TBLPROPERTIES ('transactional'='true');</code></pre>
                         <pre><code>CREATE [EXTERNAL] TABLE [IF NOT EXISTS] table_name (
   col_name data_type [COMMENT col_comment],
   ...
@@ -783,30 +783,57 @@ SELECT ... FROM another_table...;</code></pre>
                         
                         <h4>CTAS (Create Table As Select)</h4>
                         <p>CTAS combines CREATE TABLE and INSERT INTO in one atomic operation, primarily used for data cleaning, type conversion, and changing storage formats.</p>
-                        <pre><code>CREATE TABLE [IF NOT EXISTS] new_table
-[STORED AS file_format]
-AS SELECT ... FROM source_table..;</code></pre>
+                        <p><strong>Example (Cleaning and Format Conversion):</strong> This example cleans raw data stored as TEXTFILE (where data types are strings) and loads it into a clean table stored as ORC with correct types.</p>
+                        <pre><code>CREATE TABLE employee_clean
+STORED AS ORC
+AS
+SELECT
+  CAST(id AS INT) AS id,
+  TRIM(name) AS name, -- Removes surrounding whitespace
+  CAST(salary AS FLOAT) AS salary
+FROM employee_raw;</code></pre>
                         
                         <h4>Multi-Insert (Hive-Specific Feature)</h4>
                         <p>Allows running multiple INSERT statements from a single source SELECT query. This is a major optimization, as the source table is scanned only once.</p>
-                        <pre><code>FROM source_table
-INSERT [INTO | OVERWRITE] TABLE tableA SELECT ...
-INSERT [INTO | OVERWRITE] TABLE tableB SELECT ...;</code></pre>
+                        <p><strong>Example (Single Scan to Three Destinations):</strong></p>
+                        <pre><code>FROM sales
+INSERT INTO TABLE all_sales
+  SELECT year, amount
+INSERT INTO TABLE big_sales
+  SELECT year, amount WHERE amount > 1000
+INSERT INTO TABLE sales_count
+  SELECT year, COUNT(*) GROUP BY year;</code></pre>
                         
                         <h4>UPDATE and DELETE</h4>
                         <p>These commands allow row-level modification and deletion, and only work on transactional (ACID) tables.</p>
                         <pre><code>UPDATE table_name SET column = expression WHERE condition;
-DELETE FROM table_name WHERE condition;</code></pre>
+DELETE FROM table_name WHERE condition;
+
+-- Example
+UPDATE employee SET salary = salary * 1.1 WHERE id = 5;
+DELETE FROM employee WHERE salary < 3000;
+</code></pre>
                         
                         <h4>Merge (UPSERT Capability)</h4>
                         <p>MERGE combines UPDATE, INSERT, and DELETE logic into one statement, enabling UPSERT synchronization between a source and a target table. Requires transactional (ACID) tables.</p>
-                        <pre><code>MERGE INTO target_table T
-USING source_table_or_query S
-ON match_condition
-WHEN MATCHED THEN UPDATE SET ...
-WHEN NOT MATCHED THEN INSERT VALUES (...);</code></pre>
+                        <p><strong>Example (Data Synchronization):</strong> Updates existing employee salaries, deletes terminated employees, and inserts new active employees, all in one query.</p>
+                        <pre><code>MERGE INTO employee T
+USING updates S
+ON T.id = S.id
+WHEN MATCHED AND S.status = 'terminated' THEN DELETE
+WHEN MATCHED AND S.status = 'active' THEN UPDATE SET T.salary = S.new_salary
+WHEN NOT MATCHED AND S.status = 'active' THEN INSERT VALUES (S.id, S.name, S.new_salary);</code></pre>
                         
                         <h3>Data Retrieval and Joins (DQL)</h3>
+                        <h4>SELECT Query Structure</h4>
+                        <pre><code>SELECT [ALL | DISTINCT] select_expr, ...
+FROM table_reference
+[WHERE where_condition]
+[GROUP BY col_list]
+[HAVING having_condition]
+[ORDER BY col_list]
+[LIMIT number];</code></pre>
+
                         <h4>JOIN Types</h4>
                         <p>Hive supports all standard join types (INNER, LEFT, RIGHT, FULL, CROSS) plus special, optimized joins.</p>
                         
@@ -819,6 +846,13 @@ ON c.customer_id = o.customer_id;</code></pre>
                         
                         <h4>Subqueries</h4>
                         <p>Hive fully supports subqueries in the SELECT, WHERE, and FROM clauses. Subqueries in the FROM clause must be aliased.</p>
+                        <pre><code>SELECT dept, avg_salary
+FROM (
+  SELECT dept, AVG(salary) AS avg_salary
+  FROM employee
+  GROUP BY dept
+) AS dept_avg -- Alias is REQUIRED
+WHERE avg_salary > 6000;</code></pre>
                         </div>
                     `,
                     quiz: [
@@ -845,20 +879,45 @@ ON c.customer_id = o.customer_id;</code></pre>
                         { q: "Which storage format is specifically optimized and created for Hive, often providing the best performance for Hive-only workloads?", options: ["TEXTFILE", "SEQUENCEFILE", "PARQUET", "ORC"], a: "ORC", type: "mcq" },
                         { q: "Which Hive data model uses the CLUSTERED BY clause?", options: ["Tables", "Partitions", "Buckets", "Databases"], a: "Buckets", type: "mcq" },
                         // Open
-                        { q: "Explain the fundamental difference between the usage and purpose of CTAS and the LOAD DATA command in HIVEQL, providing a scenario where each is best suited.", a: "LOAD DATA is for quickly moving a raw data file into a Hive table without transformation. Best for loading a pre-cleaned file that matches the table schema. CTAS creates a new table from a SELECT query and is used for transformation, cleaning, type casting, and changing storage format. Best for cleaning a raw TEXTFILE and converting it to a high-performance PARQUET format.", type: "open" },
-                        { q: "Describe the components and primary function of the MERGE statement in Hive, and state the critical table requirement for its successful execution.", a: "Function: To perform a single-statement UPSERT (Update, Insert, Delete) operation. Components: Requires MERGE INTO, USING, ON match condition, and WHEN MATCHED/NOT MATCHED clauses. Critical Requirement: The target table must be a transactional (ACID) table, created with TBLPROPERTIES ('transactional'='true').", type: "open" },
-                        { q: "How does the LEFT SEMI JOIN differ from a regular INNER JOIN when finding customers who have placed an order, and why is the LEFT SEMI JOIN often preferred in Hive?", a: "INNER JOIN returns a row for every matching order, duplicating customer details. LEFT SEMI JOIN returns each matching customer row only once and does not return columns from the orders table. It's preferred in Hive because it's an optimization that is much faster and more memory-efficient when you only need to filter based on the existence of a match.", type: "open" },
-                        { q: "Define the three Complex Data Types in HIVEQL (ARRAY, MAP, STRUCT) and provide a nested example that combines at least two of them.", a: "ARRAY<T>: Ordered list of values of the same type T. MAP<K, V>: Unordered collection of key-value pairs. STRUCT<...>: Collection of named fields of different types. Nested Example: ARRAY<STRUCT<student_id: INT, contact: MAP<STRING, STRING>>>", type: "open" },
-                        { q: "Multi-Insert Question: A retail company has a daily sales table with columns: sale_id, product_id, region, amount, sale_date. They need to create three separate summary tables in one operation: region_summary, high_value_sales, daily_product_count. Write the HIVEQL Multi-Insert command.", a: "FROM daily_sales\nINSERT INTO TABLE region_summary\nSELECT region, SUM(amount) AS total_sales\nGROUP BY region\nINSERT INTO TABLE high_value_sales\nSELECT * WHERE amount > 500\nINSERT INTO TABLE daily_product_count\nSELECT product_id, sale_date, COUNT(*) AS sale_count\nGROUP BY product_id, sale_date;", type: "open" },
-                        { q: "Merge Question: You have an employee table (target) and an employee_updates table (source). Write a HIVEQL MERGE command that updates active employees, deletes terminated ones, and inserts new active ones.", a: "MERGE INTO employee T\nUSING employee_updates S\nON T.emp_id = S.emp_id\nWHEN MATCHED AND S.status = 'terminated' THEN DELETE\nWHEN MATCHED AND S.status = 'active' THEN UPDATE SET T.salary = S.salary\nWHEN NOT MATCHED AND S.status = 'active' THEN INSERT VALUES (S.emp_id, S.name, S.salary);", type: "open" },
-                        { q: "CTAS Question: You have a raw text file customer_raw with string-typed columns. Write a HIVEQL CTAS command that converts customer_id to INT, trims/proper-cases customer_name, converts signup_date from 'dd-MM-yyyy' string to DATE, stores as ORC, and filters out non-numeric customer_ids.", a: "CREATE TABLE customer_clean\nSTORED AS ORC\nAS\nSELECT\nCAST(customer_id AS INT) AS customer_id,\nINITCAP(TRIM(customer_name)) AS customer_name,\nCAST(from_unixtime(unix_timestamp(signup_date, 'dd-MM-yyyy')) AS DATE) AS signup_date\nFROM customer_raw\nWHERE customer_id RLIKE '^[0-9]+$';", type: "open" },
-                        { q: "Left Semi Join Question: You have two tables: products (product_id, product_name, category) and reviews (review_id, product_id, rating). Write a HIVEQL query using LEFT SEMI JOIN to find all products that have received at least one review, returning only product details.", a: "SELECT p.product_id, p.product_name, p.category\nFROM products p\nLEFT SEMI JOIN reviews r\nON p.product_id = r.product_id;", type: "open" }
+                        { type: "open", prompt: "Explain the fundamental difference between the usage and purpose of CTAS and the LOAD DATA command in HIVEQL, providing a scenario where each is best suited.", modelAnswer: "LOAD DATA is for quickly moving a raw data file into a Hive table without transformation. Best for loading a pre-cleaned file that matches the table schema. CTAS creates a new table from a SELECT query and is used for transformation, cleaning, type casting, and changing storage format. Best for cleaning a raw TEXTFILE and converting it to a high-performance PARQUET format." },
+                        { type: "open", prompt: "Describe the components and primary function of the MERGE statement in Hive, and state the critical table requirement for its successful execution.", modelAnswer: "Function: To perform a single-statement UPSERT (Update, Insert, Delete) operation. Components: Requires MERGE INTO, USING, ON match condition, and WHEN MATCHED/NOT MATCHED clauses. Critical Requirement: The target table must be a transactional (ACID) table, created with TBLPROPERTIES ('transactional='true')." },
+                        { type: "open", prompt: "How does the LEFT SEMI JOIN differ from a regular INNER JOIN when finding customers who have placed an order, and why is the LEFT SEMI JOIN often preferred in Hive?", modelAnswer: "INNER JOIN returns a row for every matching order, duplicating customer details. LEFT SEMI JOIN returns each matching customer row only once and does not return columns from the orders table. It's preferred in Hive because it's an optimization that is much faster and more memory-efficient when you only need to filter based on the existence of a match." },
+                        { type: "open", prompt: "Define the three Complex Data Types in HIVEQL (ARRAY, MAP, STRUCT) and provide a nested example that combines at least two of them.", modelAnswer: "ARRAY<T>: Ordered list of values of the same type T. MAP<K, V>: Unordered collection of key-value pairs. STRUCT<...>: Collection of named fields of different types. Nested Example: ARRAY<STRUCT<student_id: INT, contact: MAP<STRING, STRING>>>" },
+                        { type: "open", prompt: "Multi-Insert Question: A retail company has a daily sales table with columns: sale_id, product_id, region, amount, sale_date. They need to create three separate summary tables in one operation: region_summary, high_value_sales, daily_product_count. Write the HIVEQL Multi-Insert command.", modelAnswer: "FROM daily_sales\nINSERT INTO TABLE region_summary\nSELECT region, SUM(amount) AS total_sales\nGROUP BY region\nINSERT INTO TABLE high_value_sales\nSELECT * WHERE amount > 500\nINSERT INTO TABLE daily_product_count\nSELECT product_id, sale_date, COUNT(*) AS sale_count\nGROUP BY product_id, sale_date;" },
+                        { type: "open", prompt: "Merge Question: You have an employee table (target) and an employee_updates table (source). Write a HIVEQL MERGE command that updates active employees, deletes terminated ones, and inserts new active ones.", modelAnswer: "MERGE INTO employee T\nUSING employee_updates S\nON T.emp_id = S.emp_id\nWHEN MATCHED AND S.status = 'terminated' THEN DELETE\nWHEN MATCHED AND S.status = 'active' THEN UPDATE SET T.salary = S.salary\nWHEN NOT MATCHED AND S.status = 'active' THEN INSERT VALUES (S.emp_id, S.name, S.salary, S.status);" },
+                        { type: "open", prompt: "CTAS Question: You have a raw text file customer_raw with string-typed columns. Write a HIVEQL CTAS command that converts customer_id to INT, trims/proper-cases customer_name, converts signup_date from 'dd-MM-yyyy' string to DATE, stores as ORC, and filters out non-numeric customer_ids.", modelAnswer: "CREATE TABLE customer_clean\nSTORED AS ORC\nAS\nSELECT\nCAST(customer_id AS INT) AS customer_id,\nINITCAP(TRIM(customer_name)) AS customer_name,\nCAST(from_unixtime(unix_timestamp(signup_date, 'dd-MM-yyyy')) AS DATE) AS signup_date\nFROM customer_raw\nWHERE customer_id RLIKE '^[0-9]+$';" },
+                        { type: "open", prompt: "Left Semi Join Question: You have two tables: products (product_id, product_name, category) and reviews (review_id, product_id, rating). Write a HIVEQL query using LEFT SEMI JOIN to find all products that have received at least one review, returning only product details.", modelAnswer: "SELECT p.product_id, p.product_name, p.category\nFROM products p\nLEFT SEMI JOIN reviews r\nON p.product_id = r.product_id;" }
                     ]
                 }
             ],
             finalTest: {
                 title: "Final Comprehensive Test",
                 questions: [
+                     // New T/F Questions
+                    { q: "The 'Value' in the 5 Vs of Big Data refers to the monetary cost of the storage infrastructure.", a: "False", type: "tf" },
+                    { q: "A Symmetric Cluster is also known as an Active-Passive cluster.", a: "False", type: "tf" },
+                    { q: "Sharding, by itself, provides strong fault tolerance against node failure.", a: "False", type: "tf" },
+                    { q: "The BASE model in NoSQL databases prioritizes strong consistency over availability.", a: "False", type: "tf" },
+                    { q: "HDFS was inspired by the Google File System (GFS) white paper.", a: "True", type: "tf" },
+                    { q: "In HDFS, the NameNode stores file metadata entirely on disk for faster access.", a: "False", type: "tf" },
+                    { q: "YARN's primary innovation was to tightly couple resource management with the MapReduce programming model.", a: "False", type: "tf" },
+                    { q: "A Combiner function in MapReduce can significantly reduce the amount of data shuffled across the network.", a: "True", type: "tf" },
+                    { q: "In Hive, dropping a 'Managed Table' also deletes the underlying data in HDFS.", a: "True", type: "tf" },
+                    { q: "Hive's LEFT SEMI JOIN is functionally equivalent to a standard SQL INNER JOIN.", a: "False", type: "tf" },
+                    
+                    // New MCQ Questions
+                    { q: "Which data transformation strategy involves summarizing data, such as calculating a monthly total from daily figures?", options: ["Smoothing", "Generalization", "Discretization", "Aggregation"], a: "Aggregation", type: "mcq" },
+                    { q: "A distributed system that guarantees Availability and Partition Tolerance will likely have what kind of consistency?", options: ["Strict", "Sequential", "Eventual", "Causal"], a: "Eventual", type: "mcq" },
+                    { q: "What is the role of JournalNodes in an HDFS HA (High Availability) cluster?", options: ["To store data block replicas.", "To run MapReduce jobs.", "To log metadata changes for NameNode synchronization.", "To balance the load across DataNodes."], a: "To log metadata changes for NameNode synchronization.", type: "mcq" },
+                    { q: "In the YARN architecture, what is a 'Container'?", options: ["A physical server in the cluster.", "A per-job coordinator that manages tasks.", "A Docker image for running applications.", "A bundle of allocated resources (CPU, memory) on a worker node."], a: "A bundle of allocated resources (CPU, memory) on a worker node.", type: "mcq" },
+                    { q: "If a MapReduce job has 10 reducers (R=10), how many output files will be created in HDFS by default?", options: ["1", "10", "Depends on the number of mappers", "Depends on the number of unique keys"], a: "10", type: "mcq" },
+                    { q: "Which Hive feature allows for populating multiple target tables from a single scan of a source table?", options: ["CTAS", "Multi-Insert", "Bucketing", "Partitioning"], a: "Multi-Insert", type: "mcq" },
+                    { q: "What is the primary advantage of columnar storage formats like ORC and Parquet over row-based formats like TEXTFILE?", options: ["They are easier for humans to read.", "They provide faster performance for random row lookups.", "They are more efficient for analytical queries that only read a subset of columns.", "They do not require a schema definition."], a: "They are more efficient for analytical queries that only read a subset of columns.", type: "mcq" },
+                    { q: "Which Hive command is used to add data to a table without performing any transformation or parsing?", options: ["INSERT INTO", "MERGE", "LOAD DATA", "UPDATE"], a: "LOAD DATA", type: "mcq" },
+                    { q: "In MapReduce, what happens if a NodeManager (worker node) fails in the middle of a job?", options: ["The entire job fails and must be restarted manually.", "The Resource Manager restarts the failed node automatically.", "The Application Master reschedules the failed tasks on other available nodes.", "The results are lost and the job finishes with incomplete data."], a: "The Application Master reschedules the failed tasks on other available nodes.", type: "mcq" },
+                    { q: "Which of the following is NOT a core component of the original Hadoop 1.0 architecture?", options: ["HDFS", "JobTracker", "TaskTracker", "Resource Manager"], a: "Resource Manager", type: "mcq" },
+
+                    // Existing Open Questions
                     {
                         type: "open",
                         prompt: "Build an Inverted Index with MapReduce: Write the MapReduce pseudocode (Map and Reduce functions) to build an inverted index that maps each word to the list of unique document IDs (DocID) in which it appears. Clearly define the input, intermediate, and final key-value pairs.",
@@ -884,7 +943,7 @@ ON c.customer_id = o.customer_id;</code></pre>
                         modelAnswer: `
                             Function: The primary function of MERGE is to perform a single-statement UPSERT (Update, Insert, Delete) operation. It synchronizes a target table (T) with changes from a source table/query (S).
                             Components: It requires a MERGE INTO target T, a USING source S, an ON match condition, and conditional WHEN MATCHED or WHEN NOT MATCHED clauses specifying UPDATE SET, DELETE, or INSERT VALUES.
-                            Critical Requirement: The target table must be a transactional (ACID) table, created with TBLPROPERTIES ('transactional'='true') and typically STORED AS ORC.
+                            Critical Requirement: The target table must be a transactional (ACID) table, created with TBLPROPERTIES ('transactional='='true') and typically STORED AS ORC.
                         `
                     },
                     {
@@ -961,42 +1020,53 @@ ON c.customer_id = o.customer_id;</code></pre>
                     ${chapter.summary}
                 </div>
                 <div class="mt-8 text-center">
-                    <button onclick="renderQuiz(${index}, 'all')" class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition w-full md:w-auto">Start Full Chapter Quiz</button>
+                    <button onclick="renderQuiz('chapter', ${index})" class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition w-full md:w-auto">Start Full Chapter Quiz</button>
                 </div>
             `;
         }
         
-        function renderQuiz(chapterIndex) {
-            const chapter = appData.chapters[chapterIndex];
+       function renderQuiz(source, sourceIndex) { 
+            const isFinalTest = source === 'final';
+            const data = isFinalTest ? appData.finalTest : appData.chapters[sourceIndex];
+            const questionsArray = isFinalTest ? data.questions : data.quiz;
+            
             let quizHtml = `
                 <div class="bg-white p-8 rounded-lg shadow-lg">
-                    <h1 class="text-3xl font-bold mb-6 border-b pb-4">${chapter.title} - Quiz</h1>
+                    <h1 class="text-3xl font-bold mb-6 border-b pb-4">${data.title} - ${isFinalTest ? 'Test' : 'Quiz'}</h1>
                     <div id="quiz-container">
             `;
             let questionCounter = 0;
-            chapter.quiz.forEach((q, index) => {
+            questionsArray.forEach((q, index) => {
                 questionCounter++;
-                quizHtml += `<div class="mb-8 p-6 border rounded-lg bg-gray-50" id="q-${index}">`;
-                quizHtml += `<p class="font-semibold text-lg mb-4">${questionCounter}. ${q.q}</p>`;
+                const questionId = isFinalTest ? `final-q-${index}` : `q-${sourceIndex}-${index}`;
+                quizHtml += `<div class="mb-8 p-6 border rounded-lg bg-gray-50" id="${questionId}">`;
+                
+                let questionText = q.q || q.prompt; // Handle both quiz and final test structures
+                quizHtml += `<p class="font-semibold text-lg mb-4">${questionCounter}. ${questionText}</p>`;
+                
                 if (q.type === 'tf') {
                     quizHtml += `
                         <div class="space-y-2">
-                            <div class="quiz-option border-2 border-gray-300 p-3 rounded-lg cursor-pointer" onclick="selectOption(this, ${chapterIndex}, ${index}, 'True')">True</div>
-                            <div class="quiz-option border-2 border-gray-300 p-3 rounded-lg cursor-pointer" onclick="selectOption(this, ${chapterIndex}, ${index}, 'False')">False</div>
+                            <div class="quiz-option border-2 border-gray-300 p-3 rounded-lg cursor-pointer" onclick="selectOption(this, '${source}', ${isFinalTest ? 'null' : sourceIndex}, ${index}, 'True')">True</div>
+                            <div class="quiz-option border-2 border-gray-300 p-3 rounded-lg cursor-pointer" onclick="selectOption(this, '${source}', ${isFinalTest ? 'null' : sourceIndex}, ${index}, 'False')">False</div>
                         </div>
                     `;
                 } else if (q.type === 'mcq') {
                     quizHtml += `<div class="space-y-2">`;
                     q.options.forEach(opt => {
-                        // Escape single quotes in options to prevent breaking the onclick function
                         const escapedOpt = opt.replace(/'/g, "\\'");
-                        quizHtml += `<div class="quiz-option border-2 border-gray-300 p-3 rounded-lg cursor-pointer" onclick="selectOption(this, ${chapterIndex}, ${index}, '${escapedOpt}')">${opt}</div>`;
+                        quizHtml += `<div class="quiz-option border-2 border-gray-300 p-3 rounded-lg cursor-pointer" onclick="selectOption(this, '${source}', ${isFinalTest ? 'null' : sourceIndex}, ${index}, '${escapedOpt}')">${opt}</div>`;
                     });
                     quizHtml += `</div>`;
                 } else if (q.type === 'open') {
-                    quizHtml += `
-                        <button onclick="toggleAnswer('answer-${index}', this)" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-300 transition">Show Answer</button>
-                        <div id="answer-${index}" class="answer-reveal prose max-w-none"><pre><code>${q.a}</code></pre></div>
+                     const inputId = isFinalTest ? `final-q-input-${index}` : `q-input-${sourceIndex}-${index}`;
+                     const resultId = isFinalTest ? `final-result-${index}` : `result-${sourceIndex}-${index}`;
+                     quizHtml += `
+                        <div>
+                            <textarea id="${inputId}" class="w-full h-48 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="Type your answer here..."></textarea>
+                            <button onclick="gradeOpenQuestion('${source}', ${isFinalTest ? 'null' : sourceIndex}, ${index})" class="mt-4 bg-indigo-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition">Grade this Question</button>
+                            <div id="${resultId}" class="mt-4"></div>
+                        </div>
                     `;
                 }
                 quizHtml += `</div>`;
@@ -1004,56 +1074,48 @@ ON c.customer_id = o.customer_id;</code></pre>
 
             quizHtml += `
                     </div>
-                    <button onclick="submitQuiz(${chapterIndex})" class="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition mt-4">Submit Scored Questions</button>
+                    <button onclick="submitScoredQuiz('${source}', ${isFinalTest ? 'null' : sourceIndex})" class="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition mt-4">Submit Scored Questions</button>
                     <div id="quiz-results" class="mt-6 font-bold text-xl"></div>
                 </div>
             `;
             contentArea.innerHTML = quizHtml;
         }
 
-        function toggleAnswer(elementId, button) {
-            const answerDiv = document.getElementById(elementId);
-            if (answerDiv.style.display === 'block') {
-                answerDiv.style.display = 'none';
-                button.textContent = 'Show Answer';
-            } else {
-                answerDiv.style.display = 'block';
-                button.textContent = 'Hide Answer';
-            }
-        }
-
-
         let userAnswers = {};
 
-        function selectOption(element, chapterIndex, questionIndex, answer) {
-            if (!userAnswers[chapterIndex]) {
-                userAnswers[chapterIndex] = {};
+        function selectOption(element, source, sourceIndex, questionIndex, answer) {
+            const key = source === 'final' ? 'final' : sourceIndex;
+             if (!userAnswers[key]) {
+                userAnswers[key] = {};
             }
-            userAnswers[chapterIndex][questionIndex] = answer;
-
-            // Visual feedback for selection
+            userAnswers[key][questionIndex] = answer;
+            
             const options = element.parentNode.querySelectorAll('.quiz-option');
             options.forEach(opt => opt.classList.remove('selected'));
             element.classList.add('selected');
         }
 
-        function submitQuiz(chapterIndex) {
-            const chapter = appData.chapters[chapterIndex];
+        function submitScoredQuiz(source, sourceIndex) {
+            const isFinalTest = source === 'final';
+            const data = isFinalTest ? appData.finalTest : appData.chapters[sourceIndex];
+            const questionsArray = isFinalTest ? data.questions : data.quiz;
+            const key = isFinalTest ? 'final' : sourceIndex;
+            
             let score = 0;
-            const scorableQuestions = chapter.quiz.filter(q => q.type === 'tf' || q.type === 'mcq');
+            const scorableQuestions = questionsArray.filter(q => q.type === 'tf' || q.type === 'mcq');
 
-            chapter.quiz.forEach((q, index) => {
-                if (q.type !== 'tf' && q.type !== 'mcq') return;
-
-                const questionDiv = document.getElementById(`q-${index}`);
+            scorableQuestions.forEach((q, i) => {
+                const originalIndex = questionsArray.indexOf(q);
+                const questionId = isFinalTest ? `final-q-${originalIndex}` : `q-${sourceIndex}-${originalIndex}`;
+                const questionDiv = document.getElementById(questionId);
                 const options = questionDiv.querySelectorAll('.quiz-option');
+
                 options.forEach(opt => {
-                    opt.onclick = null; // Disable further clicks
+                    opt.onclick = null;
                     opt.style.cursor = 'default';
-                    // Escape single quotes for comparison
-                    const answerForComparison = q.a.replace(/'/g, "\\'");
+                    const answerForComparison = (q.a || '').replace(/'/g, "\\'");
                     const isCorrect = opt.textContent === answerForComparison;
-                    const isSelected = userAnswers[chapterIndex] && userAnswers[chapterIndex][index] === opt.textContent;
+                    const isSelected = userAnswers[key] && userAnswers[key][originalIndex] === opt.textContent;
 
                     if (isCorrect) {
                         opt.classList.add('correct');
@@ -1062,7 +1124,7 @@ ON c.customer_id = o.customer_id;</code></pre>
                     }
                 });
 
-                if (userAnswers[chapterIndex] && userAnswers[chapterIndex][index] === q.a) {
+                if (userAnswers[key] && userAnswers[key][originalIndex] === q.a) {
                     score++;
                 }
             });
@@ -1072,40 +1134,24 @@ ON c.customer_id = o.customer_id;</code></pre>
                  resultsDiv.innerHTML = `Your Score: ${score} / ${scorableQuestions.length}`;
                  resultsDiv.className = score / scorableQuestions.length >= 0.7 ? 'mt-6 font-bold text-xl text-green-600' : 'mt-6 font-bold text-xl text-red-600';
             } else {
-                 resultsDiv.innerHTML = `No scorable questions in this section.`;
+                 resultsDiv.innerHTML = `No scorable questions in this quiz.`;
                  resultsDiv.className = 'mt-6 font-bold text-xl text-gray-600';
             }
            
-            userAnswers[chapterIndex] = {}; // Reset for retake
-        }
-        
-        function renderFinalTest() {
-            const test = appData.finalTest;
-            let testHtml = `
-                <div class="bg-white p-8 rounded-lg shadow-lg">
-                    <h1 class="text-3xl font-bold mb-6 border-b pb-4">${test.title}</h1>
-                    <p class="mb-6 text-gray-600">Answer the following open-ended questions. Your answers will be graded by an AI assistant to provide you with a score and constructive feedback.</p>
-            `;
-
-            test.questions.forEach((q, index) => {
-                testHtml += `
-                    <div class="mb-8 p-6 border rounded-lg bg-gray-50" id="test-q-${index}">
-                        <label for="q-input-${index}" class="block font-semibold text-lg mb-4">${index + 1}. ${q.prompt}</label>
-                        <textarea id="q-input-${index}" class="w-full h-48 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="Type your answer here..."></textarea>
-                        <button onclick="gradeQuestion(${index})" class="mt-4 bg-indigo-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition">Grade this Question</button>
-                        <div id="result-${index}" class="mt-4"></div>
-                    </div>
-                `;
-            });
-
-            testHtml += `</div>`;
-            contentArea.innerHTML = testHtml;
+            if(userAnswers[key]) userAnswers[key] = {};
         }
 
-        async function gradeQuestion(questionIndex) {
-            const question = appData.finalTest.questions[questionIndex];
-            const userAnswer = document.getElementById(`q-input-${questionIndex}`).value;
-            const resultDiv = document.getElementById(`result-${questionIndex}`);
+        async function gradeOpenQuestion(source, sourceIndex, questionIndex) {
+            const isFinalTest = source === 'final';
+            const data = isFinalTest ? appData.finalTest : appData.chapters[sourceIndex];
+            const questionsArray = isFinalTest ? data.questions : data.quiz;
+            const question = questionsArray.find((q, i) => i === questionIndex && q.type === 'open');
+
+            const inputId = isFinalTest ? `final-q-input-${questionIndex}` : `q-input-${sourceIndex}-${questionIndex}`;
+            const resultId = isFinalTest ? `final-result-${questionIndex}` : `result-${sourceIndex}-${questionIndex}`;
+            
+            const userAnswer = document.getElementById(inputId).value;
+            const resultDiv = document.getElementById(resultId);
 
             if (!userAnswer.trim()) {
                 resultDiv.innerHTML = `<p class="text-red-500 font-semibold">Please enter an answer before grading.</p>`;
@@ -1113,11 +1159,13 @@ ON c.customer_id = o.customer_id;</code></pre>
             }
 
             resultDiv.innerHTML = `<div class="flex items-center text-gray-600"><div class="animate-spin rounded-full h-5 w-5 border-b-2 border-indigo-500 mr-3"></div>AI is grading your answer...</div>`;
+            
+            const modelAnswer = question.a || question.modelAnswer;
 
             const systemPrompt = `You are an expert grader for a Big Data course. Evaluate the student's answer based on the model answer. Provide a score out of 10 and concise, constructive feedback. Your response must be in JSON format with two keys: "score" (a number) and "feedback" (a string).`;
             const userQuery = `
-                Question: "${question.prompt}"
-                Model Answer: "${question.modelAnswer}"
+                Question: "${question.q || question.prompt}"
+                Model Answer: "${modelAnswer}"
                 Student's Answer: "${userAnswer}"
             `;
 
@@ -1165,7 +1213,7 @@ ON c.customer_id = o.customer_id;</code></pre>
             appData.chapters.forEach((chapter, index) => {
                 navHtml += `<a href="#" onclick="event.preventDefault(); setActive(this); renderChapter(${index});" class="block py-2.5 px-4 rounded-lg mb-2 sidebar-link">${chapter.title}</a>`;
             });
-            navHtml += `<a href="#" onclick="event.preventDefault(); setActive(this); renderFinalTest();" class="block py-2.5 px-4 rounded-lg mt-6 border-t border-gray-700 pt-4 sidebar-link font-bold">Final Test</a>`;
+            navHtml += `<a href="#" onclick="event.preventDefault(); setActive(this); renderQuiz('final', null);" class="block py-2.5 px-4 rounded-lg mt-6 border-t border-gray-700 pt-4 sidebar-link font-bold">Final Test</a>`;
             navigation.innerHTML = navHtml;
         }
 
