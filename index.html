@@ -133,24 +133,9 @@
                     title: "Chapter 1: Intro to Big Data",
                     summary: `
                         <div class="prose max-w-none">
-                        <h2>Introduction and Evolution of Big Data</h2>
+                        <h2>Introduction</h2>
                         <p>Big Data refers to a collection of data characterized by its massive volume, which grows exponentially over time. Its size and complexity exceed the capabilities of traditional data management tools. The exponential growth is driven by several factors:</p>
-                        <ul>
-                            <li><strong>Evolution of Technology:</strong> The shift from devices like telephones and desktop PCs to mobile devices, cloud computing, and smart cars (IoT) generates immense streams of data.</li>
-                            <li><strong>Internet of Things (IoT):</strong> A network of physical devices embedded with sensors that collect and exchange data over the internet, driving growth in sectors like healthcare, logistics, and automotive. IoT is expected to grow to over 29 billion connected devices by 2027.</li>
-                            <li><strong>Social Media:</strong> Platforms like WhatsApp, Facebook, and Twitter generate millions of messages, posts, and media uploads every minute.</li>
-                            <li><strong>Other Factors:</strong> This includes Machine Data (server logs), Social Data (online interactions), Transaction Data (purchase receipts), Sensor Data (GPS, weather), Public Data (census), and Commercial Data (market research).</li>
-                        </ul>
-                        <p>The challenge lies in capturing this massive, raw data and transforming it into valuable business insights at the right speed and time.</p>
                         
-                        <h2>Failure of Traditional Databases (RDBMS)</h2>
-                        <p>Traditional Relational Database Management Systems (RDBMS) failed to handle the Big Data era due to fundamental architectural limitations:</p>
-                        <ul>
-                            <li><strong>Volume Constraint:</strong> RDBMS scales vertically (increasing processor/memory on a single machine), which is costly and constrained. Big Data scales horizontally (adding more cheap, commodity hardware nodes).</li>
-                            <li><strong>Data Type:</strong> RDBMS is optimized for structured data, but ≈80% of modern data is semi-structured or unstructured.</li>
-                            <li><strong>Velocity Constraint:</strong> RDBMS struggles to capture and process data arriving at the high velocity required for real-time analysis.</li>
-                            <li><strong>Schema:</strong> RDBMS requires a static schema, while Big Data systems use a dynamic schema to handle data variety.</li>
-                        </ul>
 
                         <h2>The Characteristics of Big Data (The 5 Vs)</h2>
                         
@@ -181,55 +166,7 @@
                         <h3>Value (Insight)</h3>
                         <p>The ultimate goal of processing Big Data is to extract meaningful insights that support data-driven decision-making. Without analysis, the data has little to no commercial value.</p>
                         
-                        <h2>Big Data Technology</h2>
-                        <p>Big Data technology is the suite of tools and frameworks designed for the processing, storage, and analysis of massive datasets.</p>
-                        <h4>Data Storage Solutions</h4>
-                        <ul>
-                            <li><strong>Hadoop Distributed File System (HDFS):</strong> A distributed file system designed to store large datasets across clusters of commodity hardware (low-cost, high-throughput).</li>
-                            <li><strong>NoSQL Databases:</strong> Non-relational databases for flexible handling of diverse data types and structures (e.g., HBase, Cassandra, MongoDB).</li>
-                            <li><strong>Cloud Storage:</strong> Scalable services like Amazon S3 and Google Cloud Storage.</li>
-                        </ul>
-                        <h4>Data Processing and Analysis Tools</h4>
-                        <ul>
-                           <li><strong>Apache Hadoop:</strong> An open-source framework for distributed storage (HDFS) and batch processing (MapReduce).</li>
-                           <li><strong>Apache Spark:</strong> A faster, in-memory distributed computing system used for batch and real-time processing (Spark Streaming) and machine learning (MLlib).</li>
-                           <li><strong>Apache Hive:</strong> A data warehousing system providing a SQL-like query language (HiveQL) on top of Hadoop for ad-hoc queries.</li>
-                           <li><strong>H2O / Azure ML:</strong> Platforms and tools for scalable machine learning, predictive modeling, and NLP.</li>
-                        </ul>
-
-                        <h2>The Big Data Life Cycle</h2>
-                        <p>The life cycle is a systematic process from data capture to decision support.</p>
-                        <ol>
-                            <li>
-                                <strong>Data Aggregation (Capture and Acquisition):</strong> Involves acquiring high-volume, raw data from various sources (online banking, social media, sensors).
-                            </li>
-                            <li>
-                                <strong>Data Preprocessing (Transformation):</strong> Transforms raw data into a clean, understandable format to ensure quality. Errors (negative values), Incompleteness (missing values), Inconsistency (mismatched date/age), and Redundancy (duplicates) are addressed. Key steps include:
-                                <ul>
-                                    <li>Integration (combining sources)</li>
-                                    <li>Cleaning (fixing errors)</li>
-                                    <li>Reduction (compression/dimensionality)</li>
-                                    <li>Transformation (changing format). Transformation Strategies include: Smoothing (removing noise via binning/regression), Aggregation (summarizing, e.g., daily monthly profit), Generalization (moving up hierarchies, e.g., street → city), and Discretization (converting continuous age to categories like 'adult').</li>
-                                </ul>
-                            </li>
-                            <li>
-                                <strong>Analytics and Visualization:</strong> Big Data Analytics combines technology and analytical tools (statistics, AI) to find patterns.
-                                <ul>
-                                    <li>Types of Analytics: Descriptive (What happened?), Predictive (What will happen?), and Prescriptive (What should we do?).</li>
-                                    <li>Visualization (using tools like Tableau) makes the insights accessible for decision-making.</li>
-                                </ul>
-                            </li>
-                        </ol>
-
-                        <h2>Applications of Big Data</h2>
-                        <p>Big Data is transforming numerous sectors:</p>
-                        <ul>
-                            <li><strong>Healthcare:</strong> Predictive analytics for disease, personalized medicine, patient monitoring (Example: analyzing EHRs).</li>
-                            <li><strong>Finance:</strong> Fraud detection, risk management, customer analytics (Example: detecting unusual transaction patterns).</li>
-                            <li><strong>Retail:</strong> Customer segmentation, personalized recommendations, sales forecasting (Example: targeted marketing campaigns).</li>
-                            <li><strong>Smart Cities:</strong> Traffic management, public safety, energy management (Example: using IoT sensors to optimize city infrastructure).</li>
-                            <li><strong>Education:</strong> Student performance analysis, curriculum development (Example: personalizing learning experiences).</li>
-                        </ul>
+                       
                         </div>
                     `,
                     quiz: [
@@ -294,13 +231,7 @@
                             <li><strong>Load Balancing Clusters:</strong> Designed to share the computational workload among nodes to optimize performance, maximize throughput, and prevent any single node from being overloaded.</li>
                         </ol>
 
-                        <h4>Load Balancing Techniques</h4>
-                        <ul>
-                            <li><strong>Round Robin:</strong> Distributes requests sequentially.</li>
-                            <li><strong>Weight-Based:</strong> Assigns more requests to servers with higher capacity (higher weight).</li>
-                            <li><strong>Server Affinity:</strong> Routes a specific client's subsequent requests back to the same server they initially connected to.</li>
-                        </ul>
-
+                        
                         <h4>Cluster Structure (Symmetry)</h4>
                         <ul>
                             <li><strong>Symmetric Clusters (Active-Active):</strong> All nodes are active, run applications, and share the workload. No node is purely passive.</li>
@@ -335,26 +266,8 @@
                             <li><strong>Scaling Out (Horizontal Scalability):</strong> Adding new, low-cost servers or components to the cluster. This is the preferred method for Big Data systems due to its high scalability and cost-effectiveness.</li>
                         </ul>
 
-                        <h2>Relational and Non-Relational Databases</h2>
-                        
-                        <h3>RDBMS (Relational Database Management Systems)</h3>
-                        <ul>
-                            <li><strong>Scalability:</strong> Primarily vertical (Scale Up).</li>
-                            <li><strong>Schema:</strong> Fixed, static schema enforced during writes.</li>
-                            <li><strong>Properties:</strong> Adheres to ACID properties (Atomicity, Consistency, Isolation, Durability) to ensure reliable, high-integrity transactions.</li>
-                        </ul>
+                       
 
-                        <h3>NoSQL Databases (Not Only SQL)</h3>
-                        <p>NoSQL databases emerged to address Big Data challenges related to variety and volume.</p>
-                        <ul>
-                            <li><strong>Design:</strong> Schemaless (dynamic schema); supports multiple data formats (structured, semi-structured, unstructured).</li>
-                            <li><strong>Model:</strong> Operates on the BASE model (Basically Available, Soft state, Eventually consistent).</li>
-                            <li><strong>CAP Theorem Trade-offs:</strong> Describes that a distributed database can only exhibit two of three properties (Consistency, Availability, Partition Tolerance) simultaneously. NoSQL systems typically choose AP (Availability + Partition Tolerance) over strict Consistency.</li>
-                            <li><strong>Types:</strong> Key-value (Redis), Document (MongoDB), Column (Cassandra), and Graph (Neo4j).</li>
-                        </ul>
-
-                        <h3>NewSQL Databases</h3>
-                        <p>NewSQL databases attempt to combine the horizontal scalability and fault tolerance of NoSQL with the transactional integrity (ACID properties) and relational data model of traditional RDBMS. They are designed for high transaction volume workloads that require high consistency.</p>
                         </div>
                     `,
                     quiz: [
@@ -395,14 +308,7 @@
                         <p>Despite rapid improvements in CPU speed, RAM memory, and disk capacity over the years, the Disk Latency (the speed of reads and writes) has not improved significantly. This creates a bottleneck when dealing with terabyte and petabyte-scale data on a single machine.</p>
                         <p>Hadoop solves this problem through parallelism and scaling-out (horizontal scaling). By distributing a large dataset across hundreds of disks on different machines, data can be retrieved in parallel, eliminating the bottleneck. For example, reading 1TB of data across 1000 disks takes only about 12 seconds, compared to 3.4 hours on a single disk. Hadoop's core philosophy is to move the computation to the data, not the data to the computation.</p>
                         
-                        <h2>History of Hadoop</h2>
-                        <p>Hadoop was created by Doug Cutting, the creator of Apache Lucene, and named after his son's toy elephant. Its foundation is rooted in two seminal Google white papers:</p>
-                        <ul>
-                            <li><strong>Google File System (GFS) (2003):</strong> Presented a scalable, fault-tolerant distributed file system running on commodity hardware. Data is split into large chunks and replicated.</li>
-                            <li><strong>Google MapReduce Framework (2004):</strong> Introduced a simple programming model for parallel processing of massive data using two developer-defined functions: Map (to turn input into key-value pairs) and Reduce (to aggregate values by key).</li>
-                        </ul>
-                        <p>Doug Cutting implemented these concepts as the core of Hadoop: the Hadoop Distributed File System (HDFS) (based on GFS) and Hadoop MapReduce (based on Google's framework). Hadoop became an Apache Top Level Project in 2008.</p>
-
+                       
                         <h2>What is Hadoop?</h2>
                         <p>Apache Hadoop is an open-source framework written in Java for distributed computing and large-scale data processing.</p>
                         <ul>
@@ -433,16 +339,9 @@
                         <p><strong>Function:</strong> Introduced in Hadoop 2.0 as the cluster resource management and job scheduling framework.</p>
                         <p><strong>Role:</strong> Separated resource management from data processing, allowing MapReduce to focus only on computation. YARN enables Hadoop to run non-MapReduce frameworks (like Spark and Hive) on the same cluster.</p>
                         
-                        <h2>HDFS Operations and Rack Awareness</h2>
+                        <h2>Rack Awareness</h2>
 
-                        <h3>HDFS Write Operation</h3>
-                        <ol>
-                            <li>Client sends a write request to the NameNode.</li>
-                            <li>NameNode checks the replication factor (default 3) and provides a list of DataNodes for block placement.</li>
-                            <li>The input file is split into blocks, and the client sends the first data packet to the closest DataNode.</li>
-                            <li>The DataNodes write the replicas in a pipelined fashion (1st -> 2nd -> 3rd DataNode).</li>
-                            <li>Acknowledgments flow back from the last DataNode to the client once the block is successfully written on all replicas.</li>
-                        </ol>
+                     
 
                         <h3>Rack Awareness</h3>
                         <p>This strategy determines how replicas are placed across physical racks in a data center to protect against failure at the node or rack level.</p>
@@ -697,24 +596,7 @@ REDUCE_RUN_2(key, values):
                             </tbody>
                         </table>
                         
-                        <h3>HIVEQL Data Types</h3>
-                        <h4>Primitive Data Types</h4>
-                        <p>Standard, single-value types:</p>
-                        <ul>
-                            <li><strong>Numeric:</strong> TINYINT, SMALLINT, INT, BIGINT, FLOAT, DOUBLE, DECIMAL.</li>
-                            <li><strong>String/Binary:</strong> STRING (unbounded), VARCHAR, CHAR, BINARY.</li>
-                            <li><strong>Date/Time:</strong> TIMESTAMP, DATE.</li>
-                            <li><strong>Boolean:</strong> BOOLEAN.</li>
-                        </ul>
-                        
-                        <h4>Complex Data Types</h4>
-                        <p>These allow for nested, semi-structured data:</p>
-                        <ol>
-                            <li><strong>ARRAY&lt;T&gt;:</strong> An ordered list of fields of the same type (T).</li>
-                            <li><strong>MAP&lt;K, V&gt;:</strong> An unordered collection of key-value pairs. Keys (K) must be primitive types.</li>
-                            <li><strong>STRUCT&lt;name1: T1, name2: T2, ...&gt;:</strong> A collection of named fields (like a record or object). Fields can be of different types.</li>
-                        </ol>
-                        <p>Complex types can be nested, e.g.: <code>ARRAY&lt;STRUCT&lt;name: STRING, scores: MAP&lt;STRING, INT&gt;&gt;&gt;</code></p>
+                      
                         
                         <h2>Data Models and Definition Language (DDL)</h2>
                         <h3>Data Models: Tables, Partitions, and Buckets</h3>
@@ -1231,5 +1113,6 @@ WHERE avg_salary > 6000;</code></pre>
     </script>
 </body>
 </html>
+
 
 
