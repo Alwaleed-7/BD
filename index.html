@@ -134,48 +134,48 @@
                     summary: `
                         <div class="prose max-w-none">
                         <h2>Introduction</h2>
-                        <p>Big Data refers to a collection of data characterized by its massive volume, which grows exponentially over time. Its size and complexity exceed the capabilities of traditio[...] 
-                         
+                        <p>Big Data refers to a collection of data characterized by its massive volume, which grows exponentially over time. Its size and complexity exceed the capabilities of traditional data management tools. The exponential growth is driven by several factors:</p>
+                        
 
                         <h2>The Characteristics of Big Data (The 5 Vs)</h2>
                         
                         <h3>Volume (Size)</h3>
-                        <p>Refers to the massive size of data, ranging from terabytes (TB) to petabytes (PB), zettabytes (ZB), and beyond. The total amount of data created globally is projected to exc[...] 
-                        <p><strong>Challenges:</strong> The immense size presents challenges for Storage (necessitating distributed file systems like HDFS), Access, and Processing (requiring distribut[...] 
+                        <p>Refers to the massive size of data, ranging from terabytes (TB) to petabytes (PB), zettabytes (ZB), and beyond. The total amount of data created globally is projected to exceed 180 ZB by 2025.</p>
+                        <p><strong>Challenges:</strong> The immense size presents challenges for Storage (necessitating distributed file systems like HDFS), Access, and Processing (requiring distributed computing like MapReduce/Spark).</p>
                         
                         <h3>Variety (Complexity)</h3>
                         <p>Refers to the heterogeneity of data formats:</p>
                         <ol>
                             <li><strong>Structured Data:</strong> Highly organized data that fits into fixed schemas (e.g., Relational Database tables).</li>
                             <li><strong>Semi-Structured Data:</strong> Does not conform to a rigid structure but contains tags or markers to separate data elements (e.g., XML, JSON, log files).</li>
-                            <li><strong>Unstructured Data:</strong> Lacks a predefined format, making it challenging to analyze with traditional methods (e.g., emails, videos, images, free-form text)[...] 
+                            <li><strong>Unstructured Data:</strong> Lacks a predefined format, making it challenging to analyze with traditional methods (e.g., emails, videos, images, free-form text). This makes up the majority of generated data.</li>
                         </ol>
 
                         <h3>Velocity (Speed)</h3>
                         <p>Refers to the increasing speed at which data is generated and the speed at which it needs to be processed.</p>
                         <ul>
-                            <li><strong>Real-Time Processing:</strong> Instantly captures streaming data and processes it immediately to enable quick actions (e.g., fraud detection, live healthcare mo[...] 
-                            <li><strong>Batch Processing:</strong> Data is collected, cleaned, and processed later in chunks, which is slower and can lead to missed opportunities for time-sensitive de[...] 
+                            <li><strong>Real-Time Processing:</strong> Instantly captures streaming data and processes it immediately to enable quick actions (e.g., fraud detection, live healthcare monitoring).</li>
+                            <li><strong>Batch Processing:</strong> Data is collected, cleaned, and processed later in chunks, which is slower and can lead to missed opportunities for time-sensitive decisions.</li>
                         </ul>
 
                         <h3>Veracity (Quality)</h3>
                         <p>Refers to the quality, accuracy, reliability, and trustworthiness of the data. Big Data is often noisy, inconsistent, and uncertain.</p>
-                        <p><strong>Uncertainty Sources:</strong> Unstructured nature of social media, high velocity leaving little time for traditional ETL (Extract, Transform, Load) quality checks, a[...] 
-                        <p><strong>Example:</strong> The Google Flu Trends overestimation in 2013 demonstrated the danger of relying solely on uncertain big data without proper context and quality ass[...] 
+                        <p><strong>Uncertainty Sources:</strong> Unstructured nature of social media, high velocity leaving little time for traditional ETL (Extract, Transform, Load) quality checks, and sheer volume.</p>
+                        <p><strong>Example:</strong> The Google Flu Trends overestimation in 2013 demonstrated the danger of relying solely on uncertain big data without proper context and quality assurance. Data Provenance (tracking data history and transformation) is crucial.</p>
                         
                         <h3>Value (Insight)</h3>
-                        <p>The ultimate goal of processing Big Data is to extract meaningful insights that support data-driven decision-making. Without analysis, the data has little to no commercial v[...] 
+                        <p>The ultimate goal of processing Big Data is to extract meaningful insights that support data-driven decision-making. Without analysis, the data has little to no commercial value.</p>
                         
                        
                         </div>
                     `,
                     quiz: {
                         mcq: [
-                            { q: "Which of the 3Vs refers to the different formats of data like structured, unstructured, and semi-structured?", options: ["Volume", "Velocity", "Variety", "Value"], a:[...] 
-                            { q: "Data stored in a relational database table is an example of which type of data?", options: ["Unstructured", "Semi-structured", "Structured", "Complex"], a: "Structure[...] 
+                            { q: "Which of the 3Vs refers to the different formats of data like structured, unstructured, and semi-structured?", options: ["Volume", "Velocity", "Variety", "Value"], a: "Variety" },
+                            { q: "Data stored in a relational database table is an example of which type of data?", options: ["Unstructured", "Semi-structured", "Structured", "Complex"], a: "Structured" },
                             { q: "Which term describes the quality and trustworthiness of data?", options: ["Volume", "Veracity", "Velocity", "Value"], a: "Veracity" },
-                            { q: "Real-time fraud detection is an application that primarily deals with which characteristic of Big Data?", options: ["Volume", "Variety", "Veracity", "Velocity"], a: "[...] 
-                            { q: "What is the primary challenge associated with the 'Volume' of Big Data?", options: ["Data complexity", "Data speed", "Storage and processing", "Data quality"], a: "St[...] 
+                            { q: "Real-time fraud detection is an application that primarily deals with which characteristic of Big Data?", options: ["Volume", "Variety", "Veracity", "Velocity"], a: "Velocity" },
+                            { q: "What is the primary challenge associated with the 'Volume' of Big Data?", options: ["Data complexity", "Data speed", "Storage and processing", "Data quality"], a: "Storage and processing" }
                         ],
                         fillIn: [
                             { q: "The process of tracking the origin and transformation of data is known as ________.", a: "Data Provenance" },
@@ -191,7 +191,7 @@
                     summary: `
                         <div class="prose max-w-none">
                         <h2>Big Data Storage Architecture</h2>
-                        <p>Traditional storage systems, particularly Relational Database Management Systems (RDBMS), are inadequate for handling the Volume, Velocity, and Variety of Big Data. New arch[...] 
+                        <p>Traditional storage systems, particularly Relational Database Management Systems (RDBMS), are inadequate for handling the Volume, Velocity, and Variety of Big Data. New architectures, such as Hadoop, were developed to overcome these challenges by using clusters of commodity hardware (inexpensive, standard servers). This approach ensures storage is cost-effective, scalable, and flexible enough to handle structured, semi-structured, and unstructured data.</p>
                         <p>The typical architecture involves:</p>
                         <ol>
                             <li>Raw data (Machine, Web, Audio/Video, External) is ingested into a Hadoop Cluster (acting as a Data Lake).</li>
@@ -201,7 +201,7 @@
                         </ol>
 
                         <h2>Cluster Computing</h2>
-                        <p>A cluster is a distributed system where multiple stand-alone computers, connected via a Local Area Network (LAN), work together as a single, highly available virtual machine[...] 
+                        <p>A cluster is a distributed system where multiple stand-alone computers, connected via a Local Area Network (LAN), work together as a single, highly available virtual machine under one administrative domain.</p>
                         
                         <h3>Cluster Benefits</h3>
                         <p>The use of clusters provides critical benefits for Big Data systems:</p>
@@ -214,15 +214,15 @@
 
                         <h3>Types and Structure of Clusters</h3>
                         <ol>
-                            <li><strong>High Availability Clusters:</strong> Designed to minimize downtime. Nodes require access to shared storage, enabling a failed node's service to automatically fa[...] 
-                            <li><strong>Load Balancing Clusters:</strong> Designed to share the computational workload among nodes to optimize performance, maximize throughput, and prevent any single [...] 
+                            <li><strong>High Availability Clusters:</strong> Designed to minimize downtime. Nodes require access to shared storage, enabling a failed node's service to automatically failover to an active node.</li>
+                            <li><strong>Load Balancing Clusters:</strong> Designed to share the computational workload among nodes to optimize performance, maximize throughput, and prevent any single node from being overloaded.</li>
                         </ol>
 
                         
                         <h4>Cluster Structure (Symmetry)</h4>
                         <ul>
                             <li><strong>Symmetric Clusters (Active-Active):</strong> All nodes are active, run applications, and share the workload. No node is purely passive.</li>
-                            <li><strong>Asymmetric Clusters (Active-Passive):</strong> Some nodes are active, while others are designated as "hot standby" (passive) and only take over if an active nod[...] 
+                            <li><strong>Asymmetric Clusters (Active-Passive):</strong> Some nodes are active, while others are designated as "hot standby" (passive) and only take over if an active node fails.</li>
                         </ul>
 
                         <h2>Data Distribution Models</h2>
@@ -232,12 +232,841 @@
                         <p>Replication is placing the same set of data (a replica or copy) across multiple nodes.
                         <strong>Advantages:</strong> Provides fault tolerance (data is not lost when a node crashes) and increases data availability.</p>
                         <ul>
-                            <li><strong>Master-Slave Model:</strong> Writes occur only on the Master node and are replicated to Slave nodes. Reads are handled by the Slaves. This is efficient for inte[...] 
-                            { Truncated for brevity } 
-                        `
+                            <li><strong>Master-Slave Model:</strong> Writes occur only on the Master node and are replicated to Slave nodes. Reads are handled by the Slaves. This is efficient for intensive read requests.</li>
+                            <li><strong>Peer-to-Peer Model:</strong> All nodes are equal, sharing the same responsibility. Communication is decentralized, and the model supports scalability for both reads and writes.</li>
+                        </ul>
+                        
+                        <h3>Sharding</h3>
+                        <p>Sharding is partitioning a very large dataset into smaller, easily manageable chunks called shards, and placing these different sets of data on different nodes.
+                        <strong>Advantages:</strong> Increases horizontal scalability (by adding new nodes/shards), improves performance (queries run on smaller subsets), and enhances fault tolerance (failure of one node only affects its shard, not the entire dataset).</p>
+
+                        <h3>Sharding and Replication</h3>
+                        <p>These models are often combined to achieve maximum system reliability. The dataset is first split into shards, and then each shard is replicated across multiple nodes, ensuring the data is both distributed and redundant.</p>
+
+                        <h2>Distributed File System (DFS)</h2>
+                        <p>A Distributed File System stores files across multiple cluster nodes while appearing as a single, local file system to the client. This allows simultaneous file access by multiple clients and manages data replication to prevent version conflicts. The most prominent example in Big Data is the Hadoop Distributed File System (HDFS).</p>
+
+                        <h2>Scaling Up and Scaling Out Storage</h2>
+                        <p>Scalability is the system's ability to meet increasing demand. Storage platforms scale in two primary ways:</p>
+                        <ul>
+                            <li><strong>Scaling Up (Vertical Scalability):</strong> Adding more resources (CPU, RAM, storage) to the existing single server. This has physical and cost limitations.</li>
+                            <li><strong>Scaling Out (Horizontal Scalability):</strong> Adding new, low-cost servers or components to the cluster. This is the preferred method for Big Data systems due to its high scalability and cost-effectiveness.</li>
+                        </ul>
+
+                       
+
+                        </div>
+                    `,
+                    quiz: {
+                        mcq: [
+                            { q: "Which scaling method involves adding more resources like CPU and RAM to a single server?", options: ["Horizontal Scaling", "Vertical Scaling", "Diagonal Scaling", "Sharding"], a: "Vertical Scaling" },
+                            { q: "What is the primary benefit of data replication?", options: ["Increased query speed", "Reduced storage cost", "Fault tolerance and high availability", "Simplified data schema"], a: "Fault tolerance and high availability" },
+                            { q: "A NoSQL database that prioritizes Availability and Partition Tolerance is likely to have what kind of consistency?", options: ["Strict", "Immediate", "Eventual", "Transactional"], a: "Eventual" },
+                            { q: "What is a 'shard' in the context of data distribution?", options: ["A complete copy of the dataset", "A backup of the metadata", "A smaller, partitioned chunk of a large dataset", "A type of server hardware"], a: "A smaller, partitioned chunk of a large dataset" },
+                            { q: "Which type of cluster has some nodes designated as 'hot standby' to take over if an active node fails?", options: ["Symmetric Cluster", "Load Balancing Cluster", "Asymmetric Cluster", "Peer-to-Peer Cluster"], a: "Asymmetric Cluster" }
+                        ],
+                        fillIn: [
+                            { q: "The ability of a system to automatically transfer work to another node upon failure is known as ________.", a: "Failover" },
+                            { q: "The preferred scaling method for big data systems like Hadoop is ________ scaling.", a: "Horizontal" },
+                            { q: "Traditional relational databases adhere to ________ properties to ensure transaction integrity.", a: "ACID" },
+                            { q: "The ________ Theorem states that a distributed system can only guarantee two of three properties: Consistency, Availability, and Partition Tolerance.", a: "CAP" },
+                            { q: "Inexpensive, standard servers used in Hadoop clusters are referred to as ________ hardware.", a: "Commodity" }
+                        ]
+                    }
+                },
+                {
+                    title: "Chapter 3: Hadoop Ecosystem",
+                    summary: `
+                        <div class="prose max-w-none">
+                        <h2>Why Hadoop? Overcoming the Disk Latency Bottleneck</h2>
+                        <p>Despite rapid improvements in CPU speed, RAM memory, and disk capacity over the years, the Disk Latency (the speed of reads and writes) has not improved significantly. This creates a bottleneck when dealing with terabyte and petabyte-scale data on a single machine.</p>
+                        <p>Hadoop solves this problem through parallelism and scaling-out (horizontal scaling). By distributing a large dataset across hundreds of disks on different machines, data can be retrieved in parallel, eliminating the bottleneck. For example, reading 1TB of data across 1000 disks takes only about 12 seconds, compared to 3.4 hours on a single disk. Hadoop's core philosophy is to move the computation to the data, not the data to the computation.</p>
+                        
+                       
+                        <h2>What is Hadoop?</h2>
+                        <p>Apache Hadoop is an open-source framework written in Java for distributed computing and large-scale data processing.</p>
+                        <ul>
+                            <li><strong>Data Handling:</strong> Stores and manages structured, semi-structured, and unstructured data across a distributed file system.</li>
+                            <li><strong>Hardware:</strong> Runs on clusters of commodity hardware (low-cost, standard servers), making it highly cost-effective and scalable.</li>
+                            <li><strong>Access Pattern:</strong> Provides a streaming access pattern (large sequential reads/writes, no random access) and operates on a write-once, read-many model (files cannot be modified once closed, though appending data is possible).</li>
+                        </ul>
+                        
+                        <h2>Hadoop Core Components</h2>
+                        <p>Hadoop consists of three key components:</p>
+
+                        <h3>Hadoop Distributed File System (HDFS)</h3>
+                        <p><strong>Function:</strong> Provides distributed storage for large datasets across the cluster.</p>
+                        <p><strong>Architecture:</strong> Follows a Master/Slave model.</p>
+                        <ul>
+                            <li><strong>NameNode (Master Node):</strong> Manages the file system metadata (directory structure, file-to-block mapping, block locations). It does not store the actual data. It tracks the health of DataNodes via Heartbeat signals.</li>
+                            <li><strong>DataNodes (Slave Nodes):</strong> Store the actual data blocks and periodically report their status to the NameNode.</li>
+                        </ul>
+                        <p><strong>Block Size:</strong> Files are split into large blocks (default 128MB or 256MB) which are replicated (default: 3 copies) across different DataNodes for fault tolerance.</p>
+                        <p><strong>NameNode Limitations:</strong> It is a Single Point of Failure (SPOF) in older Hadoop versions. Since metadata is stored in memory, it is not suitable for storing a large number of small files.</p>
+                        <p><strong>High Availability (HA):</strong> Hadoop 2 introduced an Active NameNode and a Standby NameNode architecture. The Standby is kept synchronized via Journal Nodes (which store edit logs) and can automatically take over if the Active node fails, eliminating SPOF.</p>
+
+                        <h3>MapReduce</h3>
+                        <p><strong>Function:</strong> The batch-processing programming model for computation.</p>
+                        <p><strong>Key Principle - Data Locality:</strong> Computation is moved to the data, meaning code is executed on the nodes where the data resides. This minimizes network congestion and significantly improves throughput.</p>
+
+                        <h3>YARN (Yet Another Resource Negotiator)</h3>
+                        <p><strong>Function:</strong> Introduced in Hadoop 2.0 as the cluster resource management and job scheduling framework.</p>
+                        <p><strong>Role:</strong> Separated resource management from data processing, allowing MapReduce to focus only on computation. YARN enables Hadoop to run non-MapReduce frameworks (like Spark and Hive) on the same cluster.</p>
+                        
+                        <h2>Rack Awareness</h2>
+
+                     
+
+                        <h3>Rack Awareness</h3>
+                        <p>This strategy determines how replicas are placed across physical racks in a data center to protect against failure at the node or rack level.</p>
+                        <ul>
+                            <li><strong>Default HDFS Policy (Fault Tolerance & Performance):</strong> For 3 replicas, the first replica is local to the client, the second is on a node in a different rack, and the third is on a different node within the second rack. This balances redundancy (two racks) with write performance (low latency for two nodes on the same rack).</li>
+                            <li><strong>Rack-Fault-Tolerant Policy (Robust Fault Tolerance):</strong> Places all three replicas on three different racks. This provides the maximum protection against rack failures but increases network overhead.</li>
+                        </ul>
+
+                        <h2>The Hadoop Ecosystem</h2>
+                        <p>The Hadoop Ecosystem is a layered collection of tools that rely on HDFS and YARN.</p>
+                        <ul>
+                            <li><strong>Layer 1 (Storage):</strong> HDFS.</li>
+                            <li><strong>Layer 2 (Resource Management):</strong> YARN.</li>
+                            <li><strong>Layer 3 (Processing Engines):</strong> MapReduce, Spark (in-memory processing, fast), Storm/Flink (real-time processing).</li>
+                            <li><strong>Layer 4 (Data Access/Application):</strong>
+                                <ul>
+                                    <li><strong>Hive:</strong> Data warehousing layer that provides a SQL-like query language (HiveQL) for querying data stored in HDFS (developed at Facebook).</li>
+                                    <li><strong>Pig:</strong> Provides a high-level data flow language for complex data transformations (developed at Yahoo).</li>
+                                    <li><strong>NoSQL/Databases:</strong> HBase (NoSQL storage for low-latency access), Cassandra (distributed NoSQL), and MongoDB (document database) integrate with HDFS for non-file-based storage needs.</li>
+                                    <li><strong>Coordination:</strong> Zookeeper provides centralized management, coordination, and synchronization for the distributed components (developed at Yahoo).</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p>Hadoop Distributions (e.g., Cloudera Data Platform - CDP) package these tools together into enterprise-ready platforms, simplifying installation and ensuring compatibility.</p>
+                        </div>
+                    `,
+                    quiz: {
+                        mcq: [
+                            { q: "What is the core principle of 'Data Locality'?", options: ["Move data to the fastest server", "Move computation to the data", "Store all data in one location", "Compute everything in memory"], a: "Move computation to the data" },
+                            { q: "In HDFS, which component stores the actual data blocks?", options: ["NameNode", "JournalNode", "DataNode", "Client Node"], a: "DataNode" },
+                            { q: "What was the primary role of YARN when it was introduced in Hadoop 2.0?", options: ["To replace HDFS", "To manage cluster resources", "To speed up MapReduce", "To provide a SQL interface"], a: "To manage cluster resources" },
+                            { q: "In an HDFS High Availability setup, what is the role of JournalNodes?", options: ["To store data blocks", "To run backup MapReduce jobs", "To log metadata changes for synchronization", "To balance network traffic"], a: "To log metadata changes for synchronization" },
+                            { q: "According to the default rack awareness policy with a replication factor of 3, where are the replicas placed?", options: ["All on one rack", "On two different racks", "On three different racks", "The placement is random"], a: "On two different racks" }
+                        ],
+                        fillIn: [
+                            { q: "The HDFS master node that manages all file system metadata is called the ________.", a: "NameNode" },
+                            { q: "In Hadoop 1.x, the NameNode was considered a ________ Point of Failure.", a: "Single" },
+                            { q: "Hadoop's storage layer is known as the Hadoop Distributed File System, or ________.", a: "HDFS" },
+                            { q: "HDFS splits large files into ________, which are typically 128MB or 256MB in size.", a: "blocks" },
+                            { q: "The framework that separates resource management from processing in Hadoop 2.0 is called ________.", a: "YARN" }
+                        ]
+                    }
+                },
+                {
+                    title: "Chapter 4: MapReduce & YARN",
+                    summary: `
+                        <div class="prose max-w-none">
+                        <h2>MapReduce: The Divide-and-Conquer Model</h2>
+                        <p>MapReduce is the original batch-processing programming model for Hadoop, designed to process massive datasets by adopting a divide-and-conquer principle. The complexity of parallelization, scheduling, fault tolerance, and inter-machine communication is handled entirely by the framework, leaving the programmer to define only the core logic.</p>
+                        
+                        <h3>MapReduce Workflow</h3>
+                        <p>The workflow is distributed across five main phases:</p>
+                        <ol>
+                            <li><strong>Read Input:</strong> The input data (stored in HDFS) is read as a set of key-value pairs (Input: <code>&lt;k,v&gt;</code>).</li>
+                            <li><strong>Map:</strong> The user-defined Map function takes an input pair and transforms it into a new set of intermediate key-value pairs (Output: <code>&lt;k',v'&gt;*</code>). All map tasks are scheduled close to the physical storage location of the input data (Data Locality).</li>
+                            <li><strong>Sorts & Shuffles:</strong> Intermediate <code>&lt;k',v'&gt;</code> pairs from all Map tasks are grouped by key. The system ensures all values belonging to the same key are sent to the same Reducer. This intermediate data is stored on the local file system of the Map worker nodes.</li>
+                            <li><strong>Reduce:</strong> The user-defined Reduce function processes all <code>&lt;k',v'&gt;</code> pairs grouped by key and aggregates, summarizes, or filters the data to produce the final output (Output: <code>&lt;k'',v''&gt;</code>).</li>
+                            <li><strong>Write Output:</strong> The final results are written back to HDFS, typically with each Reducer task producing one output file.</li>
+                        </ol>
+                        <p>The system favors having many small Map tasks (where M >> number of nodes) to improve load balancing and ensure faster recovery from failures.</p>
+
+                        <h3>Workflow Refinements</h3>
+                        <h4>Combiner (Optional)</h4>
+                        <p>An optional mini-reduce function that runs locally on the Map worker node, after the Map phase but before the Shuffle. Its purpose is solely performance optimization: it performs local aggregation to drastically reduce the amount of intermediate data transferred over the network. It can only be used if the Reduce function is commutative and associative (e.g., sum, count), but not for operations like median or average.</p>
+                        
+                        <h4>Partitioner (Optional)</h4>
+                        <p>Decides which Reducer a key-value pair should go to. The default behavior uses <code>hash(key) (mod R)</code> (where R is the number of reducers) to ensure all values for the same key reach the same Reducer. Custom Partitioners are often created to override this default to prevent data skew and distribute the workload uniformly.</p>
+
+                        <h3>Fault Tolerance (Coordination: Master)</h3>
+                        <p>The Master node (JobTracker in MRv1) handles coordination, scheduling, and fault detection via heartbeats.</p>
+                        <ul>
+                            <li><strong>Map Worker Failure:</strong> If a Map worker fails, its completed and in-progress tasks are lost and must be reset to idle. This is because intermediate map output is stored locally on the worker node, not in HDFS.</li>
+                            <li><strong>Reduce Worker Failure:</strong> Only in-progress Reduce tasks are restarted, because completed Reduce tasks have their final output already stored reliably in HDFS.</li>
+                        </ul>
+
+                        <h2>MapReduce v1 (MRv1): Architecture and Limitations</h2>
+                        <p>The original Hadoop 1.2 architecture relied on two master/worker components:</p>
+                        <ul>
+                            <li><strong>JobTracker (Master):</strong> The single centralized coordinator for all jobs.</li>
+                            <li><strong>TaskTracker (Workers):</strong> Ran on each cluster node, executed assigned Map/Reduce tasks, and reported status via heartbeat.</li>
+                        </ul>
+                        <p>MRv1 suffered from severe limitations:</p>
+                        <ol>
+                            <li><strong>Scalability Bottleneck and Single Point of Failure (SPOF):</strong> The JobTracker was responsible for too much (scheduling, monitoring, resource management, job coordination). Its memory and CPU overhead created a scalability ceiling (around 4,000 nodes), and if it failed, all running jobs were lost.</li>
+                            <li><strong>Resource Underutilization:</strong> TaskTrackers allocated fixed Map slots and Reduce slots. A Map slot could not run a Reduce task, and vice versa. This static allocation led to idle resources and poor utilization, especially when workloads were unbalanced.</li>
+                            <li><strong>Limited Workload Flexibility:</strong> MRv1 could only run MapReduce batch programs and could not support other emerging computing paradigms like Machine Learning, Graph algorithms, or real-time streaming analytics.</li>
+                        </ol>
+                        
+                        <h2>Yet Another Resource Negotiator (YARN)</h2>
+                        <p>YARN was introduced in Hadoop 2.0 to overcome the limitations of MRv1 by implementing a new resource management layer that is scalable, flexible, and fault-tolerant.</p>
+
+                        <h3>YARN Architecture</h3>
+                        <p>YARN fundamentally separated the JobTracker's monolithic responsibilities into specialized components:</p>
+                        <ul>
+                           <li><strong>Resource Manager (RM) (Master):</strong> The single, cluster-wide authority for managing and allocating resources. It consists of the Scheduler (allocates resources/containers) and the Applications Manager (accepts/rejects job submissions, starts/restarts AMs). RM High Availability (HA) was introduced to eliminate the SPOF.</li>
+                           <li><strong>Application Master (AM) (Per-Job Coordinator):</strong> Runs one instance per application/job (e.g., one for a MapReduce job, one for a Spark job). It negotiates resource Containers from the RM and manages the execution, progress, and failure recovery of its own application tasks.</li>
+                           <li><strong>NodeManager (NM) (Worker Agent):</strong> Runs on every worker node, replacing the TaskTracker. Its job is local resource management: starting/stopping Containers, monitoring resource usage, and reporting node health to the RM.</li>
+                           <li><strong>Container (Resource Bundle):</strong> Replaces the fixed slot model. A Container is a dynamic bundle of allocated resources (CPU, memory, etc.) that can run any type of application task (Map, Reduce, Spark Executor, etc.), greatly improving resource utilization and flexibility.</li>
+                        </ul>
+
+                        <h3>YARN Failure Handling</h3>
+                        <p>YARN significantly improved fault tolerance:</p>
+                        <ul>
+                            <li><strong>RM Failure:</strong> Handled by RM High Availability (HA) (Active/Standby RM).</li>
+                            <li><strong>AM Failure:</strong> The RM detects the failure and restarts the AM in a new container. The new AM then recovers the state of the running job.</li>
+                            <li><strong>NM Failure:</strong> The RM detects the NodeManager failure and informs the relevant AMs. The AMs then reschedule the lost tasks on containers provided by other healthy NodeManagers.</li>
+                        </ul>
+
+                        <h2>MapReduce Pseudocode Examples</h2>
+                        <p>The MapReduce framework is versatile and can be used to solve many different big data problems. The following three examples illustrate common patterns:</p>
+
+                        <h4>1. Word Counting</h4>
+                        <p>The goal is to count the total occurrences of every unique word in a collection of documents. This is the classic MapReduce example.</p>
+                        <pre><code>MAP(key, value):
+  // key: DocID/ByteOffset, value: Text of the document
+  for each word w in value:
+    emit(w, 1)
+
+REDUCE (key, values):
+  // key: word, values: list of 1s (e.g., [1, 1, 1, ...])
+  result = sum(values)
+  emit (key, result)
+  // Final Output: &lt;word, total_count&gt;
+</code></pre>
+
+                        <h4>2. Distributed Grep</h4>
+                        <p>The goal is to search for lines matching a specific pattern across many documents. This example shows how the Reducer can simply pass through data, or group data that doesn't need aggregation.</p>
+                        <pre><code>MAP(key, value):
+  // key: ByteOffset, value: line of text from the document
+  if value matches pattern:
+    emit("", value)
+    // Emitting an empty key ("") ensures all matching lines go
+    // to a single Reducer (or are spread if R>1 and partitioner allows).
+
+REDUCE (key, values):
+  // key: always "", values: list of matching lines
+  for each line in values:
+    emit("", line)
+  // The Reducer simply concatenates the lines to the output file(s).
+</code></pre>
+
+                        <h4>3. URL Access Frequency (Two-Run Job)</h4>
+                        <p>The goal is to calculate the access frequency for each unique URL (URLfreq = count(URL) / Total URL accesses (global)), based on web logs. This task requires two sequential MapReduce runs because the global total is needed for normalization.</p>
+                        
+                        <h5>Run 1: Count Total Global Accesses</h5>
+                        <pre><code>MAP_RUN_1(key, value):
+  // key: ByteOffset, value: Log Line
+  emit("Total_Accesses", 1) // Fixed key sends all counts to one Reducer
+
+REDUCE_RUN_1(key, values):
+  // key: "Total_Accesses", values: list of 1s
+  GlobalCount = sum(values)
+  emit (key, GlobalCount)
+  // Final Output of Run 1: &lt;"Total_Accesses", GlobalCount&gt;
+</code></pre>
+
+                        <h5>Run 2: Calculate Per-URL Count and Frequency</h5>
+                        <p>The global count from Run 1 is assumed to be available as a side input.</p>
+                        <pre><code>MAP_RUN_2(key, value):
+  // key: ByteOffset, value: Log Line (extract URL)
+  URL = extract_url(value)
+  emit (URL, 1)
+
+REDUCE_RUN_2(key, values):
+  // key: URL, values: list of counts
+  URL_Count = sum(values)
+  // Look up GlobalCount from the side input of Run 1
+  GlobalCount = lookup("Total_Accesses", Run1_Result)
+  Frequency = URL_Count / GlobalCount
+  emit(key, Frequency)
+  // Final Output: &lt;URL, Frequency&gt;
+</code></pre>
+
+                        </div>
+                    `,
+                    quiz: {
+                        mapReduce: [
+                            {
+                                prompt: "Build an Inverted Index: For each word in a collection of documents, create a list of unique document IDs where the word appears. Define the Map and Reduce logic.",
+                                answer: `
+                                    <strong>MAP PHASE:</strong><br>
+                                    - <strong>Input:</strong> <code>&lt;key: DocID, value: Text of the document&gt;</code><br>
+                                    - <strong>Output:</strong> <code>&lt;key: word, value: DocID&gt;</code> for each word.<br><br>
+                                    <strong>REDUCE PHASE:</strong><br>
+                                    - <strong>Input:</strong> <code>&lt;key: word, values: [DocID1, DocID2, ...]&gt;</code><br>
+                                    - <strong>Process:</strong> Create a unique list of DocIDs.<br>
+                                    - <strong>Output:</strong> <code>&lt;key: word, value: [UniqueDocID1, UniqueDocID2, ...]&gt;</code>
+                                `
+                            },
+                            {
+                                prompt: "Compute Term Frequency (TF): Calculate TF(w,d) = (count of word w in doc d) / (total words in doc d). This is a two-run job. Define the logic for both runs.",
+                                answer: `
+                                    <strong>RUN 1: Count total words per document</strong><br>
+                                    - <strong>Map Output:</strong> <code>&lt;key: DocID, value: 1&gt;</code> for each word.<br>
+                                    - <strong>Reduce Output:</strong> <code>&lt;key: DocID, value: total_words_in_doc&gt;</code><br><br>
+                                    <strong>RUN 2: Calculate TF</strong><br>
+                                    - <strong>Map Output:</strong> <code>&lt;key: (word, DocID), value: 1&gt;</code> for each word.<br>
+                                    - <strong>Reduce Output:</strong> <code>&lt;key: (word, DocID), value: TF&gt;</code> after summing counts and dividing by the total from Run 1.
+                                `
+                            }
+                        ]
+                    }
+                },
+                {
+                    title: "Chapter 5: Apache Hive",
+                    summary: `
+                        <div class="prose max-w-none">
+                        <h2>Introduction to Apache Hive</h2>
+                        <p>Apache Hive is a data warehouse infrastructure built on top of Hadoop, designed to provide a familiar SQL-like interface (HiveQL or HQL) for querying and managing massive datasets stored in HDFS (or cloud storage like Amazon S3). Created by Facebook, Hive allows analysts familiar with Structured Query Language (SQL) to leverage the power of distributed computing without writing complex Java MapReduce programs.</p>
+                        <p>Hive operates on a principle of <strong>schema-on-read</strong>, meaning the schema is applied when the data is read (at query time), rather than when the data is written (schema-on-write, typical of RDBMS). Hive is primarily optimized for batch analytics and Online Analytical Processing (OLAP), not high-frequency Online Transaction Processing (OLTP).</p>
+
+                        <h3>Hive Main Components</h3>
+                        <p>Hive's architecture is composed of four main elements:</p>
+                        <ol>
+                            <li><strong>HiveQL (High-Level Language):</strong> The SQL-like language used to write queries.</li>
+                            <li><strong>Metastore:</strong> Stores all metadata about tables, columns, partitions, and file locations. It is a separate relational database (e.g., MySQL, PostgreSQL).</li>
+                            <li><strong>Execution Engine:</strong> Converts HiveQL queries into execution jobs, primarily MapReduce, but modern Hive utilizes faster engines like Tez and Spark.</li>
+                            <li><strong>Storage Layer:</strong> Uses Hadoop HDFS by default, but also supports cloud storage like Amazon S3.</li>
+                        </ol>
+
+                        <h2>HIVEQL: Comparison and Data Types</h2>
+
+                        <h3>Comparison of SQL and HIVEQL</h3>
+                        <p>HiveQL is not a full replacement for traditional SQL databases. The table below highlights key differences and similarities.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Feature</th><th>SQL (Traditional RDBMS)</th><th>HiveQL (Modern / Hive 3+)</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>INSERT / UPDATE / DELETE</td><td>Fully supported (DML operations).</td><td>Supported on ACID tables (requires 'transactional=true').</td></tr>
+                                <tr><td>Indexing</td><td>Supported (indexes, B-trees, etc.).</td><td>Removed since Hive 3.0; replaced by materialized views.</td></tr>
+                                <tr><td>Data Types</td><td>Broad primitive types, dates, etc.</td><td>Supports primitive types and complex types (array, map, struct).</td></tr>
+                                <tr><td>Joins</td><td>INNER, LEFT, RIGHT, FULL, CROSS.</td><td>All major types + Hive-specific LEFT SEMI JOIN.</td></tr>
+                                <tr><td>Subqueries</td><td>Fully supported in SELECT, WHERE, FROM.</td><td>Fully supported; often optimized.</td></tr>
+                                <tr><td>Multitable Inserts</td><td>Some RDBMS support this.</td><td>Supported: Multiple INSERT... SELECT from one query.</td></tr>
+                                <tr><td>Views</td><td>Updatable / non-materialized.</td><td>Views are read-only; materialized views supported.</td></tr>
+                            </tbody>
+                        </table>
+                        
+                      
+                        
+                        <h2>Data Models and Definition Language (DDL)</h2>
+                        <h3>Data Models: Tables, Partitions, and Buckets</h3>
+                        <ul>
+                            <li><strong>Tables:</strong> Logical abstractions pointing to data files (CSV, ORC, Parquet) in HDFS or cloud storage.
+                                <ul>
+                                    <li><strong>Managed Tables:</strong> Hive owns the data and metadata. Dropping the table deletes both.</li>
+                                    <li><strong>External Tables:</strong> Hive owns only the metadata. Dropping the table leaves the underlying data untouched.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Partitions:</strong> Subsets of data based on column values (e.g., date), stored as separate HDFS directories to improve query performance via data skipping.</li>
+                            <li><strong>Buckets (Clustering):</strong> Divides data within each table or partition into fixed-size files based on the hash value of a column (CLUSTERED BY). Enables efficient joins and sampling.</li>
+                        </ul>
+                        
+                        <h3>HIVEQL Data Definition Language (DDL) Commands</h3>
+                        <h4>CREATE and DROP Database</h4>
+                        <pre><code>CREATE DATABASE [IF NOT EXISTS] db_name [LOCATION 'path'];
+DROP DATABASE [IF EXISTS] db_name [CASCADE];
+                        </code></pre>
+
+                        <h4>CREATE, DROP, and TRUNCATE Table</h4>
+                        <p><strong>Example (Transactional Table):</strong></p>
+                        <pre><code>CREATE TABLE employee_txn (
+  id INT,
+  name STRING,
+  salary FLOAT
+)
+STORED AS ORC
+TBLPROPERTIES ('transactional'='true');</code></pre>
+                        <pre><code>CREATE [EXTERNAL] TABLE [IF NOT EXISTS] table_name (
+  col_name data_type [COMMENT col_comment],
+  ...
+)
+[COMMENT table_comment]
+[PARTITIONED BY (col_name data_type, ...)]
+[CLUSTERED BY (col_name, ...) INTO N BUCKETS]
+[STORED AS file_format]
+[LOCATION 'hdfs_path']
+[TBLPROPERTIES ('property_name'='value', ...)];</code></pre>
+                        <p><strong>DROP:</strong> For Managed Tables, deletes metadata and data. For External Tables, deletes only metadata.</p>
+                        <p><strong>TRUNCATE:</strong> Deletes data but keeps the table definition (schema). Fails on External Tables because Hive does not own the data.</p>
+                        
+                        <h4>Storage Formats</h4>
+                        <p>Hive supports various formats, with columnar formats being the standard for performance:</p>
+                        <ol>
+                            <li><strong>TEXTFILE (default):</strong> Plain text (CSV, TSV). Easy to read, but slow and large.</li>
+                            <li><strong>SEQUENCEFILE:</strong> Row-based, binary, supports compression.</li>
+                            <li><strong>ORC (Optimized Row Columnar):</strong> Columnar, compressed, optimized format created specifically for Hive. Best for Hive-only workloads.</li>
+                            <li><strong>PARQUET (Columnar, open-standard):</strong> Columnar format used by many systems (Spark, Impala). Best for heterogeneous data lake environments.</li>
+                        </ol>
+                        
+                        <h2>HIVEQL Data Manipulation and Query Language (DML/DQL)</h2>
+                        <h3>DML Commands</h3>
+                        
+                        <h4>LOAD DATA</h4>
+                        <p>Used to quickly move or copy data files into a Hive table's storage location. It is fast because it does not parse or transform the data.</p>
+                        <pre><code>LOAD DATA [LOCAL] INPATH 'filepath'
+[OVERWRITE] INTO TABLE table_name
+[PARTITION (col1=value1, ...)];</code></pre>
+                        
+                        <h4>INSERT INTO / OVERWRITE</h4>
+                        <p>Used to insert data based on the results of a SELECT query. It allows for transformation (unlike LOAD DATA).</p>
+                        <pre><code>INSERT INTO | OVERWRITE TABLE table_name
+[PARTITION (col1=val1, ...)]
+SELECT ... FROM another_table...;</code></pre>
+                        
+                        <h4>CTAS (Create Table As Select)</h4>
+                        <p>CTAS combines CREATE TABLE and INSERT INTO in one atomic operation, primarily used for data cleaning, type conversion, and changing storage formats.</p>
+                        <p><strong>Example (Cleaning and Format Conversion):</strong> This example cleans raw data stored as TEXTFILE (where data types are strings) and loads it into a clean table stored as ORC with correct types.</p>
+                        <pre><code>CREATE TABLE employee_clean
+STORED AS ORC
+AS
+SELECT
+  CAST(id AS INT) AS id,
+  TRIM(name) AS name, -- Removes surrounding whitespace
+  CAST(salary AS FLOAT) AS salary
+FROM employee_raw;</code></pre>
+                        
+                        <h4>Multi-Insert (Hive-Specific Feature)</h4>
+                        <p>Allows running multiple INSERT statements from a single source SELECT query. This is a major optimization, as the source table is scanned only once.</p>
+                        <p><strong>Example (Single Scan to Three Destinations):</strong></p>
+                        <pre><code>FROM sales
+INSERT INTO TABLE all_sales
+  SELECT year, amount
+INSERT INTO TABLE big_sales
+  SELECT year, amount WHERE amount > 1000
+INSERT INTO TABLE sales_count
+  SELECT year, COUNT(*) GROUP BY year;</code></pre>
+                        
+                        <h4>UPDATE and DELETE</h4>
+                        <p>These commands allow row-level modification and deletion, and only work on transactional (ACID) tables.</p>
+                        <pre><code>UPDATE table_name SET column = expression WHERE condition;
+DELETE FROM table_name WHERE condition;
+
+-- Example
+UPDATE employee SET salary = salary * 1.1 WHERE id = 5;
+DELETE FROM employee WHERE salary < 3000;
+</code></pre>
+                        
+                        <h4>Merge (UPSERT Capability)</h4>
+                        <p>MERGE combines UPDATE, INSERT, and DELETE logic into one statement, enabling UPSERT synchronization between a source and a target table. Requires transactional (ACID) tables.</p>
+                        <p><strong>Example (Data Synchronization):</strong> Updates existing employee salaries, deletes terminated employees, and inserts new active employees, all in one query.</p>
+                        <pre><code>MERGE INTO employee T
+USING updates S
+ON T.id = S.id
+WHEN MATCHED AND S.status = 'terminated' THEN DELETE
+WHEN MATCHED AND S.status = 'active' THEN UPDATE SET T.salary = S.new_salary
+WHEN NOT MATCHED AND S.status = 'active' THEN INSERT VALUES (S.id, S.name, S.new_salary);</code></pre>
+                        
+                        <h3>Data Retrieval and Joins (DQL)</h3>
+                        <h4>SELECT Query Structure</h4>
+                        <pre><code>SELECT [ALL | DISTINCT] select_expr, ...
+FROM table_reference
+[WHERE where_condition]
+[GROUP BY col_list]
+[HAVING having_condition]
+[ORDER BY col_list]
+[LIMIT number];</code></pre>
+
+                        <h4>JOIN Types</h4>
+                        <p>Hive supports all standard join types (INNER, LEFT, RIGHT, FULL, CROSS) plus special, optimized joins.</p>
+                        
+                        <h4>Left Semi Join (DQL Feature)</h4>
+                        <p>A specialized join used for filtering the left table based on the existence of matches in the right table. It returns only columns from the left table and ensures each row from the left table is returned at most once. It is an efficient replacement for the <code>WHERE IN (subquery)</code> pattern.</p>
+                        <pre><code>SELECT c.customer_id, c.customer_name
+FROM customers c
+LEFT SEMI JOIN orders o
+ON c.customer_id = o.customer_id;</code></pre>
+                        
+                        <h4>Subqueries</h4>
+                        <p>Hive fully supports subqueries in the SELECT, WHERE, and FROM clauses. Subqueries in the FROM clause must be aliased.</p>
+                        <pre><code>SELECT dept, avg_salary
+FROM (
+  SELECT dept, AVG(salary) AS avg_salary
+  FROM employee
+  GROUP BY dept
+) AS dept_avg -- Alias is REQUIRED
+WHERE avg_salary > 6000;</code></pre>
+                        </div>
+                    `,
+                    quiz: {
+                        mcq: [
+                            { q: "What is the key characteristic of an 'External' table in Hive?", options: ["Hive manages both data and metadata", "Dropping the table deletes the data files", "Hive only manages the metadata", "It must be stored in ORC format"], a: "Hive only manages the metadata" },
+                            { q: "Which Hive command is most efficient for creating three different summary tables from a single scan of a source table?", options: ["CTAS", "Multiple INSERT INTO statements", "Multi-Insert", "MERGE"], a: "Multi-Insert" },
+                            { q: "The MERGE statement in Hive requires the target table to be what?", options: ["External", "Partitioned", "A TEXTFILE", "Transactional (ACID)"], a: "Transactional (ACID)" },
+                            { q: "What is the primary purpose of using partitions in Hive?", options: ["To compress data", "To improve query performance by skipping data", "To enforce data types", "To create backups"], a: "To improve query performance by skipping data" },
+                            { q: "Which join is an efficient replacement for a `WHERE customer_id IN (SELECT customer_id FROM orders)` clause?", options: ["INNER JOIN", "FULL OUTER JOIN", "LEFT SEMI JOIN", "CROSS JOIN"], a: "LEFT SEMI JOIN" }
+                        ],
+                        fillIn: [
+                            { q: "Hive operates on a ________-on-read principle.", a: "schema" },
+                            { q: "The ________ is the component in Hive that stores all metadata about tables and partitions.", a: "Metastore" },
+                            { q: "The ________ command is used to combine table creation and data insertion from a SELECT statement into one atomic operation.", a: "CTAS" },
+                            { q: "To perform UPDATE or DELETE operations, a Hive table must be ________.", a: "transactional" },
+                            { q: "Dividing data within a partition into a fixed number of files based on a column's hash value is called ________.", a: "bucketing" }
+                        ],
+                        hive: [
+                            {
+                                scenario: "You have a raw, messy `logs_text` table stored as TEXTFILE. You need to create a new, cleaned `logs_orc` table that is stored in the efficient ORC format, with data types corrected and irrelevant columns removed.",
+                                part1: "What is the best HiveQL command for this task?",
+                                part2: "Write the command to achieve this.",
+                                answer: `
+                                    <strong>Part 1 (Best Method):</strong> <strong>CTAS (Create Table As Select)</strong> is the best method because it allows you to transform data, change storage formats, and create the new table in a single, atomic operation.<br><br>
+                                    <strong>Part 2 (Command):</strong>
+                                    <pre><code>CREATE TABLE logs_orc
+STORED AS ORC
+AS
+SELECT
+  CAST(timestamp AS LONG) AS event_time,
+  TRIM(LOWER(user_id)) AS user_id,
+  CAST(response_time_ms AS INT)
+FROM logs_text
+WHERE level != 'DEBUG';</code></pre>
+                                `
+                            },
+                            {
+                                scenario: "You have a main `products` table and an `daily_updates` table. You need to synchronize them: update prices for existing products, insert new products, and delete products that are marked as 'discontinued' in the updates table.",
+                                part1: "What is the best HiveQL command for this task?",
+                                part2: "Write the command to achieve this.",
+                                answer: `
+                                    <strong>Part 1 (Best Method):</strong> <strong>MERGE</strong> is the only command that can handle updates, inserts, and deletes in a single statement, making it perfect for synchronization.<br><br>
+                                    <strong>Part 2 (Command):</strong>
+                                    <pre><code>MERGE INTO products p
+USING daily_updates u
+ON p.product_id = u.product_id
+WHEN MATCHED AND u.status = 'discontinued' THEN DELETE
+WHEN MATCHED THEN UPDATE SET p.price = u.price
+WHEN NOT MATCHED THEN INSERT VALUES (u.product_id, u.name, u.price);</code></pre>
+                                `
+                            }
+                        ]
+                    }
                 }
-            ]
+            ],
+            finalTest: {
+                title: "Final Comprehensive Test",
+                 mcq: [
+                    { q: "Which of the 5Vs of Big Data refers to the trustworthiness and quality of the data?", options: ["Volume", "Velocity", "Variety", "Veracity"], a: "Veracity" },
+                    { q: "Scaling out a cluster is also known as:", options: ["Vertical Scaling", "Horizontal Scaling", "Upsizing", "Resourcing"], a: "Horizontal Scaling" },
+                    { q: "In HDFS, what is the default replication factor for data blocks?", options: ["1", "2", "3", "4"], a: "3" },
+                    { q: "Which component in YARN is responsible for launching and managing an Application Master?", options: ["NodeManager", "Scheduler", "Resource Manager", "Container"], a: "Resource Manager" },
+                    { q: "A MapReduce Combiner function is best described as a:", options: ["Global sort operation", "Local reduce operation", "Custom partitioner", "Final output formatter"], a: "Local reduce operation" },
+                    { q: "What does schema-on-read mean in the context of Hive?", options: ["The schema must be defined before loading data", "Data is validated against the schema during writes", "The schema is applied to the data when it is queried", "Hive does not support schemas"], a: "The schema is applied to the data when it is queried" },
+                    { q: "Dropping an EXTERNAL table in Hive results in:", options: ["Deletion of both data and metadata", "Deletion of only the data", "Deletion of only the metadata", "An error, as external tables cannot be dropped"], a: "Deletion of only the metadata" },
+                    { q: "Which Hive command is used for an efficient UPSERT operation?", options: ["CTAS", "UPDATE", "INSERT OVERWRITE", "MERGE"], a: "MERGE" },
+                    { q: "What is the primary limitation of the NameNode in a non-HA HDFS cluster?", options: ["It runs out of disk space quickly", "It is a Single Point of Failure", "It cannot communicate with DataNodes", "It slows down read operations"], a: "It is a Single Point of Failure" },
+                    { q: "What problem does a custom Partitioner in MapReduce primarily solve?", options: ["Slow map tasks", "Network congestion", "Data skew", "Small file issues in HDFS"], a: "Data skew" }
+                ],
+                fillIn: [
+                    { q: "In a master-slave architecture, the master node that manages the HDFS file system is called the ________.", a: "NameNode" },
+                    { q: "The processing paradigm that involves moving the code to the data is known as ________.", a: "Data Locality" },
+                    { q: "In YARN, a ________ is a bundle of resources (CPU, memory) allocated on a worker node.", a: "Container" },
+                    { q: "The component in Hive that stores all the metadata, such as table schemas and partition information, is the ________.", a: "Metastore" },
+                    { q: "To improve query performance in Hive by skipping irrelevant subdirectories, you should use ________ on your tables.", a: "partitions" },
+                    { q: "The Hive command that allows populating multiple tables from a single scan of a source table is ________.", a: "Multi-Insert" },
+                    { q: "The ________ theorem states that a distributed system can only provide two of three guarantees: Consistency, Availability, and Partition Tolerance.", a: "CAP" }
+                ],
+                mapReduce: [
+                     {
+                        prompt: "You have a dataset of customer transactions, where each line is `CustomerID,TransactionAmount`. You want to calculate the total transaction amount for each customer. Define the input and output for the Map and Reduce phases.",
+                        answer: `
+                            <strong>MAP PHASE:</strong><br>
+                            - <strong>Input:</strong> <code>&lt;key: byte offset, value: 'CustomerID,TransactionAmount'&gt;</code><br>
+                            - <strong>Process:</strong> Split the line to get CustomerID and TransactionAmount.<br>
+                            - <strong>Output:</strong> <code>&lt;key: CustomerID, value: TransactionAmount&gt;</code><br><br>
+                            <strong>REDUCE PHASE:</strong><br>
+                            - <strong>Input:</strong> <code>&lt;key: CustomerID, values: [Amount1, Amount2, ...]&gt;</code><br>
+                            - <strong>Process:</strong> Sum all amounts in the values list.<br>
+                            - <strong>Output:</strong> <code>&lt;key: CustomerID, value: TotalTransactionAmount&gt;</code>
+                        `
+                    },
+                    {
+                        prompt: "You are analyzing weather data. Each line in your file represents a temperature reading for a specific year: `Year,Temperature`. Your goal is to find the maximum temperature recorded for each year. Define the input and output for the Map and Reduce phases.",
+                        answer: `
+                            <strong>MAP PHASE:</strong><br>
+                            - <strong>Input:</strong> <code>&lt;key: byte offset, value: 'Year,Temperature'&gt;</code><br>
+                            - <strong>Process:</strong> Parse the line to extract Year and Temperature.<br>
+                            - <strong>Output:</strong> <code>&lt;key: Year, value: Temperature&gt;</code><br><br>
+                            <strong>REDUCE PHASE:</strong><br>
+                            - <strong>Input:</strong> <code>&lt;key: Year, values: [Temp1, Temp2, ...]&gt;</code><br>
+                            - <strong>Process:</strong> Find the maximum value in the list of temperatures.<br>
+                            - <strong>Output:</strong> <code>&lt;key: Year, value: MaxTemperature&gt;</code>
+                        `
+                    }
+                ],
+                hive: [
+                    {
+                        scenario: "You have two tables: `employees` (emp_id, name, department) and `active_employees` (emp_id). You need to find the names and departments of only the employees who are listed in the `active_employees` table. You do not need any information from the `active_employees` table in your final result, only to use it for filtering.",
+                        part1: "Which join type is the most efficient and appropriate for this task?",
+                        part2: "Write the HiveQL command to get the desired result.",
+                        answer: `
+                            <strong>Part 1 (Best Method):</strong> <strong>LEFT SEMI JOIN</strong> is the most efficient method. It filters the left table (\`employees\`) based on the existence of a match in the right table (\`active_employees\`) without the overhead of a full join.<br><br>
+                            <strong>Part 2 (Command):</strong>
+                            <pre><code>SELECT e.name, e.department
+FROM employees e
+LEFT SEMI JOIN active_employees a
+  ON e.emp_id = a.emp_id;</code></pre>
+                        `
+                    },
+                    {
+                        scenario: "You have a single source table `all_transactions` (transaction_id, user_id, amount, country). You need to create two new tables in a single operation: `usa_transactions` containing only transactions where country is 'USA', and `large_transactions` containing transactions where the amount is greater than 1000.",
+                        part1: "What is the best HiveQL feature for this task?",
+                        part2: "Write the HiveQL command to achieve this.",
+                        answer: `
+                            <strong>Part 1 (Best Method):</strong> <strong>Multi-Insert</strong> is the best feature because it allows you to read the source table \`all_transactions\` only once and write to multiple destination tables based on different criteria.<br><br>
+                            <strong>Part 2 (Command):</strong>
+                            <pre><code>FROM all_transactions
+INSERT INTO TABLE usa_transactions
+  SELECT transaction_id, user_id, amount
+  WHERE country = 'USA'
+INSERT INTO TABLE large_transactions
+  SELECT transaction_id, user_id, amount, country
+  WHERE amount > 1000;</code></pre>
+                        `
+                    }
+                ]
+            }
         };
+
+        const mainContent = document.getElementById('main-content');
+        const contentArea = document.getElementById('content-area');
+        const navigation = document.getElementById('navigation');
+
+        function renderHomePage() {
+             mainContent.scrollTo(0, 0);
+             contentArea.innerHTML = `
+                <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+                    <h1 class="text-4xl font-bold text-indigo-700 mb-4">Welcome to the Big Data Exam Prep App</h1>
+                    <p class="text-lg text-gray-600 mb-6">Your comprehensive guide to mastering Big Data concepts.</p>
+                    <p class="text-gray-500">Select a chapter from the sidebar to begin your review, take a quiz, or head straight to the final test when you feel ready. Good luck!</p>
+                </div>
+            `;
+        }
+
+        function renderChapter(index) {
+            mainContent.scrollTo(0, 0);
+            const chapter = appData.chapters[index];
+            contentArea.innerHTML = `
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <h1 class="text-3xl font-bold mb-6 border-b pb-4">${chapter.title}</h1>
+                    ${chapter.summary}
+                </div>
+                <div class="mt-8 text-center">
+                    <button onclick="renderQuiz('chapter', ${index})" class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition w-full md:w-auto">Start Chapter Quiz</button>
+                </div>
+            `;
+        }
+        
+        function renderQuiz(source, sourceIndex) { 
+            mainContent.scrollTo(0, 0);
+            const isFinalTest = source === 'final';
+            const data = isFinalTest ? appData.finalTest : appData.chapters[sourceIndex];
+            const questions = isFinalTest ? data : (data.quiz || {});
+            
+            let quizHtml = `
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <h1 class="text-3xl font-bold mb-6 border-b pb-4">${data.title} - ${isFinalTest ? 'Test' : 'Quiz'}</h1>
+                    <div id="quiz-container">
+            `;
+            let questionCounter = 0;
+
+            // Section 1: MCQs
+            if (questions.mcq && questions.mcq.length > 0) {
+                quizHtml += '<h3>Multiple Choice Questions</h3>';
+                questions.mcq.forEach((q, index) => {
+                    questionCounter++;
+                    quizHtml += `<div class="mb-8 p-6 border rounded-lg bg-gray-50">`;
+                    quizHtml += `<p class="font-semibold text-lg mb-4">${questionCounter}. ${q.q}</p>`;
+                    quizHtml += `<div class="space-y-2">`;
+                    q.options.forEach(opt => {
+                        quizHtml += `<div class="quiz-option border-2 border-gray-300 p-3 rounded-lg cursor-pointer" onclick="selectOption(this, '${source}', ${sourceIndex}, 'mcq', ${index}, '${opt.replace(/'/g, "\\'")}')">${opt}</div>`;
+                    });
+                    quizHtml += `</div><div id="answer-mcq-${index}" class="answer-reveal prose max-w-none mt-2">Correct Answer: <strong>${q.a}</strong></div></div>`;
+                });
+            }
+
+            // Section 2: Fill in the Blanks
+            if (questions.fillIn && questions.fillIn.length > 0) {
+                quizHtml += '<h3>Fill in the Blanks</h3>';
+                questions.fillIn.forEach((q, index) => {
+                    questionCounter++;
+                    quizHtml += `<div class="mb-8 p-6 border rounded-lg bg-gray-50">`;
+                    quizHtml += `<label for="fillin-${index}" class="font-semibold text-lg mb-4">${questionCounter}. ${q.q.replace('________', '<input type="text" id="fillin-'+index+'" class="mx-2 p-1 border-b-2 border-gray-400 focus:border-indigo-500 outline-none bg-transparent">')}</label>`;
+                    quizHtml += `<div class="mt-4"><button onclick="toggleAnswer('answer-fillin-${index}', this)" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-300 transition text-sm">Show Answer</button><div id="answer-fillin-${index}" class="answer-reveal prose max-w-none"><strong>Answer:</strong> ${q.a}</div></div></div>`;
+                });
+            }
+            
+            // Section 3: MapReduce
+            if (questions.mapReduce && questions.mapReduce.length > 0) {
+                quizHtml += '<h3>MapReduce Scenarios</h3>';
+                questions.mapReduce.forEach((q, index) => {
+                    questionCounter++;
+                    const resultId = `mapreduce-result-${index}`;
+                    quizHtml += `<div class="mb-8 p-6 border rounded-lg bg-gray-50">`;
+                    quizHtml += `<p class="font-semibold text-lg mb-4">${questionCounter}. ${q.prompt}</p>`;
+                    quizHtml += `<textarea id="mapreduce-input-${index}" class="w-full h-40 p-3 border border-gray-300 rounded-lg" placeholder="Write your answer here..."></textarea>`;
+                    quizHtml += `<div class="mt-4 flex space-x-2">
+                                    <button onclick="gradeOpenQuestion('${source}', ${sourceIndex}, 'mapReduce', ${index})" class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition text-sm">Grade Answer</button>
+                                    <button onclick="toggleAnswer('answer-mapreduce-${index}', this)" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-300 transition text-sm">Show Answer</button>
+                                </div>
+                                <div id="${resultId}" class="mt-4"></div>
+                                <div id="answer-mapreduce-${index}" class="answer-reveal prose max-w-none">${q.answer}</div>
+                            </div>`;
+                });
+            }
+
+            // Section 4: Hive
+            if (questions.hive && questions.hive.length > 0) {
+                quizHtml += '<h3>Hive Scenarios</h3>';
+                questions.hive.forEach((q, index) => {
+                    questionCounter++;
+                    const resultId = `hive-result-${index}`;
+                    quizHtml += `<div class="mb-8 p-6 border rounded-lg bg-gray-50">`;
+                    quizHtml += `<p class="font-semibold text-lg mb-2">${questionCounter}. Scenario:</p><p class="mb-4 bg-indigo-50 p-3 rounded">${q.scenario}</p>`;
+                    quizHtml += `<p class="font-semibold mb-2">Part 1: ${q.part1}</p>`;
+                    quizHtml += `<textarea id="hive-input-p1-${index}" class="w-full h-20 p-3 border border-gray-300 rounded-lg mb-4" placeholder="Your answer for Part 1..."></textarea>`;
+                    quizHtml += `<p class="font-semibold mb-2">Part 2: ${q.part2}</p>`;
+                     quizHtml += `<textarea id="hive-input-p2-${index}" class="w-full h-40 p-3 border border-gray-300 rounded-lg" placeholder="Your command for Part 2..."></textarea>`;
+                    quizHtml += `<div class="mt-4 flex space-x-2">
+                                    <button onclick="gradeOpenQuestion('${source}', ${sourceIndex}, 'hive', ${index})" class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition text-sm">Grade Answer</button>
+                                    <button onclick="toggleAnswer('answer-hive-${index}', this)" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-300 transition text-sm">Show Answer</button>
+                                </div>
+                                <div id="${resultId}" class="mt-4"></div>
+                                <div id="answer-hive-${index}" class="answer-reveal prose max-w-none">${q.answer}</div>
+                            </div>`;
+                });
+            }
+
+            quizHtml += `</div></div>`;
+            contentArea.innerHTML = quizHtml;
+        }
+        
+        function toggleAnswer(elementId, button) {
+            const answerDiv = document.getElementById(elementId);
+            if (answerDiv.style.display === 'block') {
+                answerDiv.style.display = 'none';
+                button.textContent = 'Show Answer';
+            } else {
+                answerDiv.style.display = 'block';
+                button.textContent = 'Hide Answer';
+            }
+        }
+
+        async function gradeOpenQuestion(source, sourceIndex, questionType, questionIndex) {
+            const isFinalTest = source === 'final';
+            const data = isFinalTest ? appData.finalTest : appData.chapters[sourceIndex].quiz;
+            const question = data[questionType][questionIndex];
+
+            let userAnswer;
+            let resultDiv;
+
+            if (questionType === 'hive') {
+                const p1 = document.getElementById(`hive-input-p1-${questionIndex}`).value;
+                const p2 = document.getElementById(`hive-input-p2-${questionIndex}`).value;
+                userAnswer = `Part 1: ${p1}\nPart 2: ${p2}`;
+                resultDiv = document.getElementById(`hive-result-${questionIndex}`);
+            } else {
+                userAnswer = document.getElementById(`mapreduce-input-${questionIndex}`).value;
+                resultDiv = document.getElementById(`mapreduce-result-${questionIndex}`);
+            }
+
+            if (!userAnswer.trim()) {
+                resultDiv.innerHTML = `<p class="text-red-500 font-semibold">Please enter an answer before grading.</p>`;
+                return;
+            }
+
+            resultDiv.innerHTML = `<div class="flex items-center text-gray-600"><div class="animate-spin rounded-full h-5 w-5 border-b-2 border-indigo-500 mr-3"></div>AI is grading your answer...</div>`;
+            
+            const modelAnswer = question.answer;
+
+            const systemPrompt = `You are an expert grader for a Big Data course. Evaluate the student's answer based on the model answer. Provide a score out of 10 and concise, constructive feedback. Your response must be in JSON format with two keys: "score" (a number) and "feedback" (a string).`;
+            const userQuery = `
+                Question: "${question.prompt || question.scenario}"
+                Model Answer: "${modelAnswer}"
+                Student's Answer: "${userAnswer}"
+            `;
+
+            try {
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+                const payload = {
+                    contents: [{ parts: [{ text: userQuery }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                };
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (!response.ok) {
+                   throw new Error(`API Error: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                const text = result.candidates[0].content.parts[0].text;
+                
+                const cleanedText = text.replace(/```json/g, '').replace(/```/g, '').trim();
+                const gradedResult = JSON.parse(cleanedText);
+
+                const scoreColor = gradedResult.score >= 7 ? 'text-green-600' : (gradedResult.score >= 4 ? 'text-yellow-600' : 'text-red-600');
+
+                resultDiv.innerHTML = `
+                    <div class="bg-indigo-50 border border-indigo-200 p-4 rounded-lg">
+                        <h4 class="font-bold text-lg mb-2">Result:</h4>
+                        <p class="font-bold text-2xl ${scoreColor} mb-2">${gradedResult.score} / 10</p>
+                        <p class="font-semibold text-gray-700">Feedback:</p>
+                        <p class="text-gray-600">${gradedResult.feedback}</p>
+                    </div>
+                `;
+            } catch (error) {
+                console.error("Error grading question:", error);
+                resultDiv.innerHTML = `<p class="text-red-500 font-semibold">An error occurred while grading. Please try again.</p>`;
+            }
+        }
+
+        function setupNavigation() {
+            let navHtml = '<a href="#" onclick="event.preventDefault(); setActive(this); renderHomePage();" class="block py-2.5 px-4 rounded-lg mb-2 sidebar-link active">Home</a>';
+            appData.chapters.forEach((chapter, index) => {
+                navHtml += `<a href="#" onclick="event.preventDefault(); setActive(this); renderChapter(${index});" class="block py-2.5 px-4 rounded-lg mb-2 sidebar-link">${chapter.title}</a>`;
+            });
+            navHtml += `<a href="#" onclick="event.preventDefault(); setActive(this); renderQuiz('final', null);" class="block py-2.5 px-4 rounded-lg mt-6 border-t border-gray-700 pt-4 sidebar-link font-bold">Final Test</a>`;
+            navigation.innerHTML = navHtml;
+        }
+
+        function selectOption(element, source, sourceIndex, questionType, questionIndex, selectedOption) {
+    const questionContainer = element.parentElement;
+    const options = questionContainer.querySelectorAll('.quiz-option');
+    const answerDiv = document.getElementById(`answer-${questionType}-${questionIndex}`);
+
+    // Remove 'selected' class from all options in this question
+    options.forEach(opt => opt.classList.remove('selected'));
+
+    // Add 'selected' class to the clicked option
+    element.classList.add('selected');
+
+    // Show the correct answer
+    answerDiv.style.display = 'block';
+}
+        
+        function setActive(element) {
+            document.querySelectorAll('.sidebar-link').forEach(link => link.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        // Initial load
+        window.onload = () => {
+            setupNavigation();
+            renderHomePage();
+        };
+
     </script>
 </body>
 </html>
+
