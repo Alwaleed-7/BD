@@ -528,47 +528,38 @@ reduce(key: word, values: list[docIDs]) {
             {
                 prompt: "Compute Term Frequency (TF): Calculate TF(w,d) = (count of word w in doc d) / (total words in doc d). This is a two-run job. Define the logic for both runs.",
                 answer: `
-                    <strong>RUN 1: Count total words per document</strong><br>
-                    <strong>Map Function Pseudocode:</strong><br>
+                    <strong>Run 1 — Word Count per Document</strong><br>
+                    Input: (docID, line)<br>
+                    Output: ((word, docID), count)<br><br>
+                    <strong>Mapper 1</strong><br>
                     <pre><code>
-function map(key: DocID, value: Text) {
-    let words = Text.split(/\\s+/);  // Split text into words
-    for (let word of words) {
-        emit(DocID, 1);  // Emit DocID as key, 1 for each word
-    }
-}
-                    </code></pre><br>
-                    <strong>Reduce Function Pseudocode:</strong><br>
-                    <pre><code>
-function reduce(key: DocID, values: [1, 1, ...]) {
-    let totalWords = 0;
-    for (let count of values) {
-        totalWords += count;
-    }
-    emit(DocID, totalWords);  // Emit DocID with total word count
+map(key: docID, value: line) {
+    for word in tokenize(line):
+        emit((word, docID), 1)
 }
                     </code></pre><br><br>
-                    <strong>RUN 2: Calculate TF (assuming total words per doc are available, e.g., via configuration or join)</strong><br>
-                    <strong>Map Function Pseudocode:</strong><br>
+                    <strong>Reducer 1</strong><br>
                     <pre><code>
-function map(key: DocID, value: Text) {
-    let words = Text.split(/\\s+/);  // Split text into words
-    for (let word of words) {
-        emit(\`\${word},\${DocID}\`, 1);  // Emit (word,DocID) as key, 1 as value
-    }
+reduce(key: (word, docID), values: counts) {
+    total = sum(counts)
+    emit((word, docID), total)
 }
-                    </code></pre><br>
-                    <strong>Reduce Function Pseudocode:</strong><br>
+                    </code></pre><br><br>
+                    <strong>Run 2 — Normalize by Document Length</strong><br>
+                    We now normalize counts by the total number of words in each document.<br><br>
+                    <strong>Mapper 2</strong><br>
                     <pre><code>
-function reduce(key: 'word,DocID', values: [1, 1, ...]) {
-    let [word, DocID] = key.split(',');  // Parse key
-    let wordCount = 0;
-    for (let count of values) {
-        wordCount += count;
-    }
-    let totalWords = getTotalWords(DocID);  // Assume total from Run 1 is accessible
-    let tf = wordCount / totalWords;
-    emit(\`\${word},\${DocID}\`, tf);  // Emit (word,DocID) with TF value
+map(key: (word, docID), value: count) {
+    emit(docID, (word, count))
+}
+                    </code></pre><br><br>
+                    <strong>Reducer 2</strong><br>
+                    <pre><code>
+reduce(key: docID, values: [(word, count), ...]) {
+    total words = sum(count for (word, count) in values)
+    for (word, count) in values:
+        tf = count / total words
+        emit((word, docID), tf)
 }
                     </code></pre>
                 `
