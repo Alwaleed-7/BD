@@ -512,18 +512,15 @@ REDUCE_RUN_2(key, values):
                 answer: `
                     <strong>Map Function Pseudocode:</strong><br>
                     <pre><code>
-function map(key: DocID, value: Text) {
-    let words = Text.split(/\\s+/);  // Split text into words
-    for (let word of words) {
-        emit(word, DocID);  // Emit word as key, DocID as value
-    }
+map(key: docID, value: content) {
+    for each word w in content:
+        emit(w, docID)
 }
                     </code></pre><br><br>
                     <strong>Reduce Function Pseudocode:</strong><br>
                     <pre><code>
-function reduce(key: word, values: [DocID1, DocID2, ...]) {
-    let uniqueDocIDs = new Set(values);  // Remove duplicates
-    emit(word, Array.from(uniqueDocIDs));  // Emit word with list of unique DocIDs
+reduce(key: word, values: list[docIDs]) {
+    emit(word, unique(list[docIDs]))
 }
                     </code></pre>
                 `
