@@ -495,7 +495,7 @@ REDUCE_RUN_2(key, values):
         mcq: [
             { q: "What is the primary output of the Map function in a MapReduce job?", options: ["A single aggregated value", "Intermediate key-value pairs", "Sorted and shuffled data", "Final output files"], a: "Intermediate key-value pairs" },
             { q: "Which phase in MapReduce aggregates values associated with the same intermediate key?", options: ["Map", "Shuffle", "Sort", "Reduce"], a: "Reduce" },
-            { q: "In the classic Word Count example using MapReduce, what does the Mapper emit for each occurrence of a word?", options: ["<word, count>", "<word, 1>", "<1, word>", "<count, word>"], a: "<word, 1>" },
+            
             { q: "What is the purpose of a Combiner in MapReduce?", options: ["To perform local aggregation on Mapper output before sending to Reducers", "To sort the final output", "To handle data partitioning", "To execute the Reduce function"], a: "To perform local aggregation on Mapper output before sending to Reducers" },
             { q: "MapReduce programming model is primarily inspired by which concepts from functional programming?", options: ["Filter and Sort", "Map and Reduce (Fold)", "Join and Group", "Split and Merge"], a: "Map and Reduce (Fold)" }
         ],
