@@ -491,34 +491,94 @@ REDUCE_RUN_2(key, values):
 
                         </div>
                     `,
-                    quiz: {
-                        mapReduce: [
-                            {
-                                prompt: "Build an Inverted Index: For each word in a collection of documents, create a list of unique document IDs where the word appears. Define the Map and Reduce logic.",
-                                answer: `
-                                    <strong>MAP PHASE:</strong><br>
-                                    - <strong>Input:</strong> <code>&lt;key: DocID, value: Text of the document&gt;</code><br>
-                                    - <strong>Output:</strong> <code>&lt;key: word, value: DocID&gt;</code> for each word.<br><br>
-                                    <strong>REDUCE PHASE:</strong><br>
-                                    - <strong>Input:</strong> <code>&lt;key: word, values: [DocID1, DocID2, ...]&gt;</code><br>
-                                    - <strong>Process:</strong> Create a unique list of DocIDs.<br>
-                                    - <strong>Output:</strong> <code>&lt;key: word, value: [UniqueDocID1, UniqueDocID2, ...]&gt;</code>
-                                `
-                            },
-                            {
-                                prompt: "Compute Term Frequency (TF): Calculate TF(w,d) = (count of word w in doc d) / (total words in doc d). This is a two-run job. Define the logic for both runs.",
-                                answer: `
-                                    <strong>RUN 1: Count total words per document</strong><br>
-                                    - <strong>Map Output:</strong> <code>&lt;key: DocID, value: 1&gt;</code> for each word.<br>
-                                    - <strong>Reduce Output:</strong> <code>&lt;key: DocID, value: total_words_in_doc&gt;</code><br><br>
-                                    <strong>RUN 2: Calculate TF</strong><br>
-                                    - <strong>Map Output:</strong> <code>&lt;key: (word, DocID), value: 1&gt;</code> for each word.<br>
-                                    - <strong>Reduce Output:</strong> <code>&lt;key: (word, DocID), value: TF&gt;</code> after summing counts and dividing by the total from Run 1.
-                                `
-                            }
-                        ]
-                    }
-                },
+                          quiz: {
+        mcq: [
+            { q: "What is the primary output of the Map function in a MapReduce job?", options: ["A single aggregated value", "Intermediate key-value pairs", "Sorted and shuffled data", "Final output files"], a: "Intermediate key-value pairs" },
+            { q: "Which phase in MapReduce aggregates values associated with the same intermediate key?", options: ["Map", "Shuffle", "Sort", "Reduce"], a: "Reduce" },
+            { q: "In the classic Word Count example using MapReduce, what does the Mapper emit for each occurrence of a word?", options: ["<word, count>", "<word, 1>", "<1, word>", "<count, word>"], a: "<word, 1>" },
+            { q: "What is the purpose of a Combiner in MapReduce?", options: ["To perform local aggregation on Mapper output before sending to Reducers", "To sort the final output", "To handle data partitioning", "To execute the Reduce function"], a: "To perform local aggregation on Mapper output before sending to Reducers" },
+            { q: "MapReduce programming model is primarily inspired by which concepts from functional programming?", options: ["Filter and Sort", "Map and Reduce (Fold)", "Join and Group", "Split and Merge"], a: "Map and Reduce (Fold)" }
+        ],
+        fillIn: [
+            { q: "The process of distributing intermediate key-value pairs to appropriate reducers in MapReduce is known as ________.", a: "Shuffle" },
+            { q: "The open-source framework that implements the MapReduce model is ________.", a: "Hadoop" },
+            { q: "In MapReduce, the input to the Reduce function consists of a key and an iterable list of ________.", a: "values" },
+            { q: "MapReduce enables ________ processing of large datasets across a cluster of computers.", a: "parallel" },
+            { q: "An inverted index in information retrieval maps each ________ to the list of documents it appears in.", a: "word" }
+        ],
+        mapReduce: [
+            {
+                prompt: "Build an Inverted Index: For each word in a collection of documents, create a list of unique document IDs where the word appears. Define the Map and Reduce logic.",
+                answer: `
+                    <strong>Map Function Pseudocode:</strong><br>
+                    <pre><code>
+function map(key: DocID, value: Text) {
+    let words = Text.split(/\\s+/);  // Split text into words
+    for (let word of words) {
+        emit(word, DocID);  // Emit word as key, DocID as value
+    }
+}
+                    </code></pre><br><br>
+                    <strong>Reduce Function Pseudocode:</strong><br>
+                    <pre><code>
+function reduce(key: word, values: [DocID1, DocID2, ...]) {
+    let uniqueDocIDs = new Set(values);  // Remove duplicates
+    emit(word, Array.from(uniqueDocIDs));  // Emit word with list of unique DocIDs
+}
+                    </code></pre>
+                `
+            },
+            {
+                prompt: "Compute Term Frequency (TF): Calculate TF(w,d) = (count of word w in doc d) / (total words in doc d). This is a two-run job. Define the logic for both runs.",
+                answer: `
+                    <strong>RUN 1: Count total words per document</strong><br>
+                    <strong>Map Function Pseudocode:</strong><br>
+                    <pre><code>
+function map(key: DocID, value: Text) {
+    let words = Text.split(/\\s+/);  // Split text into words
+    for (let word of words) {
+        emit(DocID, 1);  // Emit DocID as key, 1 for each word
+    }
+}
+                    </code></pre><br>
+                    <strong>Reduce Function Pseudocode:</strong><br>
+                    <pre><code>
+function reduce(key: DocID, values: [1, 1, ...]) {
+    let totalWords = 0;
+    for (let count of values) {
+        totalWords += count;
+    }
+    emit(DocID, totalWords);  // Emit DocID with total word count
+}
+                    </code></pre><br><br>
+                    <strong>RUN 2: Calculate TF (assuming total words per doc are available, e.g., via configuration or join)</strong><br>
+                    <strong>Map Function Pseudocode:</strong><br>
+                    <pre><code>
+function map(key: DocID, value: Text) {
+    let words = Text.split(/\\s+/);  // Split text into words
+    for (let word of words) {
+        emit(\`\${word},\${DocID}\`, 1);  // Emit (word,DocID) as key, 1 as value
+    }
+}
+                    </code></pre><br>
+                    <strong>Reduce Function Pseudocode:</strong><br>
+                    <pre><code>
+function reduce(key: 'word,DocID', values: [1, 1, ...]) {
+    let [word, DocID] = key.split(',');  // Parse key
+    let wordCount = 0;
+    for (let count of values) {
+        wordCount += count;
+    }
+    let totalWords = getTotalWords(DocID);  // Assume total from Run 1 is accessible
+    let tf = wordCount / totalWords;
+    emit(\`\${word},\${DocID}\`, tf);  // Emit (word,DocID) with TF value
+}
+                    </code></pre>
+                `
+            }
+        ]
+    }
+},
                 {
                     title: "Chapter 5: Apache Hive",
                     summary: `
