@@ -6,127 +6,71 @@
     <title>Big Data Exam Preparation</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .sidebar-link {
-            transition: all 0.2s ease-in-out;
-        }
-        .sidebar-link:hover, .sidebar-link.active {
-            background-color: #4f46e5;
-            color: white;
-            transform: translateX(5px);
-        }
-        .quiz-option {
-            transition: background-color 0.2s;
-        }
-        .quiz-option.selected {
-            background-color: #6366f1;
-            color: white;
-            border-color: #4f46e5;
-        }
-        .prose {
-            color: #374151;
-        }
-        .prose h2 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            margin-top: 2rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #e5e7eb;
-            color: #3730a3;
-        }
-        .prose h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            color: #4338ca;
-        }
-        .prose h4 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-top: 1.5rem;
-            margin-bottom: 0.75rem;
-            color: #4f46e5;
-        }
-        .prose p, .prose li {
-            color: #4b5563;
-            line-height: 1.6;
-        }
-        .prose strong {
-            color: #1f2937;
-        }
-        .prose ul, .prose ol {
-            padding-left: 1.75rem;
-            margin-bottom: 1rem;
-        }
-        .prose pre {
-            background-color: #f3f4f6;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: monospace;
-            color: #111827;
-            font-size: 0.9em;
-        }
-        .prose code {
-            font-family: monospace;
-            background-color: #e5e7eb;
-            padding: 0.125rem 0.25rem;
-            border-radius: 0.25rem;
-            font-size: 0.9em;
-        }
-        .prose table {
-            width: 100%;
-            margin-top: 1.5em;
-            margin-bottom: 1.5em;
-            border-collapse: collapse;
-        }
-        .prose th, .prose td {
-            border: 1px solid #d1d5db;
-            padding: 0.75rem 1rem;
-            text-align: left;
-        }
-        .prose th {
-            background-color: #f3f4f6;
-            font-weight: 600;
-        }
-        .answer-reveal {
-            display: none;
-            background-color: #f9fafb;
-            border-left: 4px solid #6366f1;
-            padding: 1rem;
-            margin-top: 1rem;
-            border-radius: 0.25rem;
-        }
+        body { font-family: 'Inter', sans-serif; }
+       
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4f46e5; }
+        /* Sidebar Links */
+        .sidebar-link { transition: all 0.2s ease-in-out; border-left: 4px solid transparent; }
+        .sidebar-link:hover { background-color: #1f2937; border-left-color: #818cf8; }
+        .sidebar-link.active { background-color: #374151; color: white; border-left-color: #6366f1; }
+       
+        /* Quiz Styling */
+        .quiz-option { transition: all 0.2s; }
+        .quiz-option:hover { border-color: #6366f1; background-color: #eef2ff; }
+        .quiz-option.selected { background-color: #4f46e5; color: white; border-color: #4338ca; }
+       
+        /* Typography for Content */
+        .prose h2 { color: #3730a3; font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 1rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; }
+        .prose h3 { color: #4f46e5; font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        .prose h4 { color: #4b5563; font-size: 1.1rem; font-weight: 600; margin-top: 1.25rem; }
+        .prose p { margin-bottom: 1rem; line-height: 1.6; color: #374151; }
+        .prose ul, .prose ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+        .prose ul { list-style-type: disc; }
+        .prose ol { list-style-type: decimal; }
+        .prose li { margin-bottom: 0.5rem; color: #374151; }
+        .prose pre { background: #1f2937; color: #e5e7eb; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; font-size: 0.9rem; margin-bottom: 1.5rem; white-space: pre-wrap; word-break: break-word; }
+        .prose code { font-family: monospace; background-color: #f3f4f6; padding: 0.1rem 0.3rem; border-radius: 0.25rem; color: #dc2626; }
+        .prose table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.95rem; }
+        .prose th { background-color: #f3f4f6; text-align: left; padding: 0.75rem; border: 1px solid #d1d5db; color: #1f2937; }
+        .prose td { padding: 0.75rem; border: 1px solid #d1d5db; color: #4b5563; }
+        .answer-reveal { display: none; background-color: #f0fdf4; border-left: 4px solid #22c55e; padding: 1rem; margin-top: 1rem; border-radius: 0.25rem; animation: fadeIn 0.3s ease-in; overflow: auto; max-height: 400px; }
+       
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Mobile Sidebar Transition */
+        .sidebar-mobile { transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
+        .sidebar-mobile.open { transform: translateX(0); }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
-
-    <div class="flex h-screen">
-        <!-- Sidebar -->
-        <aside class="w-64 bg-gray-800 text-white p-6 fixed h-full shadow-lg overflow-y-auto">
-            <h1 class="text-2xl font-bold mb-8 text-indigo-400">Big Data Prep</h1>
-            <nav id="navigation">
-                <!-- Navigation links will be inserted here by JavaScript -->
-            </nav>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="ml-64 flex-1 p-8 overflow-y-auto" id="main-content">
-            <div id="content-area">
-                <!-- Content will be dynamically loaded here -->
-            </div>
-        </main>
+<body class="bg-gray-100 text-gray-800 h-screen flex overflow-hidden">
+    <div class="md:hidden fixed w-full bg-gray-900 text-white z-50 flex justify-between items-center p-4 shadow-md">
+        <span class="font-bold text-xl"><i class="fas fa-database mr-2"></i>Big Data Prep</span>
+        <button id="mobile-menu-btn" class="text-white focus:outline-none">
+            <i class="fas fa-bars text-2xl"></i>
+        </button>
     </div>
-
+<aside id="sidebar" class="sidebar-mobile md:translate-x-0 fixed md:relative z-40 w-72 bg-gray-900 text-gray-300 h-full flex flex-col shadow-2xl pt-16 md:pt-0">
+        <div class="p-6 border-b border-gray-800 hidden md:block">
+            <h1 class="text-2xl font-bold text-white tracking-wide"><i class="fas fa-database mr-2 text-indigo-500"></i>Big Data Prep</h1>
+        </div>
+        <nav id="navigation" class="flex-1 overflow-y-auto p-4 space-y-1">
+            </nav>
+        <div class="p-4 border-t border-gray-800 text-xs text-center text-gray-600">
+            IM 6673 Fall 2025
+        </div>
+    </aside>
+    <div id="overlay" class="fixed inset-0 bg-black opacity-50 z-30 hidden md:hidden"></div>
+    <main class="flex-1 h-full overflow-y-auto w-full pt-16 md:pt-0 scroll-smooth bg-gray-50" id="main-content">
+        <div id="content-area" class="max-w-5xl mx-auto p-6 md:p-10">
+            </div>
+    </main>
     <script>
-        const apiKey = ""; 
-
+        const apiKey = "AIzaSyCQs0guVzFi67Bf5syQqQCPu9kJKo3g108";
         const appData = {
             chapters: [
                 {
@@ -135,14 +79,13 @@
                         <div class="prose max-w-none">
                         <h2>Introduction</h2>
                         <p>Big Data refers to a collection of data characterized by its massive volume, which grows exponentially over time. Its size and complexity exceed the capabilities of traditional data management tools. The exponential growth is driven by several factors:</p>
-                        
-
+                       
                         <h2>The Characteristics of Big Data (The 5 Vs)</h2>
-                        
+                       
                         <h3>Volume (Size)</h3>
                         <p>Refers to the massive size of data, ranging from terabytes (TB) to petabytes (PB), zettabytes (ZB), and beyond. The total amount of data created globally is projected to exceed 180 ZB by 2025.</p>
                         <p><strong>Challenges:</strong> The immense size presents challenges for Storage (necessitating distributed file systems like HDFS), Access, and Processing (requiring distributed computing like MapReduce/Spark).</p>
-                        
+                       
                         <h3>Variety (Complexity)</h3>
                         <p>Refers to the heterogeneity of data formats:</p>
                         <ol>
@@ -150,23 +93,21 @@
                             <li><strong>Semi-Structured Data:</strong> Does not conform to a rigid structure but contains tags or markers to separate data elements (e.g., XML, JSON, log files).</li>
                             <li><strong>Unstructured Data:</strong> Lacks a predefined format, making it challenging to analyze with traditional methods (e.g., emails, videos, images, free-form text). This makes up the majority of generated data.</li>
                         </ol>
-
                         <h3>Velocity (Speed)</h3>
                         <p>Refers to the increasing speed at which data is generated and the speed at which it needs to be processed.</p>
                         <ul>
                             <li><strong>Real-Time Processing:</strong> Instantly captures streaming data and processes it immediately to enable quick actions (e.g., fraud detection, live healthcare monitoring).</li>
                             <li><strong>Batch Processing:</strong> Data is collected, cleaned, and processed later in chunks, which is slower and can lead to missed opportunities for time-sensitive decisions.</li>
                         </ul>
-
                         <h3>Veracity (Quality)</h3>
                         <p>Refers to the quality, accuracy, reliability, and trustworthiness of the data. Big Data is often noisy, inconsistent, and uncertain.</p>
                         <p><strong>Uncertainty Sources:</strong> Unstructured nature of social media, high velocity leaving little time for traditional ETL (Extract, Transform, Load) quality checks, and sheer volume.</p>
                         <p><strong>Example:</strong> The Google Flu Trends overestimation in 2013 demonstrated the danger of relying solely on uncertain big data without proper context and quality assurance. Data Provenance (tracking data history and transformation) is crucial.</p>
-                        
+                       
                         <h3>Value (Insight)</h3>
                         <p>The ultimate goal of processing Big Data is to extract meaningful insights that support data-driven decision-making. Without analysis, the data has little to no commercial value.</p>
-                        
                        
+                      
                         </div>
                     `,
                     quiz: {
@@ -199,10 +140,9 @@
                             <li>Cleaned data is moved into a Data Warehouse (optimized for querying and reporting).</li>
                             <li>Users run ad-hoc queries against the Data Warehouse for insights.</li>
                         </ol>
-
                         <h2>Cluster Computing</h2>
                         <p>A cluster is a distributed system where multiple stand-alone computers, connected via a Local Area Network (LAN), work together as a single, highly available virtual machine under one administrative domain.</p>
-                        
+                       
                         <h3>Cluster Benefits</h3>
                         <p>The use of clusters provides critical benefits for Big Data systems:</p>
                         <ul>
@@ -211,23 +151,20 @@
                             <li><strong>Fault Tolerance:</strong> Automatic failover mechanisms transfer work from a failed node to a healthy one (no human intervention needed).</li>
                             <li><strong>Cost-Effective:</strong> Utilizes commodity hardware instead of expensive supercomputers.</li>
                         </ul>
-
                         <h3>Types and Structure of Clusters</h3>
                         <ol>
                             <li><strong>High Availability Clusters:</strong> Designed to minimize downtime. Nodes require access to shared storage, enabling a failed node's service to automatically failover to an active node.</li>
                             <li><strong>Load Balancing Clusters:</strong> Designed to share the computational workload among nodes to optimize performance, maximize throughput, and prevent any single node from being overloaded.</li>
                         </ol>
-
-                        
+                       
                         <h4>Cluster Structure (Symmetry)</h4>
                         <ul>
                             <li><strong>Symmetric Clusters (Active-Active):</strong> All nodes are active, run applications, and share the workload. No node is purely passive.</li>
                             <li><strong>Asymmetric Clusters (Active-Passive):</strong> Some nodes are active, while others are designated as "hot standby" (passive) and only take over if an active node fails.</li>
                         </ul>
-
                         <h2>Data Distribution Models</h2>
                         <p>To handle massive datasets across clusters, data must be distributed efficiently.</p>
-                        
+                       
                         <h3>Replication</h3>
                         <p>Replication is placing the same set of data (a replica or copy) across multiple nodes.
                         <strong>Advantages:</strong> Provides fault tolerance (data is not lost when a node crashes) and increases data availability.</p>
@@ -235,26 +172,21 @@
                             <li><strong>Master-Slave Model:</strong> Writes occur only on the Master node and are replicated to Slave nodes. Reads are handled by the Slaves. This is efficient for intensive read requests.</li>
                             <li><strong>Peer-to-Peer Model:</strong> All nodes are equal, sharing the same responsibility. Communication is decentralized, and the model supports scalability for both reads and writes.</li>
                         </ul>
-                        
+                       
                         <h3>Sharding</h3>
                         <p>Sharding is partitioning a very large dataset into smaller, easily manageable chunks called shards, and placing these different sets of data on different nodes.
                         <strong>Advantages:</strong> Increases horizontal scalability (by adding new nodes/shards), improves performance (queries run on smaller subsets), and enhances fault tolerance (failure of one node only affects its shard, not the entire dataset).</p>
-
                         <h3>Sharding and Replication</h3>
                         <p>These models are often combined to achieve maximum system reliability. The dataset is first split into shards, and then each shard is replicated across multiple nodes, ensuring the data is both distributed and redundant.</p>
-
                         <h2>Distributed File System (DFS)</h2>
                         <p>A Distributed File System stores files across multiple cluster nodes while appearing as a single, local file system to the client. This allows simultaneous file access by multiple clients and manages data replication to prevent version conflicts. The most prominent example in Big Data is the Hadoop Distributed File System (HDFS).</p>
-
                         <h2>Scaling Up and Scaling Out Storage</h2>
                         <p>Scalability is the system's ability to meet increasing demand. Storage platforms scale in two primary ways:</p>
                         <ul>
                             <li><strong>Scaling Up (Vertical Scalability):</strong> Adding more resources (CPU, RAM, storage) to the existing single server. This has physical and cost limitations.</li>
                             <li><strong>Scaling Out (Horizontal Scalability):</strong> Adding new, low-cost servers or components to the cluster. This is the preferred method for Big Data systems due to its high scalability and cost-effectiveness.</li>
                         </ul>
-
-                       
-
+                      
                         </div>
                     `,
                     quiz: {
@@ -281,8 +213,8 @@
                         <h2>Why Hadoop? Overcoming the Disk Latency Bottleneck</h2>
                         <p>Despite rapid improvements in CPU speed, RAM memory, and disk capacity over the years, the Disk Latency (the speed of reads and writes) has not improved significantly. This creates a bottleneck when dealing with terabyte and petabyte-scale data on a single machine.</p>
                         <p>Hadoop solves this problem through parallelism and scaling-out (horizontal scaling). By distributing a large dataset across hundreds of disks on different machines, data can be retrieved in parallel, eliminating the bottleneck. For example, reading 1TB of data across 1000 disks takes only about 12 seconds, compared to 3.4 hours on a single disk. Hadoop's core philosophy is to move the computation to the data, not the data to the computation.</p>
-                        
                        
+                      
                         <h2>What is Hadoop?</h2>
                         <p>Apache Hadoop is an open-source framework written in Java for distributed computing and large-scale data processing.</p>
                         <ul>
@@ -290,10 +222,9 @@
                             <li><strong>Hardware:</strong> Runs on clusters of commodity hardware (low-cost, standard servers), making it highly cost-effective and scalable.</li>
                             <li><strong>Access Pattern:</strong> Provides a streaming access pattern (large sequential reads/writes, no random access) and operates on a write-once, read-many model (files cannot be modified once closed, though appending data is possible).</li>
                         </ul>
-                        
+                       
                         <h2>Hadoop Core Components</h2>
                         <p>Hadoop consists of three key components:</p>
-
                         <h3>Hadoop Distributed File System (HDFS)</h3>
                         <p><strong>Function:</strong> Provides distributed storage for large datasets across the cluster.</p>
                         <p><strong>Architecture:</strong> Follows a Master/Slave model.</p>
@@ -304,26 +235,21 @@
                         <p><strong>Block Size:</strong> Files are split into large blocks (default 128MB or 256MB) which are replicated (default: 3 copies) across different DataNodes for fault tolerance.</p>
                         <p><strong>NameNode Limitations:</strong> It is a Single Point of Failure (SPOF) in older Hadoop versions. Since metadata is stored in memory, it is not suitable for storing a large number of small files.</p>
                         <p><strong>High Availability (HA):</strong> Hadoop 2 introduced an Active NameNode and a Standby NameNode architecture. The Standby is kept synchronized via Journal Nodes (which store edit logs) and can automatically take over if the Active node fails, eliminating SPOF.</p>
-
                         <h3>MapReduce</h3>
                         <p><strong>Function:</strong> The batch-processing programming model for computation.</p>
                         <p><strong>Key Principle - Data Locality:</strong> Computation is moved to the data, meaning code is executed on the nodes where the data resides. This minimizes network congestion and significantly improves throughput.</p>
-
                         <h3>YARN (Yet Another Resource Negotiator)</h3>
                         <p><strong>Function:</strong> Introduced in Hadoop 2.0 as the cluster resource management and job scheduling framework.</p>
                         <p><strong>Role:</strong> Separated resource management from data processing, allowing MapReduce to focus only on computation. YARN enables Hadoop to run non-MapReduce frameworks (like Spark and Hive) on the same cluster.</p>
-                        
+                       
                         <h2>Rack Awareness</h2>
-
-                     
-
+                    
                         <h3>Rack Awareness</h3>
                         <p>This strategy determines how replicas are placed across physical racks in a data center to protect against failure at the node or rack level.</p>
                         <ul>
                             <li><strong>Default HDFS Policy (Fault Tolerance & Performance):</strong> For 3 replicas, the first replica is local to the client, the second is on a node in a different rack, and the third is on a different node within the second rack. This balances redundancy (two racks) with write performance (low latency for two nodes on the same rack).</li>
                             <li><strong>Rack-Fault-Tolerant Policy (Robust Fault Tolerance):</strong> Places all three replicas on three different racks. This provides the maximum protection against rack failures but increases network overhead.</li>
                         </ul>
-
                         <h2>The Hadoop Ecosystem</h2>
                         <p>The Hadoop Ecosystem is a layered collection of tools that rely on HDFS and YARN.</p>
                         <ul>
@@ -365,7 +291,7 @@
                         <div class="prose max-w-none">
                         <h2>MapReduce: The Divide-and-Conquer Model</h2>
                         <p>MapReduce is the original batch-processing programming model for Hadoop, designed to process massive datasets by adopting a divide-and-conquer principle. The complexity of parallelization, scheduling, fault tolerance, and inter-machine communication is handled entirely by the framework, leaving the programmer to define only the core logic.</p>
-                        
+                       
                         <h3>MapReduce Workflow</h3>
                         <p>The workflow is distributed across five main phases:</p>
                         <ol>
@@ -376,21 +302,18 @@
                             <li><strong>Write Output:</strong> The final results are written back to HDFS, typically with each Reducer task producing one output file.</li>
                         </ol>
                         <p>The system favors having many small Map tasks (where M >> number of nodes) to improve load balancing and ensure faster recovery from failures.</p>
-
                         <h3>Workflow Refinements</h3>
                         <h4>Combiner (Optional)</h4>
                         <p>An optional mini-reduce function that runs locally on the Map worker node, after the Map phase but before the Shuffle. Its purpose is solely performance optimization: it performs local aggregation to drastically reduce the amount of intermediate data transferred over the network. It can only be used if the Reduce function is commutative and associative (e.g., sum, count), but not for operations like median or average.</p>
-                        
+                       
                         <h4>Partitioner (Optional)</h4>
                         <p>Decides which Reducer a key-value pair should go to. The default behavior uses <code>hash(key) (mod R)</code> (where R is the number of reducers) to ensure all values for the same key reach the same Reducer. Custom Partitioners are often created to override this default to prevent data skew and distribute the workload uniformly.</p>
-
                         <h3>Fault Tolerance (Coordination: Master)</h3>
                         <p>The Master node (JobTracker in MRv1) handles coordination, scheduling, and fault detection via heartbeats.</p>
                         <ul>
                             <li><strong>Map Worker Failure:</strong> If a Map worker fails, its completed and in-progress tasks are lost and must be reset to idle. This is because intermediate map output is stored locally on the worker node, not in HDFS.</li>
                             <li><strong>Reduce Worker Failure:</strong> Only in-progress Reduce tasks are restarted, because completed Reduce tasks have their final output already stored reliably in HDFS.</li>
                         </ul>
-
                         <h2>MapReduce v1 (MRv1): Architecture and Limitations</h2>
                         <p>The original Hadoop 1.2 architecture relied on two master/worker components:</p>
                         <ul>
@@ -403,10 +326,9 @@
                             <li><strong>Resource Underutilization:</strong> TaskTrackers allocated fixed Map slots and Reduce slots. A Map slot could not run a Reduce task, and vice versa. This static allocation led to idle resources and poor utilization, especially when workloads were unbalanced.</li>
                             <li><strong>Limited Workload Flexibility:</strong> MRv1 could only run MapReduce batch programs and could not support other emerging computing paradigms like Machine Learning, Graph algorithms, or real-time streaming analytics.</li>
                         </ol>
-                        
+                       
                         <h2>Yet Another Resource Negotiator (YARN)</h2>
                         <p>YARN was introduced in Hadoop 2.0 to overcome the limitations of MRv1 by implementing a new resource management layer that is scalable, flexible, and fault-tolerant.</p>
-
                         <h3>YARN Architecture</h3>
                         <p>YARN fundamentally separated the JobTracker's monolithic responsibilities into specialized components:</p>
                         <ul>
@@ -415,7 +337,6 @@
                            <li><strong>NodeManager (NM) (Worker Agent):</strong> Runs on every worker node, replacing the TaskTracker. Its job is local resource management: starting/stopping Containers, monitoring resource usage, and reporting node health to the RM.</li>
                            <li><strong>Container (Resource Bundle):</strong> Replaces the fixed slot model. A Container is a dynamic bundle of allocated resources (CPU, memory, etc.) that can run any type of application task (Map, Reduce, Spark Executor, etc.), greatly improving resource utilization and flexibility.</li>
                         </ul>
-
                         <h3>YARN Failure Handling</h3>
                         <p>YARN significantly improved fault tolerance:</p>
                         <ul>
@@ -423,24 +344,20 @@
                             <li><strong>AM Failure:</strong> The RM detects the failure and restarts the AM in a new container. The new AM then recovers the state of the running job.</li>
                             <li><strong>NM Failure:</strong> The RM detects the NodeManager failure and informs the relevant AMs. The AMs then reschedule the lost tasks on containers provided by other healthy NodeManagers.</li>
                         </ul>
-
                         <h2>MapReduce Pseudocode Examples</h2>
                         <p>The MapReduce framework is versatile and can be used to solve many different big data problems. The following three examples illustrate common patterns:</p>
-
                         <h4>1. Word Counting</h4>
                         <p>The goal is to count the total occurrences of every unique word in a collection of documents. This is the classic MapReduce example.</p>
                         <pre><code>MAP(key, value):
   // key: DocID/ByteOffset, value: Text of the document
   for each word w in value:
     emit(w, 1)
-
 REDUCE (key, values):
   // key: word, values: list of 1s (e.g., [1, 1, 1, ...])
   result = sum(values)
   emit (key, result)
   // Final Output: &lt;word, total_count&gt;
 </code></pre>
-
                         <h4>2. Distributed Grep</h4>
                         <p>The goal is to search for lines matching a specific pattern across many documents. This example shows how the Reducer can simply pass through data, or group data that doesn't need aggregation.</p>
                         <pre><code>MAP(key, value):
@@ -449,36 +366,31 @@ REDUCE (key, values):
     emit("", value)
     // Emitting an empty key ("") ensures all matching lines go
     // to a single Reducer (or are spread if R>1 and partitioner allows).
-
 REDUCE (key, values):
   // key: always "", values: list of matching lines
   for each line in values:
     emit("", line)
   // The Reducer simply concatenates the lines to the output file(s).
 </code></pre>
-
                         <h4>3. URL Access Frequency (Two-Run Job)</h4>
                         <p>The goal is to calculate the access frequency for each unique URL (URLfreq = count(URL) / Total URL accesses (global)), based on web logs. This task requires two sequential MapReduce runs because the global total is needed for normalization.</p>
-                        
+                       
                         <h5>Run 1: Count Total Global Accesses</h5>
                         <pre><code>MAP_RUN_1(key, value):
   // key: ByteOffset, value: Log Line
   emit("Total_Accesses", 1) // Fixed key sends all counts to one Reducer
-
 REDUCE_RUN_1(key, values):
   // key: "Total_Accesses", values: list of 1s
   GlobalCount = sum(values)
   emit (key, GlobalCount)
   // Final Output of Run 1: &lt;"Total_Accesses", GlobalCount&gt;
 </code></pre>
-
                         <h5>Run 2: Calculate Per-URL Count and Frequency</h5>
                         <p>The global count from Run 1 is assumed to be available as a side input.</p>
                         <pre><code>MAP_RUN_2(key, value):
   // key: ByteOffset, value: Log Line (extract URL)
   URL = extract_url(value)
   emit (URL, 1)
-
 REDUCE_RUN_2(key, values):
   // key: URL, values: list of counts
   URL_Count = sum(values)
@@ -488,28 +400,27 @@ REDUCE_RUN_2(key, values):
   emit(key, Frequency)
   // Final Output: &lt;URL, Frequency&gt;
 </code></pre>
-
                         </div>
                     `,
-                          quiz: {
-        mcq: [
-            { q: "What is the primary output of the Map function in a MapReduce job?", options: ["A single aggregated value", "Intermediate key-value pairs", "Sorted and shuffled data", "Final output files"], a: "Intermediate key-value pairs" },
-            { q: "Which phase in MapReduce aggregates values associated with the same intermediate key?", options: ["Map", "Shuffle", "Sort", "Reduce"], a: "Reduce" },
-            
-            { q: "What is the purpose of a Combiner in MapReduce?", options: ["To perform local aggregation on Mapper output before sending to Reducers", "To sort the final output", "To handle data partitioning", "To execute the Reduce function"], a: "To perform local aggregation on Mapper output before sending to Reducers" },
-            { q: "MapReduce programming model is primarily inspired by which concepts from functional programming?", options: ["Filter and Sort", "Map and Reduce (Fold)", "Join and Group", "Split and Merge"], a: "Map and Reduce (Fold)" }
-        ],
-        fillIn: [
-            { q: "The process of distributing intermediate key-value pairs to appropriate reducers in MapReduce is known as ________.", a: "Shuffle" },
-            { q: "The open-source framework that implements the MapReduce model is ________.", a: "Hadoop" },
-            { q: "In MapReduce, the input to the Reduce function consists of a key and an iterable list of ________.", a: "values" },
-            { q: "MapReduce enables ________ processing of large datasets across a cluster of computers.", a: "parallel" },
-            { q: "An inverted index in information retrieval maps each ________ to the list of documents it appears in.", a: "word" }
-        ],
-        mapReduce: [
-            {
-                prompt: "Build an Inverted Index: For each word in a collection of documents, create a list of unique document IDs where the word appears. Define the Map and Reduce logic.",
-                answer: `
+                    quiz: {
+                        mcq: [
+                            { q: "What is the primary output of the Map function in a MapReduce job?", options: ["A single aggregated value", "Intermediate key-value pairs", "Sorted and shuffled data", "Final output files"], a: "Intermediate key-value pairs" },
+                            { q: "Which phase in MapReduce aggregates values associated with the same intermediate key?", options: ["Map", "Shuffle", "Sort", "Reduce"], a: "Reduce" },
+           
+                            { q: "What is the purpose of a Combiner in MapReduce?", options: ["To perform local aggregation on Mapper output before sending to Reducers", "To sort the final output", "To handle data partitioning", "To execute the Reduce function"], a: "To perform local aggregation on Mapper output before sending to Reducers" },
+                            { q: "MapReduce programming model is primarily inspired by which concepts from functional programming?", options: ["Filter and Sort", "Map and Reduce (Fold)", "Join and Group", "Split and Merge"], a: "Map and Reduce (Fold)" }
+                        ],
+                        fillIn: [
+                            { q: "The process of distributing intermediate key-value pairs to appropriate reducers in MapReduce is known as ________.", a: "Shuffle" },
+                            { q: "The open-source framework that implements the MapReduce model is ________.", a: "Hadoop" },
+                            { q: "In MapReduce, the input to the Reduce function consists of a key and an iterable list of ________.", a: "values" },
+                            { q: "MapReduce enables ________ processing of large datasets across a cluster of computers.", a: "parallel" },
+                            { q: "An inverted index in information retrieval maps each ________ to the list of documents it appears in.", a: "word" }
+                        ],
+                        openEnded: [
+                            {
+                                prompt: "Build an Inverted Index: For each word in a collection of documents, create a list of unique document IDs where the word appears. Define the Map and Reduce logic.",
+                                answer: `
                     <strong>Map Function Pseudocode:</strong><br>
                     <pre><code>
 map(key: docID, value: content) {
@@ -524,10 +435,10 @@ reduce(key: word, values: list[docIDs]) {
 }
                     </code></pre>
                 `
-            },
-            {
-                prompt: "Compute Term Frequency (TF): Calculate TF(w,d) = (count of word w in doc d) / (total words in doc d). This is a two-run job. Define the logic for both runs.",
-                answer: `
+                            },
+                            {
+                                prompt: "Compute Term Frequency (TF): Calculate TF(w,d) = (count of word w in doc d) / (total words in doc d). This is a two-run job. Define the logic for both runs.",
+                                answer: `
                     <strong>Run 1 — Word Count per Document</strong><br>
                     Input: (docID, line)<br>
                     Output: ((word, docID), count)<br><br>
@@ -563,10 +474,10 @@ reduce(key: docID, values: [(word, count), ...]) {
 }
                     </code></pre>
                 `
-            }
-        ]
-    }
-},
+                            }
+                        ]
+                    }
+                },
                 {
                     title: "Chapter 5: Apache Hive",
                     summary: `
@@ -574,7 +485,6 @@ reduce(key: docID, values: [(word, count), ...]) {
                         <h2>Introduction to Apache Hive</h2>
                         <p>Apache Hive is a data warehouse infrastructure built on top of Hadoop, designed to provide a familiar SQL-like interface (HiveQL or HQL) for querying and managing massive datasets stored in HDFS (or cloud storage like Amazon S3). Created by Facebook, Hive allows analysts familiar with Structured Query Language (SQL) to leverage the power of distributed computing without writing complex Java MapReduce programs.</p>
                         <p>Hive operates on a principle of <strong>schema-on-read</strong>, meaning the schema is applied when the data is read (at query time), rather than when the data is written (schema-on-write, typical of RDBMS). Hive is primarily optimized for batch analytics and Online Analytical Processing (OLAP), not high-frequency Online Transaction Processing (OLTP).</p>
-
                         <h3>Hive Main Components</h3>
                         <p>Hive's architecture is composed of four main elements:</p>
                         <ol>
@@ -583,9 +493,7 @@ reduce(key: docID, values: [(word, count), ...]) {
                             <li><strong>Execution Engine:</strong> Converts HiveQL queries into execution jobs, primarily MapReduce, but modern Hive utilizes faster engines like Tez and Spark.</li>
                             <li><strong>Storage Layer:</strong> Uses Hadoop HDFS by default, but also supports cloud storage like Amazon S3.</li>
                         </ol>
-
                         <h2>HIVEQL: Comparison and Data Types</h2>
-
                         <h3>Comparison of SQL and HIVEQL</h3>
                         <p>HiveQL is not a full replacement for traditional SQL databases. The table below highlights key differences and similarities.</p>
                         <table>
@@ -602,9 +510,9 @@ reduce(key: docID, values: [(word, count), ...]) {
                                 <tr><td>Views</td><td>Updatable / non-materialized.</td><td>Views are read-only; materialized views supported.</td></tr>
                             </tbody>
                         </table>
-                        
-                      
-                        
+                       
+                     
+                       
                         <h2>Data Models and Definition Language (DDL)</h2>
                         <h3>Data Models: Tables, Partitions, and Buckets</h3>
                         <ul>
@@ -617,13 +525,12 @@ reduce(key: docID, values: [(word, count), ...]) {
                             <li><strong>Partitions:</strong> Subsets of data based on column values (e.g., date), stored as separate HDFS directories to improve query performance via data skipping.</li>
                             <li><strong>Buckets (Clustering):</strong> Divides data within each table or partition into fixed-size files based on the hash value of a column (CLUSTERED BY). Enables efficient joins and sampling.</li>
                         </ul>
-                        
+                       
                         <h3>HIVEQL Data Definition Language (DDL) Commands</h3>
                         <h4>CREATE and DROP Database</h4>
                         <pre><code>CREATE DATABASE [IF NOT EXISTS] db_name [LOCATION 'path'];
 DROP DATABASE [IF EXISTS] db_name [CASCADE];
                         </code></pre>
-
                         <h4>CREATE, DROP, and TRUNCATE Table</h4>
                         <p><strong>Example (Transactional Table):</strong></p>
                         <pre><code>CREATE TABLE employee_txn (
@@ -645,7 +552,7 @@ TBLPROPERTIES ('transactional'='true');</code></pre>
 [TBLPROPERTIES ('property_name'='value', ...)];</code></pre>
                         <p><strong>DROP:</strong> For Managed Tables, deletes metadata and data. For External Tables, deletes only metadata.</p>
                         <p><strong>TRUNCATE:</strong> Deletes data but keeps the table definition (schema). Fails on External Tables because Hive does not own the data.</p>
-                        
+                       
                         <h4>Storage Formats</h4>
                         <p>Hive supports various formats, with columnar formats being the standard for performance:</p>
                         <ol>
@@ -654,22 +561,22 @@ TBLPROPERTIES ('transactional'='true');</code></pre>
                             <li><strong>ORC (Optimized Row Columnar):</strong> Columnar, compressed, optimized format created specifically for Hive. Best for Hive-only workloads.</li>
                             <li><strong>PARQUET (Columnar, open-standard):</strong> Columnar format used by many systems (Spark, Impala). Best for heterogeneous data lake environments.</li>
                         </ol>
-                        
+                       
                         <h2>HIVEQL Data Manipulation and Query Language (DML/DQL)</h2>
                         <h3>DML Commands</h3>
-                        
+                       
                         <h4>LOAD DATA</h4>
                         <p>Used to quickly move or copy data files into a Hive table's storage location. It is fast because it does not parse or transform the data.</p>
                         <pre><code>LOAD DATA [LOCAL] INPATH 'filepath'
 [OVERWRITE] INTO TABLE table_name
 [PARTITION (col1=value1, ...)];</code></pre>
-                        
+                       
                         <h4>INSERT INTO / OVERWRITE</h4>
                         <p>Used to insert data based on the results of a SELECT query. It allows for transformation (unlike LOAD DATA).</p>
                         <pre><code>INSERT INTO | OVERWRITE TABLE table_name
 [PARTITION (col1=val1, ...)]
 SELECT ... FROM another_table...;</code></pre>
-                        
+                       
                         <h4>CTAS (Create Table As Select)</h4>
                         <p>CTAS combines CREATE TABLE and INSERT INTO in one atomic operation, primarily used for data cleaning, type conversion, and changing storage formats.</p>
                         <p><strong>Example (Cleaning and Format Conversion):</strong> This example cleans raw data stored as TEXTFILE (where data types are strings) and loads it into a clean table stored as ORC with correct types.</p>
@@ -681,7 +588,7 @@ SELECT
   TRIM(name) AS name, -- Removes surrounding whitespace
   CAST(salary AS FLOAT) AS salary
 FROM employee_raw;</code></pre>
-                        
+                       
                         <h4>Multi-Insert (Hive-Specific Feature)</h4>
                         <p>Allows running multiple INSERT statements from a single source SELECT query. This is a major optimization, as the source table is scanned only once.</p>
                         <p><strong>Example (Single Scan to Three Destinations):</strong></p>
@@ -692,17 +599,16 @@ INSERT INTO TABLE big_sales
   SELECT year, amount WHERE amount > 1000
 INSERT INTO TABLE sales_count
   SELECT year, COUNT(*) GROUP BY year;</code></pre>
-                        
+                       
                         <h4>UPDATE and DELETE</h4>
                         <p>These commands allow row-level modification and deletion, and only work on transactional (ACID) tables.</p>
                         <pre><code>UPDATE table_name SET column = expression WHERE condition;
 DELETE FROM table_name WHERE condition;
-
 -- Example
 UPDATE employee SET salary = salary * 1.1 WHERE id = 5;
 DELETE FROM employee WHERE salary < 3000;
 </code></pre>
-                        
+                       
                         <h4>Merge (UPSERT Capability)</h4>
                         <p>MERGE combines UPDATE, INSERT, and DELETE logic into one statement, enabling UPSERT synchronization between a source and a target table. Requires transactional (ACID) tables.</p>
                         <p><strong>Example (Data Synchronization):</strong> Updates existing employee salaries, deletes terminated employees, and inserts new active employees, all in one query.</p>
@@ -712,7 +618,7 @@ ON T.id = S.id
 WHEN MATCHED AND S.status = 'terminated' THEN DELETE
 WHEN MATCHED AND S.status = 'active' THEN UPDATE SET T.salary = S.new_salary
 WHEN NOT MATCHED AND S.status = 'active' THEN INSERT VALUES (S.id, S.name, S.new_salary);</code></pre>
-                        
+                       
                         <h3>Data Retrieval and Joins (DQL)</h3>
                         <h4>SELECT Query Structure</h4>
                         <pre><code>SELECT [ALL | DISTINCT] select_expr, ...
@@ -722,17 +628,16 @@ FROM table_reference
 [HAVING having_condition]
 [ORDER BY col_list]
 [LIMIT number];</code></pre>
-
                         <h4>JOIN Types</h4>
                         <p>Hive supports all standard join types (INNER, LEFT, RIGHT, FULL, CROSS) plus special, optimized joins.</p>
-                        
+                       
                         <h4>Left Semi Join (DQL Feature)</h4>
                         <p>A specialized join used for filtering the left table based on the existence of matches in the right table. It returns only columns from the left table and ensures each row from the left table is returned at most once. It is an efficient replacement for the <code>WHERE IN (subquery)</code> pattern.</p>
                         <pre><code>SELECT c.customer_id, c.customer_name
 FROM customers c
 LEFT SEMI JOIN orders o
 ON c.customer_id = o.customer_id;</code></pre>
-                        
+                       
                         <h4>Subqueries</h4>
                         <p>Hive fully supports subqueries in the SELECT, WHERE, and FROM clauses. Subqueries in the FROM clause must be aliased.</p>
                         <pre><code>SELECT dept, avg_salary
@@ -759,11 +664,9 @@ WHERE avg_salary > 6000;</code></pre>
                             { q: "To perform UPDATE or DELETE operations, a Hive table must be ________.", a: "transactional" },
                             { q: "Dividing data within a partition into a fixed number of files based on a column's hash value is called ________.", a: "bucketing" }
                         ],
-                        hive: [
+                        openEnded: [
                             {
-                                scenario: "You have a raw, messy `logs_text` table stored as TEXTFILE. You need to create a new, cleaned `logs_orc` table that is stored in the efficient ORC format, with data types corrected and irrelevant columns removed.",
-                                part1: "What is the best HiveQL command for this task?",
-                                part2: "Write the command to achieve this.",
+                                prompt: "You have a raw, messy `logs_text` table stored as TEXTFILE. You need to create a new, cleaned `logs_orc` table that is stored in the efficient ORC format, with data types corrected and irrelevant columns removed. What is the best HiveQL command for this task? Write the command to achieve this.",
                                 answer: `
                                     <strong>Part 1 (Best Method):</strong> <strong>CTAS (Create Table As Select)</strong> is the best method because it allows you to transform data, change storage formats, and create the new table in a single, atomic operation.<br><br>
                                     <strong>Part 2 (Command):</strong>
@@ -779,9 +682,7 @@ WHERE level != 'DEBUG';</code></pre>
                                 `
                             },
                             {
-                                scenario: "You have a main `products` table and an `daily_updates` table. You need to synchronize them: update prices for existing products, insert new products, and delete products that are marked as 'discontinued' in the updates table.",
-                                part1: "What is the best HiveQL command for this task?",
-                                part2: "Write the command to achieve this.",
+                                prompt: "You have a main `products` table and an `daily_updates` table. You need to synchronize them: update prices for existing products, insert new products, and delete products that are marked as 'discontinued' in the updates table. What is the best HiveQL command for this task? Write the command to achieve this.",
                                 answer: `
                                     <strong>Part 1 (Best Method):</strong> <strong>MERGE</strong> is the only command that can handle updates, inserts, and deletes in a single statement, making it perfect for synchronization.<br><br>
                                     <strong>Part 2 (Command):</strong>
@@ -795,11 +696,252 @@ WHEN NOT MATCHED THEN INSERT VALUES (u.product_id, u.name, u.price);</code></pre
                             }
                         ]
                     }
+                },
+{
+                    title: "Chapter 7: Apache Spark Architecture and Execution",
+                    summary: `
+                        <div class="prose max-w-none">
+                        <h2>1. Introduction and Core Advantages of Spark</h2>
+                        <p><strong>Apache Spark</strong> is an open-source, distributed processing system designed for big data analytics. It supports general-purpose computation (batch, interactive, streaming, ML, graph) and provides simple APIs in multiple languages (Python, Scala, Java, R).</p>
+                       
+                        <h3>Spark vs. MapReduce: The Speed Advantage</h3>
+                        <p>Spark is significantly **faster** than MapReduce primarily because it utilizes **in-memory cluster computing**. This avoids writing **intermediate results to disk** (disk I/O) between processing steps, which was the main bottleneck of MapReduce. While MapReduce is a rigid two-stage process, Spark uses a **Directed Acyclic Graph (DAG)** to model and optimize multi-stage execution.</p>
+                        <h2>2. Spark Architecture: The Cluster Components</h2>
+                        <p>A Spark application runs as a set of independent processes on a cluster, coordinated by the **SparkSession** or **SparkContext**.</p>
+                        <ol>
+                            <li><strong>Driver Program (The Brain):</strong> Runs the user's main application. It contains the SparkSession, translates user code (Transformations/Actions) into a **DAG**, and schedules the work to the Executors.</li>
+                            <li><strong>Cluster Manager (e.g., YARN, Mesos):</strong> An external service responsible for acquiring physical resources (Worker Nodes/Containers) for the application.</li>
+                            <li><strong>Executors:</strong> Processes that run on worker nodes. They execute the **Tasks** assigned by the Driver and store the cached data.</li>
+                        </ol>
+                        <h2>3. Execution Model: Lazy Evaluation and Lineage</h2>
+                       
+                        <h3>Transformations (Lazy)</h3>
+                        <p>Operations that define the data processing logic (e.g., <code>map()</code>, <code>filter()</code>, <code>groupBy()</code>). Transformations are **lazy**—they do not execute immediately but instead build up a **Lineage Graph** (or DAG) of operations.</p>
+                       
+                        <p><strong>Lineage:</strong> The dependency graph that tracks how an RDD/DataFrame was derived from its parent(s). This is crucial for **Resilience**, as it allows Spark to recompute lost data partitions from the source data or intermediate checkpoints.</p>
+                        <h3>Actions (Eager)</h3>
+                        <p>Operations that trigger the immediate execution of the accumulated Lineage (DAG) (e.g., <code>count()</code>, <code>collect()</code>, <code>write()</code>).</p>
+                       
+                        <h3>Job, Stage, and Task Hierarchy</h3>
+                        <ul>
+                            <li><strong>Job:</strong> A computation triggered by a single **Action**.</li>
+                            <li><strong>Stage:</strong> A subset of a Job. Stages are separated by a **Shuffle Boundary**.</li>
+                            <li><strong>Task:</strong> The smallest unit of work. One task is launched for every **Data Partition** within a Stage.</li>
+                        </ul>
+                        <p><strong>Shuffle Boundary:</strong> A point in the execution where data must be physically moved and reorganized across the network (e.g., during a <code>join</code> or <code>groupByKey</code> operation). This network transfer is costly and defines the separation between execution Stages.</p>
+                       
+                        <h2>4. Catalyst Optimizer and Physical Plan</h2>
+                        <p>The **Catalyst Optimizer** is Spark's core mechanism for high performance when using DataFrames/Datasets. It converts user code into an optimal execution plan through four phases:</p>
+                        <ol>
+                            <li><strong>Analysis:</strong> Converts the user expression (Unresolved Logical Plan) into a Resolved Logical Plan by checking metadata (schema, column names).</li>
+                            <li><strong>Logical Optimization:</strong> Applies standard optimization rules (e.g., **Predicate Pushdown**—moving filters closer to the data source).</li>
+                            <li><strong>Physical Planning:</strong> Generates several potential physical plans and selects the cheapest one using a cost model (e.g., deciding which type of join to use).</li>
+                            <li><strong>Code Generation (Tungsten):</strong> The best physical plan is selected and compiled into highly optimized, low-level **Java bytecode** that runs on the executors.</li>
+                        </ol>
+                        <h2>5. Narrow vs. Wide Transformations</h2>
+                        <p>This classification determines the execution type and fault tolerance requirements.</p>
+                        <table class="prose">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Partition Dependency</th>
+                                    <th>Shuffle Required?</th>
+                                    <th>Fault Recovery</th>
+                                    <th>Examples</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Narrow</strong></td>
+                                    <td>One-to-One. Each input partition contributes to at most one output partition.</td>
+                                    <td><strong>No</strong></td>
+                                    <td>Only the lost parent partition needs re-computation (fast).</td>
+                                    <td><code>map()</code>, <code>filter()</code>, <code>union()</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Wide</strong></td>
+                                    <td>One-to-Many. Each input partition contributes data to many output partitions.</td>
+                                    <td><strong>Yes</strong> (Triggers a Shuffle)</td>
+                                    <td>Requires all parent partitions to be recomputed (slower).</td>
+                                    <td><code>groupByKey()</code>, <code>join()</code>, <code>repartition()</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                       
+                        <h2>6. Persistence and Fault Tolerance</h2>
+                        <p><strong>Persistence (Caching):</strong> Explicitly saving an intermediate RDD or DataFrame into memory or on disk (using <code>.cache()</code> or <code>.persist()</code>). This prevents recomputing the same data multiple times if it is used by several subsequent actions, significantly speeding up iterative algorithms (e.g., ML training).</p>
+                        <p><strong>Resilience:</strong> The ability to recover from node failures. This is achieved via **Lineage**. If an Executor fails, the Driver uses the Lineage graph to re-run the necessary transformations on the partitions that were lost, restoring the data.</p>
+                        </div>
+                    `,
+                    quiz: {
+                        mcq: [
+                            { q: "What triggers the execution of the Directed Acyclic Graph (DAG) in Spark?", options: ["A Transformation", "An Action", "Starting SparkSession", "Defining the Schema"], a: "An Action" },
+                            { q: "Which component in Spark is responsible for executing tasks and storing cached data?", options: ["Driver Program", "Cluster Manager", "Executor", "DAG Scheduler"], a: "Executor" },
+                            { q: "What is the primary function of the Spark Catalyst Optimizer?", options: ["Converting RDDs to DataFrames.", "Managing cluster resources (CPU/RAM).", "Converting logical plans to optimized physical execution plans.", "Handling data serialization for network transfer."], a: "Converting logical plans to optimized physical execution plans." },
+                            { q: "A transformation where each input partition contributes data to many output partitions is called a:", options: ["Narrow Transformation", "Local Transformation", "Wide Transformation", "Lineage Transformation"], a: "Wide Transformation" },
+                            { q: "What is the key advantage of using the RDD Lineage Graph?", options: ["Faster query parsing", "Eliminating the need for a Cluster Manager", "Ensuring resilience by allowing lost data partitions to be recomputed", "Defining the schema for unstructured data"], a: "Ensuring resilience by allowing lost data partitions to be recomputed" },
+                            { q: "Which phase of the Catalyst Optimizer involves moving filter operations closer to the data source (e.g., WHERE clause optimization)?", options: ["Analysis", "Logical Optimization", "Physical Planning", "Code Generation"], a: "Logical Optimization" }
+                        ],
+                        fillIn: [
+                            { q: "Spark is faster than MapReduce primarily because it uses ________ cluster computing.", a: "in-memory" },
+                            { q: "A ________ is an expensive operation that separates Stages and moves data across the network.", a: "Shuffle" },
+                            { q: "Saving an intermediate DataFrame using <code>.cache()</code> to avoid re-computation is known as ________.", a: "Persistence" },
+                            { q: "The Spark abstraction that suffers from Opaque Computation is the ________.", a: "RDD" },
+                            { q: "One task is launched for every ________ within a Stage.", a: "partition" }
+                        ],
+                        openEnded: [
+                            {
+                                prompt: "Explain the concepts of Lazy Evaluation and Lineage in Spark and how they enable resilience.",
+                                answer: "Lazy Evaluation means Spark does not execute transformations (like filter, map) until an Action is called. It instead builds a Directed Acyclic Graph (DAG) of all operations, known as the Lineage. This Lineage allows Spark to achieve resilience; if a worker node fails and loses its partition data, Spark can use the Lineage to re-run the necessary transformations from a reliable source (like HDFS) to automatically recompute the lost data, without manual intervention."
+                            },
+                            {
+                                prompt: "Describe the core difference between Narrow and Wide transformations, and provide one example of each.",
+                                answer: "Narrow Transformation: Each input partition contributes to at most one output partition (one-to-one or one-to-fixed). No data shuffle is required, making them fast and easy to recover. Example: map(), filter().\nWide Transformation: Each input partition contributes data to multiple output partitions. This requires a network-intensive data exchange called a Shuffle, which creates a Stage boundary and is slower to recover. Example: join(), groupByKey()."
+                            },
+                            {
+                                prompt: "Outline the role of the Catalyst Optimizer and name two of its key phases.",
+                                answer: "The Catalyst Optimizer is Spark's query optimization engine for DataFrames and Datasets. Its role is to take the user's logical execution plan and transform it into the most efficient physical execution plan possible. Key phases include:\n1. Analysis (Resolving columns/tables).\n2. Logical Optimization (Applying rules like predicate pushdown)."
+                            }
+                        ]
+                    }
+                },
+{
+                    title: "Chapter 8: Spark Data Abstractions (RDD, DataFrame, Dataset)",
+                    summary: `
+                        <div class="prose max-w-none">
+                        <h2>1. SparkSession: The Unified Entry Point</h2>
+                        <p>The **SparkSession** is the unified entry point for all Spark functionality, replacing the older **SparkContext** for modern data processing. It is the single API entry point to work with RDD, DataFrame, and Dataset features, including SQL and streaming. It handles setup, configuration, and is necessary before any data processing can begin.</p>
+                        <pre><code># PySpark Code Example: Creating a SparkSession
+from pyspark.sql import SparkSession
+spark = SparkSession.builder \\
+    .appName("DataAbstractionExample") \\
+    .config("spark.some.config.option", "some-value") \\
+    .getOrCreate()
+</code></pre>
+                        <h2>2. Resilient Distributed Datasets (RDD)</h2>
+                        <p>The **RDD** is the **most fundamental** and lowest-level data structure in Spark. It represents an immutable, partitioned collection of elements that can be processed in parallel across cluster nodes. It is used when fine-grained control over data partitioning and physical storage is required, or when working with unstructured data.</p>
+                       
+                        <h3>The RDD Limitation: Opaqueness</h3>
+                        <p>The primary drawback is **Opaque Computation** and **Opaque Data Type**. Because Spark cannot “see inside” the transformations (often custom Python/Scala functions), the **Catalyst Optimizer** cannot be applied, which leads to slower execution compared to structured APIs.</p>
+                        <pre><code># PySpark RDD Example
+data = [1, 5, 2, 8, 3]
+rdd = spark.sparkContext.parallelize(data)
+# Transformation: map is opaque. The lambda function is black box to Spark.
+result_rdd = rdd.map(lambda x: x * 10).filter(lambda x: x > 30)
+# Action: triggers computation
+print(result_rdd.collect())
+# Output: [50, 80]
+</code></pre>
+                        <h2>3. DataFrame: Structured and Optimized (Untyped)</h2>
+                        <p>The **DataFrame** abstraction represents data as a collection of named columns (similar to a relational table or Pandas DataFrame). It provides structure via a known **Schema**.</p>
+                        <ul>
+                            <li><strong>Optimization:</strong> The known schema allows DataFrames to leverage the **Catalyst Optimizer** for significant performance gains.</li>
+                            <li><strong>Untyped Nature:</strong> A DataFrame is essentially an **untyped** <code>Dataset[Row]</code>. Data type and structure errors are checked only at **runtime**.</li>
+                            <li><strong>Universal Access:</strong> Available in all supported languages (Scala, Java, **Python**, R).</li>
+                        </ul>
+                        <pre><code># PySpark DataFrame Example
+data = [("Alice", 100), ("Bob", 200)]
+df = spark.createDataFrame(data, ["Name", "Sales"])
+df.printSchema()
+# Optimized Transformation: Spark knows the 'Sales' column type and can optimize this filter.
+df.filter(df["Sales"] > 150).select("Name").show()
+# Output: +----+
+# |Name|
+# +----+
+# | Bob|
+# +----+
+</code></pre>
+                        <h2>4. Dataset: Typed, Structured, and Focused (Scala/Java)</h2>
+                        <p>The **Dataset** abstraction combines the type safety of RDDs with the performance of DataFrames. It is a **typed** collection of objects (e.g., <code>Dataset[Person]</code>).</p>
+                        <ul>
+                            <li><strong>Type Safety:</strong> Errors in the structure or data types are detected early at **compile time**, which is a massive benefit for refactoring large, stable applications.</li>
+                            <li><strong>Language Restriction:</strong> Only available in statically typed languages: **Scala** and **Java**. (Python and R are limited to DataFrames).</li>
+                        </ul>
+                        <h3>New Concept: Encoders (Serialization/Deserialization)</h3>
+                        <p>Datasets rely on **Encoders**—a mechanism that generates custom bytecode for highly efficient serialization (object to bytes) and deserialization (bytes to object). Encoders are responsible for converting your JVM objects (like a Scala case class) into Spark’s internal **Tungsten** format, which allows for fast memory and disk operations.</p>
+                       
+                        <h2>5. Performance Enhancement: Project Tungsten</h2>
+                        <p><strong>Project Tungsten</strong> is an umbrella project aimed at maximizing CPU and memory efficiency in Spark. It focuses on:</p>
+                        <ol>
+                            <li>**Off-Heap Memory Management:** Utilizing memory that is outside of the JVM's garbage collection, which reduces GC overhead.</li>
+                            <li>**Binary Processing (Tungsten Format):</strong> Spark operations work directly on serialized binary data (the Tungsten format), avoiding costly Java object creation and serialization/deserialization.</li>
+                            <li>**Whole-Stage Code Generation:** Generating single, highly optimized code functions for entire query stages, rather than running operations one-by-one.</li>
+                        </ol>
+                        <h2>6. Comparison Summary</h2>
+                        <table class="prose">
+                            <thead>
+                                <tr>
+                                    <th>Feature</th>
+                                    <th>RDD</th>
+                                    <th>DataFrame (Untyped)</th>
+                                    <th>Dataset (Typed)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Structure</strong></td>
+                                    <td>No schema (Opaque)</td>
+                                    <td>Schema known (Named Columns)</td>
+                                    <td>Schema known (Named Columns)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Optimization Engine</strong></td>
+                                    <td>None</td>
+                                    <td>**Catalyst Optimizer**</td>
+                                    <td>**Catalyst Optimizer**</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Type Safety Check</strong></td>
+                                    <td>Runtime (late)</td>
+                                    <td>Runtime (late)</td>
+                                    <td>**Compile Time (early)**</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Internal Format</strong></td>
+                                    <td>JVM/Python Objects</td>
+                                    <td>**Tungsten Binary**</td>
+                                    <td>**Tungsten Binary** (via Encoders)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    `,
+                    quiz: {
+                        mcq: [
+                            { q: "What is the name of the project that focuses on minimizing memory overhead and maximizing CPU efficiency in Spark by using off-heap memory and binary processing?", options: ["Project Apollo", "Project Tungsten", "Project Trident", "Project Falcon"], a: "Project Tungsten" },
+                            { q: "Which Spark abstraction provides compile-time type safety?", options: ["RDD", "DataFrame", "Row", "Dataset"], a: "Dataset" },
+                            { q: "What is the fundamental mechanism that generates bytecode to serialize and deserialize data efficiently in Datasets?", options: ["Lineage Graph", "Catalyst Optimizer", "Encoder", "Row Object"], a: "Encoder" },
+                            { q: "The lack of optimization in RDDs is primarily due to:", options: ["Slow network I/O", "Opaque Computation", "Poor Cluster Management", "Memory limits"], a: "Opaque Computation" },
+                            { q: "Which component acts as the unified entry point for all modern Spark functionality, including SQL and DataFrame APIs?", options: ["SparkContext", "SparkSession", "Driver Program", "Executor"], a: "SparkSession" }
+                        ],
+                        fillIn: [
+                            { q: "The DataFrame is essentially an untyped collection of ________ objects.", a: "Row" },
+                            { q: "Dataset is restricted to statically typed languages, primarily Scala and ________.", a: "Java" },
+                            { q: "The use of an optimized binary format for data processing is a key feature of the ________ project.", a: "Tungsten" },
+                            { q: "Errors in a DataFrame are typically detected at ________ time.", a: "runtime" },
+                            { q: "DataFrames and Datasets get their performance advantage by utilizing the ________ Optimizer.", a: "Catalyst" }
+                        ],
+                        openEnded: [
+                            {
+                                prompt: "Explain the role of the 'Encoder' in the Dataset API and how it contributes to Spark's performance gains.",
+                                answer: "The Encoder is a key component of the Dataset API. Its role is to efficiently translate between the user's domain-specific objects (e.g., a Scala case class) and Spark's internal highly-optimized binary format, known as the Tungsten format. It generates custom bytecode for this serialization (object-to-bytes) and deserialization (bytes-to-object) process. This process drastically reduces memory overhead, avoids JVM garbage collection issues (by using off-heap memory), and allows Spark to perform operations directly on the fast binary data, leading to massive performance gains."
+                            },
+                            {
+                                prompt: "Using the concepts of RDD Opaqueness and DataFrame Schema, describe why the exact same transformation logic (e.g., filtering on a condition) is significantly faster in a DataFrame than an RDD.",
+                                answer: "The RDD is based on Opaque Computation; Spark cannot see or optimize the transformation function, so it must execute the user's function one record at a time via a generic JVM process, which is slow. The DataFrame, however, has a defined Schema. This structure allows the Catalyst Optimizer to recognize the operation (e.g., a filter). Catalyst then converts that filter operation into a highly optimized, low-level physical plan (often compiled into optimized Java bytecode via Tungsten) that runs much faster, often in parallel, without the overhead of the generic function call for every record."
+                            },
+                            {
+                                prompt: "Explain the two main drawbacks of RDDs that led Spark developers to introduce the DataFrame and Dataset APIs.",
+                                answer: "The two main drawbacks of RDDs are:\n1. **Opaque Computation:** RDDs use generic type T, meaning Spark cannot inspect the data structure or the user's transformation logic (like filter/map functions). This prevents the use of the Catalyst Optimizer.\n2. **High Serialization Overhead:** RDDs typically store data as generic Java/Python objects, which require expensive generic serialization/deserialization when moved across the network or written to disk, and they are inefficient in terms of memory usage (high overhead for the JVM garbage collector)."
+                            }
+                        ]
+                    }
                 }
             ],
-            finalTest: {
+finalTest: {
                 title: "Final Comprehensive Test",
-                 mcq: [
+                mcq: [
+                    // Existing Questions (Ch 1-6)
                     { q: "Which of the 5Vs of Big Data refers to the trustworthiness and quality of the data?", options: ["Volume", "Velocity", "Variety", "Veracity"], a: "Veracity" },
                     { q: "Scaling out a cluster is also known as:", options: ["Vertical Scaling", "Horizontal Scaling", "Upsizing", "Resourcing"], a: "Horizontal Scaling" },
                     { q: "In HDFS, what is the default replication factor for data blocks?", options: ["1", "2", "3", "4"], a: "3" },
@@ -809,19 +951,32 @@ WHEN NOT MATCHED THEN INSERT VALUES (u.product_id, u.name, u.price);</code></pre
                     { q: "Dropping an EXTERNAL table in Hive results in:", options: ["Deletion of both data and metadata", "Deletion of only the data", "Deletion of only the metadata", "An error, as external tables cannot be dropped"], a: "Deletion of only the metadata" },
                     { q: "Which Hive command is used for an efficient UPSERT operation?", options: ["CTAS", "UPDATE", "INSERT OVERWRITE", "MERGE"], a: "MERGE" },
                     { q: "What is the primary limitation of the NameNode in a non-HA HDFS cluster?", options: ["It runs out of disk space quickly", "It is a Single Point of Failure", "It cannot communicate with DataNodes", "It slows down read operations"], a: "It is a Single Point of Failure" },
-                    { q: "What problem does a custom Partitioner in MapReduce primarily solve?", options: ["Slow map tasks", "Network congestion", "Data skew", "Small file issues in HDFS"], a: "Data skew" }
+                    { q: "What problem does a custom Partitioner in MapReduce primarily solve?", options: ["Slow map tasks", "Network congestion", "Data skew", "Small file issues in HDFS"], a: "Data skew" },
+                   
+                    // New Spark Chapter 7 & 8 Questions
+                    { q: "A process that requires the exchange and redistribution of data partitions across the network, separating Spark execution Stages, is called a:", options: ["Lineage Recalculation", "Local Sort", "Shuffle", "MapReduce Phase"], a: "Shuffle" },
+                    { q: "Which Spark operation is **lazy** and only records the step in the Lineage Graph?", options: ["Action", "Collect", "Transformation", "Count"], a: "Transformation" },
+                    { q: "Which Spark abstraction provides the strongest **compile-time type safety**?", options: ["RDD", "DataFrame", "Row", "Dataset"], a: "Dataset" },
+                    { q: "The Spark initiative focused on maximizing CPU and memory efficiency by using off-heap memory and binary processing is:", options: ["Project Tungsten", "Project Catalyst", "Project YARN", "Project Lineage"], a: "Project Tungsten" },
+                    { q: "The component responsible for converting a high-level DataFrame query into an efficient physical execution plan is the:", options: ["Executor", "SparkContext", "Catalyst Optimizer", "DAG Scheduler"], a: "Catalyst Optimizer" }
                 ],
                 fillIn: [
+                    // Existing Questions (Ch 1-6)
                     { q: "In a master-slave architecture, the master node that manages the HDFS file system is called the ________.", a: "NameNode" },
                     { q: "The processing paradigm that involves moving the code to the data is known as ________.", a: "Data Locality" },
                     { q: "In YARN, a ________ is a bundle of resources (CPU, memory) allocated on a worker node.", a: "Container" },
                     { q: "The component in Hive that stores all the metadata, such as table schemas and partition information, is the ________.", a: "Metastore" },
                     { q: "To improve query performance in Hive by skipping irrelevant subdirectories, you should use ________ on your tables.", a: "partitions" },
                     { q: "The Hive command that allows populating multiple tables from a single scan of a source table is ________.", a: "Multi-Insert" },
-                    { q: "The ________ theorem states that a distributed system can only provide two of three guarantees: Consistency, Availability, and Partition Tolerance.", a: "CAP" }
+                    { q: "The ________ theorem states that a distributed system can only provide two of three guarantees: Consistency, Availability, and Partition Tolerance.", a: "CAP" },
+                    // New Spark Chapter 7 & 8 Questions
+                    { q: "The dependency graph that allows Spark to recompute lost data partitions is called the ________.", a: "Lineage" },
+                    { q: "A transformation like `filter()` or `map()` that does not require a shuffle is known as a ________ transformation.", a: "Narrow" },
+                    { q: "The unified entry point for all modern Spark functionality, including DataFrames and SQL, is the ________.", a: "SparkSession" }
                 ],
-                mapReduce: [
-                     {
+                openEnded: [
+                    // MapReduce as open-ended
+                    {
                         prompt: "You have a dataset of customer transactions, where each line is `CustomerID,TransactionAmount`. You want to calculate the total transaction amount for each customer. Define the input and output for the Map and Reduce phases.",
                         answer: `
                             <strong>MAP PHASE:</strong><br>
@@ -846,275 +1001,214 @@ WHEN NOT MATCHED THEN INSERT VALUES (u.product_id, u.name, u.price);</code></pre
                             - <strong>Process:</strong> Find the maximum value in the list of temperatures.<br>
                             - <strong>Output:</strong> <code>&lt;key: Year, value: MaxTemperature&gt;</code>
                         `
-                    }
-                ],
-                hive: [
+                    },
+                    // Hive as open-ended
                     {
-                        scenario: "You have two tables: `employees` (emp_id, name, department) and `active_employees` (emp_id). You need to find the names and departments of only the employees who are listed in the `active_employees` table. You do not need any information from the `active_employees` table in your final result, only to use it for filtering.",
-                        part1: "Which join type is the most efficient and appropriate for this task?",
-                        part2: "Write the HiveQL command to get the desired result.",
+                        prompt: "You have two tables: `employees` (emp_id, name, department) and `active_employees` (emp_id). You need to find the names and departments of only the employees who are listed in the `active_employees` table. You do not need any information from the `active_employees` table in your final result, only to use it for filtering. Which join type is the most efficient and appropriate for this task? Write the HiveQL command to get the desired result.",
                         answer: `
                             <strong>Part 1 (Best Method):</strong> <strong>LEFT SEMI JOIN</strong> is the most efficient method. It filters the left table (\`employees\`) based on the existence of a match in the right table (\`active_employees\`) without the overhead of a full join.<br><br>
                             <strong>Part 2 (Command):</strong>
                             <pre><code>SELECT e.name, e.department
 FROM employees e
 LEFT SEMI JOIN active_employees a
-  ON e.emp_id = a.emp_id;</code></pre>
+ ON e.emp_id = a.emp_id;</code></pre>
                         `
                     },
                     {
-                        scenario: "You have a single source table `all_transactions` (transaction_id, user_id, amount, country). You need to create two new tables in a single operation: `usa_transactions` containing only transactions where country is 'USA', and `large_transactions` containing transactions where the amount is greater than 1000.",
-                        part1: "What is the best HiveQL feature for this task?",
-                        part2: "Write the HiveQL command to achieve this.",
+                        prompt: "You have a single source table `all_transactions` (transaction_id, user_id, amount, country). You need to create two new tables in a single operation: `usa_transactions` containing only transactions where country is 'USA', and `large_transactions` containing transactions where the amount is greater than 1000. What is the best HiveQL feature for this task? Write the HiveQL command to achieve this.",
                         answer: `
                             <strong>Part 1 (Best Method):</strong> <strong>Multi-Insert</strong> is the best feature because it allows you to read the source table \`all_transactions\` only once and write to multiple destination tables based on different criteria.<br><br>
                             <strong>Part 2 (Command):</strong>
                             <pre><code>FROM all_transactions
 INSERT INTO TABLE usa_transactions
-  SELECT transaction_id, user_id, amount
-  WHERE country = 'USA'
+ SELECT transaction_id, user_id, amount
+ WHERE country = 'USA'
 INSERT INTO TABLE large_transactions
-  SELECT transaction_id, user_id, amount, country
-  WHERE amount > 1000;</code></pre>
+ SELECT transaction_id, user_id, amount, country
+ WHERE amount > 1000;</code></pre>
                         `
+                    },
+                    // Spark open-ended
+                    {
+                        prompt: "Describe the sequence of events that occurs when a Spark **Action** (like <code>.count()</code>) is called on a DataFrame that has undergone several **Transformations** (like <code>.filter()</code> and <code>.groupBy()</code>). Include the roles of the **Lineage** and the **Catalyst Optimizer**.",
+                        answer: "The **Action** is the trigger for execution. When it is called:\n1. **Lineage/Logical Plan:** Spark inspects the accumulated **Lineage** (the Directed Acyclic Graph, or DAG, of all lazy Transformations) to form the initial Logical Plan.\n2. **Catalyst Optimization:** The **Catalyst Optimizer** takes this Logical Plan and executes its phases (Analysis, Logical Optimization, Physical Planning). It generates an **Optimized Physical Plan** to determine the most efficient way to compute the result.\n3. **DAG Scheduler:** The Driver's DAG Scheduler translates the Physical Plan into a set of **Stages**, separated by **Shuffle Boundaries**.\n4. **Task Execution:** The Driver submits these Stages to the Cluster Manager (e.g., YARN), which allocates **Executors**. Tasks (the smallest unit of work) are then launched on the Executors to read data, perform the necessary computation, and return the final result to the Driver."
                     }
                 ]
             }
         };
-
+// --- DOM ELEMENTS & LOGIC ---
         const mainContent = document.getElementById('main-content');
         const contentArea = document.getElementById('content-area');
         const navigation = document.getElementById('navigation');
-
-        function renderHomePage() {
-             mainContent.scrollTo(0, 0);
-             contentArea.innerHTML = `
-                <div class="bg-white p-8 rounded-lg shadow-lg text-center">
-                    <h1 class="text-4xl font-bold text-indigo-700 mb-4">Welcome to the Big Data Exam Prep App</h1>
-                    <p class="text-lg text-gray-600 mb-6">Your comprehensive guide to mastering Big Data concepts.</p>
-                    <p class="text-gray-500">Select a chapter from the sidebar to begin your review, take a quiz, or head straight to the final test when you feel ready. Good luck!</p>
-                </div>
-            `;
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        function toggleSidebar() {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('hidden');
         }
-
-        function renderChapter(index) {
-            mainContent.scrollTo(0, 0);
-            const chapter = appData.chapters[index];
-            contentArea.innerHTML = `
-                <div class="bg-white p-8 rounded-lg shadow-lg">
-                    <h1 class="text-3xl font-bold mb-6 border-b pb-4">${chapter.title}</h1>
-                    ${chapter.summary}
-                </div>
-                <div class="mt-8 text-center">
-                    <button onclick="renderQuiz('chapter', ${index})" class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition w-full md:w-auto">Start Chapter Quiz</button>
-                </div>
-            `;
-        }
-        
-        function renderQuiz(source, sourceIndex) { 
-            mainContent.scrollTo(0, 0);
-            const isFinalTest = source === 'final';
-            const data = isFinalTest ? appData.finalTest : appData.chapters[sourceIndex];
-            const questions = isFinalTest ? data : (data.quiz || {});
-            
-            let quizHtml = `
-                <div class="bg-white p-8 rounded-lg shadow-lg">
-                    <h1 class="text-3xl font-bold mb-6 border-b pb-4">${data.title} - ${isFinalTest ? 'Test' : 'Quiz'}</h1>
-                    <div id="quiz-container">
-            `;
-            let questionCounter = 0;
-
-            // Section 1: MCQs
-            if (questions.mcq && questions.mcq.length > 0) {
-                quizHtml += '<h3>Multiple Choice Questions</h3>';
-                questions.mcq.forEach((q, index) => {
-                    questionCounter++;
-                    quizHtml += `<div class="mb-8 p-6 border rounded-lg bg-gray-50">`;
-                    quizHtml += `<p class="font-semibold text-lg mb-4">${questionCounter}. ${q.q}</p>`;
-                    quizHtml += `<div class="space-y-2">`;
-                    q.options.forEach(opt => {
-                        quizHtml += `<div class="quiz-option border-2 border-gray-300 p-3 rounded-lg cursor-pointer" onclick="selectOption(this, '${source}', ${sourceIndex}, 'mcq', ${index}, '${opt.replace(/'/g, "\\'")}')">${opt}</div>`;
-                    });
-                    quizHtml += `</div><div id="answer-mcq-${index}" class="answer-reveal prose max-w-none mt-2">Correct Answer: <strong>${q.a}</strong></div></div>`;
-                });
-            }
-
-            // Section 2: Fill in the Blanks
-            if (questions.fillIn && questions.fillIn.length > 0) {
-                quizHtml += '<h3>Fill in the Blanks</h3>';
-                questions.fillIn.forEach((q, index) => {
-                    questionCounter++;
-                    quizHtml += `<div class="mb-8 p-6 border rounded-lg bg-gray-50">`;
-                    quizHtml += `<label for="fillin-${index}" class="font-semibold text-lg mb-4">${questionCounter}. ${q.q.replace('________', '<input type="text" id="fillin-'+index+'" class="mx-2 p-1 border-b-2 border-gray-400 focus:border-indigo-500 outline-none bg-transparent">')}</label>`;
-                    quizHtml += `<div class="mt-4"><button onclick="toggleAnswer('answer-fillin-${index}', this)" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-300 transition text-sm">Show Answer</button><div id="answer-fillin-${index}" class="answer-reveal prose max-w-none"><strong>Answer:</strong> ${q.a}</div></div></div>`;
-                });
-            }
-            
-            // Section 3: MapReduce
-            if (questions.mapReduce && questions.mapReduce.length > 0) {
-                quizHtml += '<h3>MapReduce Scenarios</h3>';
-                questions.mapReduce.forEach((q, index) => {
-                    questionCounter++;
-                    const resultId = `mapreduce-result-${index}`;
-                    quizHtml += `<div class="mb-8 p-6 border rounded-lg bg-gray-50">`;
-                    quizHtml += `<p class="font-semibold text-lg mb-4">${questionCounter}. ${q.prompt}</p>`;
-                    quizHtml += `<textarea id="mapreduce-input-${index}" class="w-full h-40 p-3 border border-gray-300 rounded-lg" placeholder="Write your answer here..."></textarea>`;
-                    quizHtml += `<div class="mt-4 flex space-x-2">
-                                    <button onclick="gradeOpenQuestion('${source}', ${sourceIndex}, 'mapReduce', ${index})" class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition text-sm">Grade Answer</button>
-                                    <button onclick="toggleAnswer('answer-mapreduce-${index}', this)" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-300 transition text-sm">Show Answer</button>
-                                </div>
-                                <div id="${resultId}" class="mt-4"></div>
-                                <div id="answer-mapreduce-${index}" class="answer-reveal prose max-w-none">${q.answer}</div>
-                            </div>`;
-                });
-            }
-
-            // Section 4: Hive
-            if (questions.hive && questions.hive.length > 0) {
-                quizHtml += '<h3>Hive Scenarios</h3>';
-                questions.hive.forEach((q, index) => {
-                    questionCounter++;
-                    const resultId = `hive-result-${index}`;
-                    quizHtml += `<div class="mb-8 p-6 border rounded-lg bg-gray-50">`;
-                    quizHtml += `<p class="font-semibold text-lg mb-2">${questionCounter}. Scenario:</p><p class="mb-4 bg-indigo-50 p-3 rounded">${q.scenario}</p>`;
-                    quizHtml += `<p class="font-semibold mb-2">Part 1: ${q.part1}</p>`;
-                    quizHtml += `<textarea id="hive-input-p1-${index}" class="w-full h-20 p-3 border border-gray-300 rounded-lg mb-4" placeholder="Your answer for Part 1..."></textarea>`;
-                    quizHtml += `<p class="font-semibold mb-2">Part 2: ${q.part2}</p>`;
-                     quizHtml += `<textarea id="hive-input-p2-${index}" class="w-full h-40 p-3 border border-gray-300 rounded-lg" placeholder="Your command for Part 2..."></textarea>`;
-                    quizHtml += `<div class="mt-4 flex space-x-2">
-                                    <button onclick="gradeOpenQuestion('${source}', ${sourceIndex}, 'hive', ${index})" class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition text-sm">Grade Answer</button>
-                                    <button onclick="toggleAnswer('answer-hive-${index}', this)" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-300 transition text-sm">Show Answer</button>
-                                </div>
-                                <div id="${resultId}" class="mt-4"></div>
-                                <div id="answer-hive-${index}" class="answer-reveal prose max-w-none">${q.answer}</div>
-                            </div>`;
-                });
-            }
-
-            quizHtml += `</div></div>`;
-            contentArea.innerHTML = quizHtml;
-        }
-        
-        function toggleAnswer(elementId, button) {
-            const answerDiv = document.getElementById(elementId);
-            if (answerDiv.style.display === 'block') {
-                answerDiv.style.display = 'none';
-                button.textContent = 'Show Answer';
-            } else {
-                answerDiv.style.display = 'block';
-                button.textContent = 'Hide Answer';
-            }
-        }
-
-        async function gradeOpenQuestion(source, sourceIndex, questionType, questionIndex) {
-            const isFinalTest = source === 'final';
-            const data = isFinalTest ? appData.finalTest : appData.chapters[sourceIndex].quiz;
-            const question = data[questionType][questionIndex];
-
-            let userAnswer;
-            let resultDiv;
-
-            if (questionType === 'hive') {
-                const p1 = document.getElementById(`hive-input-p1-${questionIndex}`).value;
-                const p2 = document.getElementById(`hive-input-p2-${questionIndex}`).value;
-                userAnswer = `Part 1: ${p1}\nPart 2: ${p2}`;
-                resultDiv = document.getElementById(`hive-result-${questionIndex}`);
-            } else {
-                userAnswer = document.getElementById(`mapreduce-input-${questionIndex}`).value;
-                resultDiv = document.getElementById(`mapreduce-result-${questionIndex}`);
-            }
-
-            if (!userAnswer.trim()) {
-                resultDiv.innerHTML = `<p class="text-red-500 font-semibold">Please enter an answer before grading.</p>`;
-                return;
-            }
-
-            resultDiv.innerHTML = `<div class="flex items-center text-gray-600"><div class="animate-spin rounded-full h-5 w-5 border-b-2 border-indigo-500 mr-3"></div>AI is grading your answer...</div>`;
-            
-            const modelAnswer = question.answer;
-
-            const systemPrompt = `You are an expert grader for a Big Data course. Evaluate the student's answer based on the model answer. Provide a score out of 10 and concise, constructive feedback. Your response must be in JSON format with two keys: "score" (a number) and "feedback" (a string).`;
-            const userQuery = `
-                Question: "${question.prompt || question.scenario}"
-                Model Answer: "${modelAnswer}"
-                Student's Answer: "${userAnswer}"
-            `;
-
-            try {
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-                const payload = {
-                    contents: [{ parts: [{ text: userQuery }] }],
-                    systemInstruction: { parts: [{ text: systemPrompt }] },
-                };
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                
-                if (!response.ok) {
-                   throw new Error(`API Error: ${response.statusText}`);
-                }
-
-                const result = await response.json();
-                const text = result.candidates[0].content.parts[0].text;
-                
-                const cleanedText = text.replace(/```json/g, '').replace(/```/g, '').trim();
-                const gradedResult = JSON.parse(cleanedText);
-
-                const scoreColor = gradedResult.score >= 7 ? 'text-green-600' : (gradedResult.score >= 4 ? 'text-yellow-600' : 'text-red-600');
-
-                resultDiv.innerHTML = `
-                    <div class="bg-indigo-50 border border-indigo-200 p-4 rounded-lg">
-                        <h4 class="font-bold text-lg mb-2">Result:</h4>
-                        <p class="font-bold text-2xl ${scoreColor} mb-2">${gradedResult.score} / 10</p>
-                        <p class="font-semibold text-gray-700">Feedback:</p>
-                        <p class="text-gray-600">${gradedResult.feedback}</p>
-                    </div>
-                `;
-            } catch (error) {
-                console.error("Error grading question:", error);
-                resultDiv.innerHTML = `<p class="text-red-500 font-semibold">An error occurred while grading. Please try again.</p>`;
-            }
-        }
-
+        mobileMenuBtn.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', toggleSidebar);
         function setupNavigation() {
-            let navHtml = '<a href="#" onclick="event.preventDefault(); setActive(this); renderHomePage();" class="block py-2.5 px-4 rounded-lg mb-2 sidebar-link active">Home</a>';
+            let navHtml = `<a href="#" onclick="event.preventDefault(); loadPage('home', null, this);" class="sidebar-link block py-3 px-4 rounded-lg mb-2 text-gray-400 hover:text-white flex items-center"><i class="fas fa-home w-5 mr-3"></i> Home</a>`;
+           
             appData.chapters.forEach((chapter, index) => {
-                navHtml += `<a href="#" onclick="event.preventDefault(); setActive(this); renderChapter(${index});" class="block py-2.5 px-4 rounded-lg mb-2 sidebar-link">${chapter.title}</a>`;
+                navHtml += `<a href="#" onclick="event.preventDefault(); loadPage('chapter', ${index}, this);" class="sidebar-link block py-3 px-4 rounded-lg mb-1 text-gray-400 hover:text-white flex items-center text-sm"><i class="fas fa-book w-5 mr-3"></i> ${chapter.title}</a>`;
             });
-            navHtml += `<a href="#" onclick="event.preventDefault(); setActive(this); renderQuiz('final', null);" class="block py-2.5 px-4 rounded-lg mt-6 border-t border-gray-700 pt-4 sidebar-link font-bold">Final Test</a>`;
+            navHtml += `<div class="my-4 border-t border-gray-700"></div>`;
+            navHtml += `<a href="#" onclick="event.preventDefault(); loadPage('final', null, this);" class="sidebar-link block py-3 px-4 rounded-lg text-yellow-500 hover:text-yellow-300 font-bold flex items-center"><i class="fas fa-graduation-cap w-5 mr-3"></i> Final Test</a>`;
             navigation.innerHTML = navHtml;
         }
-
-        function selectOption(element, source, sourceIndex, questionType, questionIndex, selectedOption) {
-    const questionContainer = element.parentElement;
-    const options = questionContainer.querySelectorAll('.quiz-option');
-    const answerDiv = document.getElementById(`answer-${questionType}-${questionIndex}`);
-
-    // Remove 'selected' class from all options in this question
-    options.forEach(opt => opt.classList.remove('selected'));
-
-    // Add 'selected' class to the clicked option
-    element.classList.add('selected');
-
-    // Show the correct answer
-    answerDiv.style.display = 'block';
-}
-        
-        function setActive(element) {
-            document.querySelectorAll('.sidebar-link').forEach(link => link.classList.remove('active'));
-            element.classList.add('active');
+        function loadPage(type, index, element) {
+            document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+            if(element) element.classList.add('active');
+            if(window.innerWidth < 768) toggleSidebar();
+            mainContent.scrollTo(0,0);
+            if (type === 'home') renderHome();
+            else if (type === 'chapter') renderChapter(index);
+            else renderQuiz('final', null);
         }
-
-        // Initial load
-        window.onload = () => {
-            setupNavigation();
-            renderHomePage();
-        };
-
-    </script>
+        function markChapterViewed(index) {
+            localStorage.setItem(`chapter_${index}_viewed`, 'true');
+        }
+        function isChapterViewed(index) {
+            return localStorage.getItem(`chapter_${index}_viewed`) === 'true';
+        }
+        function renderHome() {
+            let html = `
+                <div class="bg-gradient-to-br from-indigo-500 to-purple-600 p-8 rounded-xl shadow-lg text-white text-center mb-8">
+                    <div class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl"><i class="fas fa-database"></i></div>
+                    <h1 class="text-4xl font-bold mb-2">Big Data Exam Prep</h1>
+                    <p class="text-indigo-100 mb-6">Master Big Data concepts with interactive chapters and quizzes</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm mb-8">
+                    <h2 class="text-2xl font-bold mb-4 flex items-center"><i class="fas fa-chart-line mr-2 text-indigo-600"></i> Your Progress</h2>
+                    <div class="relative pt-1">
+                        <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-indigo-100">
+                            <div style="width: ${Math.round((appData.chapters.filter((_, i) => isChapterViewed(i)).length / appData.chapters.length) * 100)}%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-600"></div>
+                        </div>
+                        <p class="text-sm text-gray-600">${appData.chapters.filter((_, i) => isChapterViewed(i)).length} of ${appData.chapters.length} chapters completed</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            `;
+            appData.chapters.forEach((chapter, index) => {
+                const viewed = isChapterViewed(index);
+                html += `
+                    <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition cursor-pointer" onclick="loadPage('chapter', ${index})">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-indigo-600">${chapter.title}</h3>
+                            ${viewed ? '<i class="fas fa-check-circle text-green-500"></i>' : '<i class="fas fa-circle text-gray-300"></i>'}
+                        </div>
+                        <p class="text-sm text-gray-500">Click to study</p>
+                    </div>
+                `;
+            });
+            html += `</div>
+                <div class="mt-8 text-center text-sm text-gray-500">
+                    Made by Alwaleed Alhazmi and Muayad Alammar
+                </div>`;
+            contentArea.innerHTML = html;
+        }
+        function renderChapter(index) {
+            markChapterViewed(index);
+            const data = appData.chapters[index];
+           
+            contentArea.innerHTML = `
+                <div class="bg-white p-8 rounded-xl shadow-sm animate-fadeIn">
+                    <h1 class="text-3xl font-bold text-gray-800 mb-6 border-b pb-4">${data.title}</h1>
+                    ${data.summary}
+                    <button onclick="renderQuiz('chapter', ${index})" class="mt-8 bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-indigo-700 transition w-full md:w-auto"><i class="fas fa-pen-alt mr-2"></i> Take Quiz</button>
+                </div>`;
+        }
+        function renderQuiz(source, index) {
+            const isFinal = source === 'final';
+            const data = isFinal ? appData.finalTest : appData.chapters[index];
+            const qData = isFinal ? data : data.quiz;
+            let html = `
+                <div class="bg-white p-8 rounded-xl shadow-sm">
+                    <div class="flex items-center mb-6">
+                        <button onclick="${isFinal ? "loadPage('home')" : `loadPage('chapter', ${index})`}" class="text-gray-400 hover:text-indigo-600 mr-4"><i class="fas fa-arrow-left"></i></button>
+                        <h1 class="text-2xl font-bold">${data.title} Quiz</h1>
+                    </div>`;
+            let count = 0;
+            if (qData.mcq) {
+                html += `<h3 class="text-lg font-bold text-indigo-600 mt-6 mb-3">Multiple Choice</h3>`;
+                qData.mcq.forEach((q, i) => {
+                    count++;
+                    html += `<div class="mb-6 p-4 bg-gray-50 rounded border border-gray-200">
+                        <p class="font-semibold mb-3">${count}. ${q.q}</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            ${q.options.map(opt => `<div class="quiz-option p-3 border rounded cursor-pointer bg-white" onclick="checkMCQ(this, '${q.a.replace(/'/g, "\\'")}', 'mcq-${i}')">${opt}</div>`).join('')}
+                        </div>
+                        <div id="mcq-${i}" class="answer-reveal">Correct: <strong>${q.a}</strong></div>
+                    </div>`;
+                });
+            }
+            if (qData.fillIn) {
+                html += `<h3 class="text-lg font-bold text-indigo-600 mt-6 mb-3">Fill in the Blank</h3>`;
+                qData.fillIn.forEach((q, i) => {
+                    count++;
+                    html += `<div class="mb-6 p-4 bg-gray-50 rounded border border-gray-200">
+                        <p class="font-semibold mb-3">${count}. ${q.q}</p>
+                        <div class="mt-3 flex gap-2">
+                            <button onclick="document.getElementById('fillin-ans-${i}').style.display='block'" class="bg-gray-200 text-gray-700 px-4 py-2 rounded text-sm hover:bg-gray-300">Show Answer</button>
+                        </div>
+                        <div id="fillin-ans-${i}" class="answer-reveal">Correct: <strong>${q.a}</strong></div>
+                    </div>`;
+                });
+            }
+            if (qData.openEnded) {
+                html += `<h3 class="text-lg font-bold text-indigo-600 mt-6 mb-3">Open Ended (AI Graded)</h3>`;
+                qData.openEnded.forEach((q, i) => {
+                    count++;
+                    html += `<div class="mb-6 p-4 bg-gray-50 rounded border border-gray-200">
+                        <p class="font-semibold mb-3">${count}. ${q.prompt}</p>
+                        <textarea id="ai-input-${i}" class="w-full p-2 border rounded focus:ring-2 focus:ring-indigo-200 outline-none" rows="3" placeholder="Your answer..."></textarea>
+                        <div class="mt-3 flex gap-2">
+                            <button onclick="gradeAI('${q.answer.replace(/'/g, "\\'").replace(/\n/g, " ")}', 'ai-input-${i}', 'ai-res-${i}')" class="bg-indigo-600 text-white px-4 py-2 rounded text-sm hover:bg-indigo-700">Grade with AI</button>
+                            <button onclick="document.getElementById('ai-ans-${i}').style.display='block'" class="bg-gray-200 text-gray-700 px-4 py-2 rounded text-sm hover:bg-gray-300">Show Answer</button>
+                        </div>
+                        <div id="ai-res-${i}" class="mt-3"></div>
+                        <div id="ai-ans-${i}" class="answer-reveal">${q.answer.replace(/\n/g, '<br>')}</div>
+                    </div>`;
+                });
+            }
+            html += `</div>`;
+            contentArea.innerHTML = html;
+        }
+        function checkMCQ(el, correct, id) {
+            const parent = el.parentElement;
+            parent.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('bg-green-100', 'border-green-500', 'bg-red-100', 'border-red-500'));
+            if (el.innerText === correct) el.classList.add('bg-green-100', 'border-green-500');
+            else el.classList.add('bg-red-100', 'border-red-500');
+            document.getElementById(id).style.display = 'block';
+        }
+        async function gradeAI(model, inputId, resId) {
+            const input = document.getElementById(inputId).value;
+            const resDiv = document.getElementById(resId);
+            if (!input.trim()) return;
+           
+            resDiv.innerHTML = `<span class="text-indigo-600 font-bold"><i class="fas fa-spinner fa-spin"></i> Grading...</span>`;
+           
+            if(!apiKey) {
+                resDiv.innerHTML = `<div class="p-3 bg-yellow-100 text-yellow-800 rounded">API Key required for AI grading. View model answer instead.</div>`;
+                return;
+            }
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ contents: [{ parts: [{ text: `Grade this student answer (0-10) based on the model. Format JSON {"score": number, "feedback": string}. Model: "${model}", Student: "${input}"` }] }] })
+                });
+                const data = await response.json();
+                const json = JSON.parse(data.candidates[0].content.parts[0].text.replace(/```json|```/g, '').trim());
+                resDiv.innerHTML = `<div class="p-3 bg-white border-l-4 ${json.score > 7 ? 'border-green-500' : 'border-red-500'} shadow mt-2"><strong>Score: ${json.score}/10</strong><br>${json.feedback}</div>`;
+            } catch (e) {
+                resDiv.innerHTML = `<span class="text-red-500">Error grading.</span>`;
+            }
+        }
+        window.onload = () => { setupNavigation(); renderHome(); };
+</script>
 </body>
 </html>
-
