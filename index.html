@@ -70,7 +70,7 @@
             </div>
     </main>
     <script>
-        const apiKey = "AIzaSyCQs0guVzFi67Bf5syQqQCPu9kJKo3g108";
+        const apiKey = "AIzaSyAPA7hmpEO5KOwvIMQwvnA__-f9vUeiGas";
         const appData = {
             chapters: [
                 {
@@ -697,345 +697,693 @@ WHEN NOT MATCHED THEN INSERT VALUES (u.product_id, u.name, u.price);</code></pre
                         ]
                     }
                 },
-{
-                    title: "Chapter 7: Apache Spark Architecture and Execution",
-                    summary: `
-                        <div class="prose max-w-none">
-                        <h2>1. Introduction and Core Advantages of Spark</h2>
-                        <p><strong>Apache Spark</strong> is an open-source, distributed processing system designed for big data analytics. It supports general-purpose computation (batch, interactive, streaming, ML, graph) and provides simple APIs in multiple languages (Python, Scala, Java, R).</p>
-                       
-                        <h3>Spark vs. MapReduce: The Speed Advantage</h3>
-                        <p>Spark is significantly **faster** than MapReduce primarily because it utilizes **in-memory cluster computing**. This avoids writing **intermediate results to disk** (disk I/O) between processing steps, which was the main bottleneck of MapReduce. While MapReduce is a rigid two-stage process, Spark uses a **Directed Acyclic Graph (DAG)** to model and optimize multi-stage execution.</p>
-                        <h2>2. Spark Architecture: The Cluster Components</h2>
-                        <p>A Spark application runs as a set of independent processes on a cluster, coordinated by the **SparkSession** or **SparkContext**.</p>
-                        <ol>
-                            <li><strong>Driver Program (The Brain):</strong> Runs the user's main application. It contains the SparkSession, translates user code (Transformations/Actions) into a **DAG**, and schedules the work to the Executors.</li>
-                            <li><strong>Cluster Manager (e.g., YARN, Mesos):</strong> An external service responsible for acquiring physical resources (Worker Nodes/Containers) for the application.</li>
-                            <li><strong>Executors:</strong> Processes that run on worker nodes. They execute the **Tasks** assigned by the Driver and store the cached data.</li>
-                        </ol>
-                        <h2>3. Execution Model: Lazy Evaluation and Lineage</h2>
-                       
-                        <h3>Transformations (Lazy)</h3>
-                        <p>Operations that define the data processing logic (e.g., <code>map()</code>, <code>filter()</code>, <code>groupBy()</code>). Transformations are **lazy**—they do not execute immediately but instead build up a **Lineage Graph** (or DAG) of operations.</p>
-                       
-                        <p><strong>Lineage:</strong> The dependency graph that tracks how an RDD/DataFrame was derived from its parent(s). This is crucial for **Resilience**, as it allows Spark to recompute lost data partitions from the source data or intermediate checkpoints.</p>
-                        <h3>Actions (Eager)</h3>
-                        <p>Operations that trigger the immediate execution of the accumulated Lineage (DAG) (e.g., <code>count()</code>, <code>collect()</code>, <code>write()</code>).</p>
-                       
-                        <h3>Job, Stage, and Task Hierarchy</h3>
-                        <ul>
-                            <li><strong>Job:</strong> A computation triggered by a single **Action**.</li>
-                            <li><strong>Stage:</strong> A subset of a Job. Stages are separated by a **Shuffle Boundary**.</li>
-                            <li><strong>Task:</strong> The smallest unit of work. One task is launched for every **Data Partition** within a Stage.</li>
-                        </ul>
-                        <p><strong>Shuffle Boundary:</strong> A point in the execution where data must be physically moved and reorganized across the network (e.g., during a <code>join</code> or <code>groupByKey</code> operation). This network transfer is costly and defines the separation between execution Stages.</p>
-                       
-                        <h2>4. Catalyst Optimizer and Physical Plan</h2>
-                        <p>The **Catalyst Optimizer** is Spark's core mechanism for high performance when using DataFrames/Datasets. It converts user code into an optimal execution plan through four phases:</p>
-                        <ol>
-                            <li><strong>Analysis:</strong> Converts the user expression (Unresolved Logical Plan) into a Resolved Logical Plan by checking metadata (schema, column names).</li>
-                            <li><strong>Logical Optimization:</strong> Applies standard optimization rules (e.g., **Predicate Pushdown**—moving filters closer to the data source).</li>
-                            <li><strong>Physical Planning:</strong> Generates several potential physical plans and selects the cheapest one using a cost model (e.g., deciding which type of join to use).</li>
-                            <li><strong>Code Generation (Tungsten):</strong> The best physical plan is selected and compiled into highly optimized, low-level **Java bytecode** that runs on the executors.</li>
-                        </ol>
-                        <h2>5. Narrow vs. Wide Transformations</h2>
-                        <p>This classification determines the execution type and fault tolerance requirements.</p>
-                        <table class="prose">
-                            <thead>
-                                <tr>
-                                    <th>Type</th>
-                                    <th>Partition Dependency</th>
-                                    <th>Shuffle Required?</th>
-                                    <th>Fault Recovery</th>
-                                    <th>Examples</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Narrow</strong></td>
-                                    <td>One-to-One. Each input partition contributes to at most one output partition.</td>
-                                    <td><strong>No</strong></td>
-                                    <td>Only the lost parent partition needs re-computation (fast).</td>
-                                    <td><code>map()</code>, <code>filter()</code>, <code>union()</code></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Wide</strong></td>
-                                    <td>One-to-Many. Each input partition contributes data to many output partitions.</td>
-                                    <td><strong>Yes</strong> (Triggers a Shuffle)</td>
-                                    <td>Requires all parent partitions to be recomputed (slower).</td>
-                                    <td><code>groupByKey()</code>, <code>join()</code>, <code>repartition()</code></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                       
-                        <h2>6. Persistence and Fault Tolerance</h2>
-                        <p><strong>Persistence (Caching):</strong> Explicitly saving an intermediate RDD or DataFrame into memory or on disk (using <code>.cache()</code> or <code>.persist()</code>). This prevents recomputing the same data multiple times if it is used by several subsequent actions, significantly speeding up iterative algorithms (e.g., ML training).</p>
-                        <p><strong>Resilience:</strong> The ability to recover from node failures. This is achieved via **Lineage**. If an Executor fails, the Driver uses the Lineage graph to re-run the necessary transformations on the partitions that were lost, restoring the data.</p>
-                        </div>
-                    `,
-                    quiz: {
-                        mcq: [
-                            { q: "What triggers the execution of the Directed Acyclic Graph (DAG) in Spark?", options: ["A Transformation", "An Action", "Starting SparkSession", "Defining the Schema"], a: "An Action" },
-                            { q: "Which component in Spark is responsible for executing tasks and storing cached data?", options: ["Driver Program", "Cluster Manager", "Executor", "DAG Scheduler"], a: "Executor" },
-                            { q: "What is the primary function of the Spark Catalyst Optimizer?", options: ["Converting RDDs to DataFrames.", "Managing cluster resources (CPU/RAM).", "Converting logical plans to optimized physical execution plans.", "Handling data serialization for network transfer."], a: "Converting logical plans to optimized physical execution plans." },
-                            { q: "A transformation where each input partition contributes data to many output partitions is called a:", options: ["Narrow Transformation", "Local Transformation", "Wide Transformation", "Lineage Transformation"], a: "Wide Transformation" },
-                            { q: "What is the key advantage of using the RDD Lineage Graph?", options: ["Faster query parsing", "Eliminating the need for a Cluster Manager", "Ensuring resilience by allowing lost data partitions to be recomputed", "Defining the schema for unstructured data"], a: "Ensuring resilience by allowing lost data partitions to be recomputed" },
-                            { q: "Which phase of the Catalyst Optimizer involves moving filter operations closer to the data source (e.g., WHERE clause optimization)?", options: ["Analysis", "Logical Optimization", "Physical Planning", "Code Generation"], a: "Logical Optimization" }
-                        ],
-                        fillIn: [
-                            { q: "Spark is faster than MapReduce primarily because it uses ________ cluster computing.", a: "in-memory" },
-                            { q: "A ________ is an expensive operation that separates Stages and moves data across the network.", a: "Shuffle" },
-                            { q: "Saving an intermediate DataFrame using <code>.cache()</code> to avoid re-computation is known as ________.", a: "Persistence" },
-                            { q: "The Spark abstraction that suffers from Opaque Computation is the ________.", a: "RDD" },
-                            { q: "One task is launched for every ________ within a Stage.", a: "partition" }
-                        ],
-                        openEnded: [
-                            {
-                                prompt: "Explain the concepts of Lazy Evaluation and Lineage in Spark and how they enable resilience.",
-                                answer: "Lazy Evaluation means Spark does not execute transformations (like filter, map) until an Action is called. It instead builds a Directed Acyclic Graph (DAG) of all operations, known as the Lineage. This Lineage allows Spark to achieve resilience; if a worker node fails and loses its partition data, Spark can use the Lineage to re-run the necessary transformations from a reliable source (like HDFS) to automatically recompute the lost data, without manual intervention."
-                            },
-                            {
-                                prompt: "Describe the core difference between Narrow and Wide transformations, and provide one example of each.",
-                                answer: "Narrow Transformation: Each input partition contributes to at most one output partition (one-to-one or one-to-fixed). No data shuffle is required, making them fast and easy to recover. Example: map(), filter().\nWide Transformation: Each input partition contributes data to multiple output partitions. This requires a network-intensive data exchange called a Shuffle, which creates a Stage boundary and is slower to recover. Example: join(), groupByKey()."
-                            },
-                            {
-                                prompt: "Outline the role of the Catalyst Optimizer and name two of its key phases.",
-                                answer: "The Catalyst Optimizer is Spark's query optimization engine for DataFrames and Datasets. Its role is to take the user's logical execution plan and transform it into the most efficient physical execution plan possible. Key phases include:\n1. Analysis (Resolving columns/tables).\n2. Logical Optimization (Applying rules like predicate pushdown)."
-                            }
-                        ]
-                    }
-                },
-{
-                    title: "Chapter 8: Spark Data Abstractions (RDD, DataFrame, Dataset)",
-                    summary: `
-                        <div class="prose max-w-none">
-                        <h2>1. SparkSession: The Unified Entry Point</h2>
-                        <p>The **SparkSession** is the unified entry point for all Spark functionality, replacing the older **SparkContext** for modern data processing. It is the single API entry point to work with RDD, DataFrame, and Dataset features, including SQL and streaming. It handles setup, configuration, and is necessary before any data processing can begin.</p>
-                        <pre><code># PySpark Code Example: Creating a SparkSession
-from pyspark.sql import SparkSession
-spark = SparkSession.builder \\
-    .appName("DataAbstractionExample") \\
-    .config("spark.some.config.option", "some-value") \\
-    .getOrCreate()
-</code></pre>
-                        <h2>2. Resilient Distributed Datasets (RDD)</h2>
-                        <p>The **RDD** is the **most fundamental** and lowest-level data structure in Spark. It represents an immutable, partitioned collection of elements that can be processed in parallel across cluster nodes. It is used when fine-grained control over data partitioning and physical storage is required, or when working with unstructured data.</p>
-                       
-                        <h3>The RDD Limitation: Opaqueness</h3>
-                        <p>The primary drawback is **Opaque Computation** and **Opaque Data Type**. Because Spark cannot “see inside” the transformations (often custom Python/Scala functions), the **Catalyst Optimizer** cannot be applied, which leads to slower execution compared to structured APIs.</p>
-                        <pre><code># PySpark RDD Example
-data = [1, 5, 2, 8, 3]
-rdd = spark.sparkContext.parallelize(data)
-# Transformation: map is opaque. The lambda function is black box to Spark.
-result_rdd = rdd.map(lambda x: x * 10).filter(lambda x: x > 30)
-# Action: triggers computation
-print(result_rdd.collect())
-# Output: [50, 80]
-</code></pre>
-                        <h2>3. DataFrame: Structured and Optimized (Untyped)</h2>
-                        <p>The **DataFrame** abstraction represents data as a collection of named columns (similar to a relational table or Pandas DataFrame). It provides structure via a known **Schema**.</p>
-                        <ul>
-                            <li><strong>Optimization:</strong> The known schema allows DataFrames to leverage the **Catalyst Optimizer** for significant performance gains.</li>
-                            <li><strong>Untyped Nature:</strong> A DataFrame is essentially an **untyped** <code>Dataset[Row]</code>. Data type and structure errors are checked only at **runtime**.</li>
-                            <li><strong>Universal Access:</strong> Available in all supported languages (Scala, Java, **Python**, R).</li>
-                        </ul>
-                        <pre><code># PySpark DataFrame Example
-data = [("Alice", 100), ("Bob", 200)]
-df = spark.createDataFrame(data, ["Name", "Sales"])
-df.printSchema()
-# Optimized Transformation: Spark knows the 'Sales' column type and can optimize this filter.
-df.filter(df["Sales"] > 150).select("Name").show()
-# Output: +----+
-# |Name|
-# +----+
-# | Bob|
-# +----+
-</code></pre>
-                        <h2>4. Dataset: Typed, Structured, and Focused (Scala/Java)</h2>
-                        <p>The **Dataset** abstraction combines the type safety of RDDs with the performance of DataFrames. It is a **typed** collection of objects (e.g., <code>Dataset[Person]</code>).</p>
-                        <ul>
-                            <li><strong>Type Safety:</strong> Errors in the structure or data types are detected early at **compile time**, which is a massive benefit for refactoring large, stable applications.</li>
-                            <li><strong>Language Restriction:</strong> Only available in statically typed languages: **Scala** and **Java**. (Python and R are limited to DataFrames).</li>
-                        </ul>
-                        <h3>New Concept: Encoders (Serialization/Deserialization)</h3>
-                        <p>Datasets rely on **Encoders**—a mechanism that generates custom bytecode for highly efficient serialization (object to bytes) and deserialization (bytes to object). Encoders are responsible for converting your JVM objects (like a Scala case class) into Spark’s internal **Tungsten** format, which allows for fast memory and disk operations.</p>
-                       
-                        <h2>5. Performance Enhancement: Project Tungsten</h2>
-                        <p><strong>Project Tungsten</strong> is an umbrella project aimed at maximizing CPU and memory efficiency in Spark. It focuses on:</p>
-                        <ol>
-                            <li>**Off-Heap Memory Management:** Utilizing memory that is outside of the JVM's garbage collection, which reduces GC overhead.</li>
-                            <li>**Binary Processing (Tungsten Format):</strong> Spark operations work directly on serialized binary data (the Tungsten format), avoiding costly Java object creation and serialization/deserialization.</li>
-                            <li>**Whole-Stage Code Generation:** Generating single, highly optimized code functions for entire query stages, rather than running operations one-by-one.</li>
-                        </ol>
-                        <h2>6. Comparison Summary</h2>
-                        <table class="prose">
-                            <thead>
-                                <tr>
-                                    <th>Feature</th>
-                                    <th>RDD</th>
-                                    <th>DataFrame (Untyped)</th>
-                                    <th>Dataset (Typed)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Structure</strong></td>
-                                    <td>No schema (Opaque)</td>
-                                    <td>Schema known (Named Columns)</td>
-                                    <td>Schema known (Named Columns)</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Optimization Engine</strong></td>
-                                    <td>None</td>
-                                    <td>**Catalyst Optimizer**</td>
-                                    <td>**Catalyst Optimizer**</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Type Safety Check</strong></td>
-                                    <td>Runtime (late)</td>
-                                    <td>Runtime (late)</td>
-                                    <td>**Compile Time (early)**</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Internal Format</strong></td>
-                                    <td>JVM/Python Objects</td>
-                                    <td>**Tungsten Binary**</td>
-                                    <td>**Tungsten Binary** (via Encoders)</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        </div>
-                    `,
-                    quiz: {
-                        mcq: [
-                            { q: "What is the name of the project that focuses on minimizing memory overhead and maximizing CPU efficiency in Spark by using off-heap memory and binary processing?", options: ["Project Apollo", "Project Tungsten", "Project Trident", "Project Falcon"], a: "Project Tungsten" },
-                            { q: "Which Spark abstraction provides compile-time type safety?", options: ["RDD", "DataFrame", "Row", "Dataset"], a: "Dataset" },
-                            { q: "What is the fundamental mechanism that generates bytecode to serialize and deserialize data efficiently in Datasets?", options: ["Lineage Graph", "Catalyst Optimizer", "Encoder", "Row Object"], a: "Encoder" },
-                            { q: "The lack of optimization in RDDs is primarily due to:", options: ["Slow network I/O", "Opaque Computation", "Poor Cluster Management", "Memory limits"], a: "Opaque Computation" },
-                            { q: "Which component acts as the unified entry point for all modern Spark functionality, including SQL and DataFrame APIs?", options: ["SparkContext", "SparkSession", "Driver Program", "Executor"], a: "SparkSession" }
-                        ],
-                        fillIn: [
-                            { q: "The DataFrame is essentially an untyped collection of ________ objects.", a: "Row" },
-                            { q: "Dataset is restricted to statically typed languages, primarily Scala and ________.", a: "Java" },
-                            { q: "The use of an optimized binary format for data processing is a key feature of the ________ project.", a: "Tungsten" },
-                            { q: "Errors in a DataFrame are typically detected at ________ time.", a: "runtime" },
-                            { q: "DataFrames and Datasets get their performance advantage by utilizing the ________ Optimizer.", a: "Catalyst" }
-                        ],
-                        openEnded: [
-                            {
-                                prompt: "Explain the role of the 'Encoder' in the Dataset API and how it contributes to Spark's performance gains.",
-                                answer: "The Encoder is a key component of the Dataset API. Its role is to efficiently translate between the user's domain-specific objects (e.g., a Scala case class) and Spark's internal highly-optimized binary format, known as the Tungsten format. It generates custom bytecode for this serialization (object-to-bytes) and deserialization (bytes-to-object) process. This process drastically reduces memory overhead, avoids JVM garbage collection issues (by using off-heap memory), and allows Spark to perform operations directly on the fast binary data, leading to massive performance gains."
-                            },
-                            {
-                                prompt: "Using the concepts of RDD Opaqueness and DataFrame Schema, describe why the exact same transformation logic (e.g., filtering on a condition) is significantly faster in a DataFrame than an RDD.",
-                                answer: "The RDD is based on Opaque Computation; Spark cannot see or optimize the transformation function, so it must execute the user's function one record at a time via a generic JVM process, which is slow. The DataFrame, however, has a defined Schema. This structure allows the Catalyst Optimizer to recognize the operation (e.g., a filter). Catalyst then converts that filter operation into a highly optimized, low-level physical plan (often compiled into optimized Java bytecode via Tungsten) that runs much faster, often in parallel, without the overhead of the generic function call for every record."
-                            },
-                            {
-                                prompt: "Explain the two main drawbacks of RDDs that led Spark developers to introduce the DataFrame and Dataset APIs.",
-                                answer: "The two main drawbacks of RDDs are:\n1. **Opaque Computation:** RDDs use generic type T, meaning Spark cannot inspect the data structure or the user's transformation logic (like filter/map functions). This prevents the use of the Catalyst Optimizer.\n2. **High Serialization Overhead:** RDDs typically store data as generic Java/Python objects, which require expensive generic serialization/deserialization when moved across the network or written to disk, and they are inefficient in terms of memory usage (high overhead for the JVM garbage collector)."
-                            }
-                        ]
-                    }
-                }
-            ],
-finalTest: {
-                title: "Final Comprehensive Test",
-                mcq: [
-                    // Existing Questions (Ch 1-6)
-                    { q: "Which of the 5Vs of Big Data refers to the trustworthiness and quality of the data?", options: ["Volume", "Velocity", "Variety", "Veracity"], a: "Veracity" },
-                    { q: "Scaling out a cluster is also known as:", options: ["Vertical Scaling", "Horizontal Scaling", "Upsizing", "Resourcing"], a: "Horizontal Scaling" },
-                    { q: "In HDFS, what is the default replication factor for data blocks?", options: ["1", "2", "3", "4"], a: "3" },
-                    { q: "Which component in YARN is responsible for launching and managing an Application Master?", options: ["NodeManager", "Scheduler", "Resource Manager", "Container"], a: "Resource Manager" },
-                    { q: "A MapReduce Combiner function is best described as a:", options: ["Global sort operation", "Local reduce operation", "Custom partitioner", "Final output formatter"], a: "Local reduce operation" },
-                    { q: "What does schema-on-read mean in the context of Hive?", options: ["The schema must be defined before loading data", "Data is validated against the schema during writes", "The schema is applied to the data when it is queried", "Hive does not support schemas"], a: "The schema is applied to the data when it is queried" },
-                    { q: "Dropping an EXTERNAL table in Hive results in:", options: ["Deletion of both data and metadata", "Deletion of only the data", "Deletion of only the metadata", "An error, as external tables cannot be dropped"], a: "Deletion of only the metadata" },
-                    { q: "Which Hive command is used for an efficient UPSERT operation?", options: ["CTAS", "UPDATE", "INSERT OVERWRITE", "MERGE"], a: "MERGE" },
-                    { q: "What is the primary limitation of the NameNode in a non-HA HDFS cluster?", options: ["It runs out of disk space quickly", "It is a Single Point of Failure", "It cannot communicate with DataNodes", "It slows down read operations"], a: "It is a Single Point of Failure" },
-                    { q: "What problem does a custom Partitioner in MapReduce primarily solve?", options: ["Slow map tasks", "Network congestion", "Data skew", "Small file issues in HDFS"], a: "Data skew" },
-                   
-                    // New Spark Chapter 7 & 8 Questions
-                    { q: "A process that requires the exchange and redistribution of data partitions across the network, separating Spark execution Stages, is called a:", options: ["Lineage Recalculation", "Local Sort", "Shuffle", "MapReduce Phase"], a: "Shuffle" },
-                    { q: "Which Spark operation is **lazy** and only records the step in the Lineage Graph?", options: ["Action", "Collect", "Transformation", "Count"], a: "Transformation" },
-                    { q: "Which Spark abstraction provides the strongest **compile-time type safety**?", options: ["RDD", "DataFrame", "Row", "Dataset"], a: "Dataset" },
-                    { q: "The Spark initiative focused on maximizing CPU and memory efficiency by using off-heap memory and binary processing is:", options: ["Project Tungsten", "Project Catalyst", "Project YARN", "Project Lineage"], a: "Project Tungsten" },
-                    { q: "The component responsible for converting a high-level DataFrame query into an efficient physical execution plan is the:", options: ["Executor", "SparkContext", "Catalyst Optimizer", "DAG Scheduler"], a: "Catalyst Optimizer" }
+
+        {
+
+ "title": "Chapter 7: Apache Spark Introduction and Architecture",
+  "summary": `
+    <div class="prose max-w-none">
+      
+      <h2>1. What is Spark?</h2>
+      <p>
+        Apache Spark is an open-source, distributed processing system designed for big data analytics. 
+        It enables fast, large-scale data processing through <strong>in-memory computation</strong>, which significantly 
+        reduces the need for slow disk I/O compared to traditional MapReduce models.
+        It was originally developed by the University of California, Berkeley’s AMPLab and later donated to the Apache Software Foundation.
+      </p>
+      <p>
+        Spark provides simple APIs in Python (PySpark), Scala, Java, R (SparkR), and SQL.
+      </p>
+
+      <h2>2. Spark Key Features</h2>
+      <ul>
+        <li>
+          <strong>Easy to use:</strong> Spark provides a simpler programming model with a more expressive API than MapReduce.
+          Where MapReduce requires verbose classes, Spark allows for concise code.
+        </li>
+        <li>
+          <strong>General-purpose (Unified Stack):</strong> Unlike Hadoop MapReduce, which is designed just for batch processing, 
+          Spark is a unified engine that handles batch processing, interactive analysis, stream processing (Structured Streaming), 
+          machine learning (MLlib), and graph computing (GraphX).
+        </li>
+        <li>
+          <strong>Fast:</strong> Spark is faster than Hadoop for two main reasons:
+          <ol>
+            <li>It allows <strong>in-memory cluster computing</strong> (avoiding the heavy disk writing of Hadoop).</li>
+            <li>It uses an advanced <strong>DAG (Directed Acyclic Graph) execution engine</strong>. 
+                While Hadoop is fixed to two stages (Map and Reduce), a Spark DAG can contain any number of stages, allowing for deep optimization.</li>
+          </ol>
+        </li>
+        <li>
+          <strong>Scalable:</strong> You can increase processing capacity simply by adding more nodes to the cluster.
+        </li>
+        <li>
+          <strong>Fault Tolerant:</strong> Spark handles node failures automatically. If a node fails, it uses <strong>lineage</strong> to recompute only the lost partitions without crashing the application.
+        </li>
+      </ul>
+
+      <h2>3. High-level Architecture</h2>
+      <p>
+        Spark uses a master-slave architecture containing five key entities:
+      </p>
+      <ul>
+        <li>
+          <strong>Driver Program:</strong> The "brain" of the application. It runs the <code>main()</code> function, creates the SparkSession, 
+          requests resources from the Cluster Manager, and transforms operations into DAG computations to schedule tasks on Executors.
+        </li>
+        <li>
+          <strong>SparkSession:</strong> Introduced in Spark 2.0, this is the unified entry point for all Spark operations (reading data, SQL, config), 
+          replacing older contexts like SparkContext and SQLContext to make code simpler.
+        </li>
+        <li>
+          <strong>Cluster Manager:</strong> Manages resources (CPU/RAM) across the cluster. 
+          Spark supports Standalone, Kubernetes, and YARN (which allows Spark and Hadoop to run on the same nodes).
+        </li>
+        <li>
+          <strong>Workers:</strong> Nodes that provide CPU, memory, and storage to the application.
+        </li>
+        <li>
+          <strong>Executors:</strong> JVM processes created on Workers <em>specifically</em> for a single application. 
+          They execute tasks concurrently and cache data. When the app terminates, the executors terminate.
+        </li>
+        <li>
+          <strong>Tasks:</strong> The smallest unit of work. One task is created per data partition.
+        </li>
+      </ul>
+
+      <h2>4. Distributed Data and Partitions</h2>
+      <p>
+        Physical data (on HDFS, S3, etc.) is divided into <strong>partitions</strong>, but Spark treats them as a single logical dataset (DataFrame).
+      </p>
+      <ul>
+        <li>
+          <strong>Data Locality:</strong> Spark tries to process data on the same node where it is stored to reduce network traffic.
+        </li>
+        <li>
+          <strong>Parallelism:</strong> Each core in an executor processes one partition. The number of partitions determines the level of parallelism.
+          <br><em>Tuning:</em> Too few partitions leave cores idle; too many add management overhead.
+        </li>
+      </ul>
+      <pre><code># Example: Repartitioning to match available cores
+log_df = spark.read.text("large_file.txt").repartition(8)
+print(log_df.rdd.getNumPartitions()) // Output: 8</code></pre>
+
+      <h2>5. Transformations, Actions, and Lazy Evaluation</h2>
+      <p>Spark operations are classified into two types:</p>
+      <ul>
+        <li>
+          <strong>Transformations (Lazy):</strong> Create a new immutable DataFrame from an existing one (e.g., <code>filter</code>, <code>groupBy</code>, <code>join</code>).
+          They are not executed immediately but are recorded in a lineage.
+        </li>
+        <li>
+          <strong>Actions (Eager):</strong> Trigger the actual execution of the recorded lineage to return a result or write data (e.g., <code>show</code>, <code>count</code>, <code>save</code>).
+        </li>
+      </ul>
+      
+      <h3>Lazy Evaluation Benefits</h3>
+      <p>Because Spark waits for an Action before running, it can achieve:</p>
+      <ol>
+        <li><strong>Optimization:</strong> Spark analyzes the whole chain to create an efficient plan.</li>
+        <li><strong>Fault Tolerance:</strong> Using lineage, Spark can recompute lost data automatically.</li>
+        <li><strong>Efficiency:</strong> Avoids unnecessary work until results are actually needed.</li>
+      </ol>
+
+      <h2>6. Spark Application Concepts (Hierarchy)</h2>
+      <p>When you run a Spark program, computation is broken down into three levels:</p>
+      <table class="table-auto w-full text-left border-collapse border border-gray-300">
+        <thead>
+          <tr class="bg-gray-100">
+            <th class="border border-gray-300 px-4 py-2">Level</th>
+            <th class="border border-gray-300 px-4 py-2">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="border border-gray-300 px-4 py-2"><strong>Job</strong></td>
+            <td class="border border-gray-300 px-4 py-2">
+              Triggered by an <strong>Action</strong> (e.g., <code>.collect()</code>). Represents one complete computation to produce a result.
+            </td>
+          </tr>
+          <tr>
+            <td class="border border-gray-300 px-4 py-2"><strong>Stage</strong></td>
+            <td class="border border-gray-300 px-4 py-2">
+              Jobs are divided into stages by <strong>Shuffle Boundaries</strong>. A stage contains operations that can run without moving data (e.g., <code>map</code>). 
+              A shuffle (data exchange) forces a new stage.
+            </td>
+          </tr>
+          <tr>
+            <td class="border border-gray-300 px-4 py-2"><strong>Task</strong></td>
+            <td class="border border-gray-300 px-4 py-2">
+              The smallest unit of work. If a stage has 8 partitions, Spark launches 8 tasks to process them in parallel.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>7. Apache Spark on Databricks Community Edition</h2>
+      <p>
+        Databricks is a cloud platform built by the creators of Spark. The <strong>Community Edition</strong> is free and requires no installation.
+        It supports notebooks (Python, Scala, SQL, R) and includes built-in visualization tools.
+      </p>
+      <p>
+        <a href="https://databricks.com/try-databricks" class="text-blue-600 hover:underline">Sign up for Databricks CE</a>.
+      </p>
+    </div>
+  `,
+            "quiz": {
+                "mcq": [
+                    { "q": "Spark is faster than MapReduce due to:", "options": ["Disk I/O", "In-memory computing", "Fixed stages", "Single purpose"], "a": "In-memory computing" },
+                    { "q": "Which manages cluster resources?", "options": ["Driver", "Cluster manager", "Executor", "Task"], "a": "Cluster manager" },
+                    { "q": "Transformations are:", "options": ["Eager", "Lazy", "Immediate", "Blocking"], "a": "Lazy" },
+                    { "q": "Stages separated by:", "options": ["Actions", "Shuffle boundaries", "Tasks", "Jobs"], "a": "Shuffle boundaries" },
+                    { "q": "Task count per stage:", "options": ["Jobs", "Partitions", "Executors", "Workers"], "a": "Partitions" }
                 ],
-                fillIn: [
-                    // Existing Questions (Ch 1-6)
-                    { q: "In a master-slave architecture, the master node that manages the HDFS file system is called the ________.", a: "NameNode" },
-                    { q: "The processing paradigm that involves moving the code to the data is known as ________.", a: "Data Locality" },
-                    { q: "In YARN, a ________ is a bundle of resources (CPU, memory) allocated on a worker node.", a: "Container" },
-                    { q: "The component in Hive that stores all the metadata, such as table schemas and partition information, is the ________.", a: "Metastore" },
-                    { q: "To improve query performance in Hive by skipping irrelevant subdirectories, you should use ________ on your tables.", a: "partitions" },
-                    { q: "The Hive command that allows populating multiple tables from a single scan of a source table is ________.", a: "Multi-Insert" },
-                    { q: "The ________ theorem states that a distributed system can only provide two of three guarantees: Consistency, Availability, and Partition Tolerance.", a: "CAP" },
-                    // New Spark Chapter 7 & 8 Questions
-                    { q: "The dependency graph that allows Spark to recompute lost data partitions is called the ________.", a: "Lineage" },
-                    { q: "A transformation like `filter()` or `map()` that does not require a shuffle is known as a ________ transformation.", a: "Narrow" },
-                    { q: "The unified entry point for all modern Spark functionality, including DataFrames and SQL, is the ________.", a: "SparkSession" }
+                "fillIn": [
+                    { "q": "APIs in Python, Scala, Java, R, ________.", "a": "SQL" },
+                    { "q": "Smallest work unit: ________.", "a": "Task" },
+                    { "q": "Execution on ________.", "a": "action" },
+                    { "q": "Data into ________ for parallel.", "a": "partitions" },
+                    { "q": "Databricks CE is ________.", "a": "free" }
                 ],
-                openEnded: [
-                    // MapReduce as open-ended
+                "openEnded": [
                     {
-                        prompt: "You have a dataset of customer transactions, where each line is `CustomerID,TransactionAmount`. You want to calculate the total transaction amount for each customer. Define the input and output for the Map and Reduce phases.",
-                        answer: `
-                            <strong>MAP PHASE:</strong><br>
-                            - <strong>Input:</strong> <code>&lt;key: byte offset, value: 'CustomerID,TransactionAmount'&gt;</code><br>
-                            - <strong>Process:</strong> Split the line to get CustomerID and TransactionAmount.<br>
-                            - <strong>Output:</strong> <code>&lt;key: CustomerID, value: TransactionAmount&gt;</code><br><br>
-                            <strong>REDUCE PHASE:</strong><br>
-                            - <strong>Input:</strong> <code>&lt;key: CustomerID, values: [Amount1, Amount2, ...]&gt;</code><br>
-                            - <strong>Process:</strong> Sum all amounts in the values list.<br>
-                            - <strong>Output:</strong> <code>&lt;key: CustomerID, value: TotalTransactionAmount&gt;</code>
-                        `
+                        "prompt": "Explain lazy evaluation with example, link to lineage.",
+                        "answer": "Doesn't execute transformations until action; builds lineage DAG. Example: rdd = sc.textFile('file'); upper = rdd.map(_.toUpperCase); filt = upper.filter(_.startsWith('I')); filt.collect() triggers, outputs filtered lines. Lineage recomputes lost data from source."
                     },
                     {
-                        prompt: "You are analyzing weather data. Each line in your file represents a temperature reading for a specific year: `Year,Temperature`. Your goal is to find the maximum temperature recorded for each year. Define the input and output for the Map and Reduce phases.",
-                        answer: `
-                            <strong>MAP PHASE:</strong><br>
-                            - <strong>Input:</strong> <code>&lt;key: byte offset, value: 'Year,Temperature'&gt;</code><br>
-                            - <strong>Process:</strong> Parse the line to extract Year and Temperature.<br>
-                            - <strong>Output:</strong> <code>&lt;key: Year, value: Temperature&gt;</code><br><br>
-                            <strong>REDUCE PHASE:</strong><br>
-                            - <strong>Input:</strong> <code>&lt;key: Year, values: [Temp1, Temp2, ...]&gt;</code><br>
-                            - <strong>Process:</strong> Find the maximum value in the list of temperatures.<br>
-                            - <strong>Output:</strong> <code>&lt;key: Year, value: MaxTemperature&gt;</code>
-                        `
+                        "prompt": "Roles of Driver/Executors, link to architecture.",
+                        "answer": "Driver: SparkSession, DAG, schedule tasks. Executors: Run tasks, cache. Architecture: Driver coordinates via cluster manager; executors on workers execute parallel."
                     },
-                    // Hive as open-ended
                     {
-                        prompt: "You have two tables: `employees` (emp_id, name, department) and `active_employees` (emp_id). You need to find the names and departments of only the employees who are listed in the `active_employees` table. You do not need any information from the `active_employees` table in your final result, only to use it for filtering. Which join type is the most efficient and appropriate for this task? Write the HiveQL command to get the desired result.",
-                        answer: `
-                            <strong>Part 1 (Best Method):</strong> <strong>LEFT SEMI JOIN</strong> is the most efficient method. It filters the left table (\`employees\`) based on the existence of a match in the right table (\`active_employees\`) without the overhead of a full join.<br><br>
-                            <strong>Part 2 (Command):</strong>
-                            <pre><code>SELECT e.name, e.department
+                        "prompt": "Why scalable/fault tolerant? Example.",
+                        "answer": "Scalable: Add nodes. Fault tolerant: Lineage recomputes. Example: Failed task; Spark reschedules on another executor using lineage."
+                    }
+                ]
+            }
+        },
+        {
+            "title": "Chapter 8: Spark Data Abstractions",
+  "summary": `
+    <div class="prose max-w-none">
+      
+      <h2>1. Spark Data Abstractions</h2>
+      <p>
+        Big data cannot fit into a single machine, so Spark stores data across multiple nodes. 
+        Data abstractions allow developers to manipulate this distributed data as if it were local, 
+        hiding the complexity of cluster computing (parallelism, shuffling, and task distribution).
+      </p>
+      <p>Spark provides three levels of abstraction:</p>
+      <ul>
+        <li><strong>RDD (Resilient Distributed Dataset):</strong> Provides low-level control.</li>
+        <li><strong>DataFrame:</strong> Structured and optimized.</li>
+        <li><strong>Dataset:</strong> Typed, high-level abstraction.</li>
+      </ul>
+
+      <h2>2. Resilient Distributed Datasets (RDD)</h2>
+      <p>
+        RDD is the most fundamental data abstraction in Spark. It represents a distributed collection of elements that can be processed in parallel across cluster nodes.
+      </p>
+      <h3>Characteristics</h3>
+      <ul>
+        <li><strong>Dependencies (Lineage):</strong> This makes RDDs resilient. If a node fails, Spark can reconstruct the data using the lineage.</li>
+        <li><strong>Partitions:</strong> Data is split into chunks (partitions) with locality information to minimize network transfer.</li>
+      </ul>
+
+      <h3>Limitations of the RDD Model</h3>
+      <p>While powerful, RDDs have significant downsides regarding performance and ease of use:</p>
+      <ol>
+        <li>
+            <strong>Opaque Computation:</strong> Spark cannot "see inside" the functions (e.g., a Python lambda) passed to the RDD. It doesn't know what you are doing, so it cannot optimize the logic.
+        </li>
+        <li>
+            <strong>Opaque Data Type:</strong> Spark treats data as generic objects (Type T). It doesn't know the internal structure (schema) of the data.
+        </li>
+        <li>
+            <strong>No Query Optimization:</strong> Because of the opacity, Spark cannot perform optimizations like predicate pushdown or join reordering.
+        </li>
+        <li>
+            <strong>Serialization Overhead:</strong> Lacking schema awareness, Spark must serialize data as heavy raw bytes (Java serialization), which is inefficient for storage and transfer.
+        </li>
+      </ol>
+
+      <h2>3. Structured Abstractions (DataFrames & Datasets)</h2>
+      <p>
+        To overcome RDD limitations, Spark introduced Structured Abstractions. These provide:
+      </p>
+      <ul>
+        <li><strong>Schema Awareness:</strong> Spark knows the data structure, allowing efficient storage.</li>
+        <li><strong>Optimized Execution:</strong> The Catalyst Optimizer analyzes queries to create efficient execution plans.</li>
+        <li><strong>Expressivity:</strong> Developers use high-level declarative APIs (describing <em>what</em> to compute) rather than imperative code (describing <em>how</em> to compute).</li>
+        <li><strong>Unified Interface:</strong> The same API is used for batch, streaming, SQL, and machine learning.</li>
+      </ul>
+
+      <h3>Comparison: RDD vs. DataFrame</h3>
+      <p><em>Goal: Aggregate ages by name and compute the average.</em></p>
+      
+      <h4>RDD Approach (Low-Level / "How")</h4>
+      <p>Harder to read; Spark treats the lambda functions as black boxes.</p>
+      <pre><code># Verbose and unoptimized
+agesRDD = (dataRDD
+  .map(lambda x: (x[0], (x[1], 1)))
+  .reduceByKey(lambda x, y: (x[0] + y[0], x[1] + y[1]))
+  .map(lambda x: (x[0], x[1][0] / x[1][1]))
+)</code></pre>
+
+      <h4>DataFrame Approach (High-Level / "What")</h4>
+      <p>Declarative and readable; Spark optimizes the aggregation.</p>
+      <pre><code># Simple and optimized
+avg_df = data_df.groupBy("name").agg(avg("age"))</code></pre>
+
+      <h2>4. The DataFrame API</h2>
+      <p>
+        Inspired by Pandas and relational tables, a DataFrame is a distributed, in-memory table with named columns and defined data types.
+        It provides a Domain-Specific Language (DSL) for operations like <code>select</code>, <code>filter</code>, and <code>groupBy</code>.
+      </p>
+      <p><strong>Immutability:</strong> DataFrames are immutable. You cannot modify them directly; transformations create new DataFrames.</p>
+
+      <h3>Creating DataFrames and Schemas</h3>
+      <p>
+        While Spark can infer schemas automatically, defining them explicitly is better for performance (avoids reading the whole file) and validation.
+      </p>
+      
+      <h4>Method 1: Programmatic Schema (StructType)</h4>
+      <pre><code>from pyspark.sql.types import *
+
+schema = StructType([
+    StructField("author", StringType(), False),
+    StructField("title", StringType(), False),
+    StructField("pages", IntegerType(), False)
+])
+
+df = spark.createDataFrame(data, schema=schema)</code></pre>
+
+      <h4>Method 2: DDL String (Data Definition Language)</h4>
+      <p>A concise, readable string format.</p>
+      <pre><code>schema = "author STRING, title STRING, pages INT"
+df = spark.createDataFrame(data, schema=schema)</code></pre>
+
+      <h3>Common Operations</h3>
+      <p>Spark supports reading/writing various formats including CSV, JSON, Parquet (default/columnar), and ORC.</p>
+      <pre><code># 1. Reading
+df = spark.read.csv("file.csv", header=True, schema=schema)
+
+# 2. Transformation Chain
+agg_df = df.select("First", "Hits") \
+           .where(col("Hits") > 8000) \
+           .withColumnRenamed("Hits", "Views") \
+           .groupBy("First").agg(avg("Views"))
+
+# 3. Writing
+agg_df.write.format("parquet").save("output_folder")</code></pre>
+
+      <h2>5. The Dataset API</h2>
+      <p>
+        Spark 2.0 unified DataFrames and Datasets into a single "Structured API."
+      </p>
+      <table class="table-auto w-full text-left border-collapse border border-gray-300">
+        <thead>
+          <tr class="bg-gray-100">
+            <th class="border border-gray-300 px-4 py-2">Feature</th>
+            <th class="border border-gray-300 px-4 py-2">Untyped API</th>
+            <th class="border border-gray-300 px-4 py-2">Typed API</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="border border-gray-300 px-4 py-2"><strong>Definition</strong></td>
+            <td class="border border-gray-300 px-4 py-2">DataFrame = <code>Dataset[Row]</code></td>
+            <td class="border border-gray-300 px-4 py-2"><code>Dataset[T]</code></td>
+          </tr>
+          <tr>
+            <td class="border border-gray-300 px-4 py-2"><strong>Languages</strong></td>
+            <td class="border border-gray-300 px-4 py-2">Python, R, Scala, Java</td>
+            <td class="border border-gray-300 px-4 py-2">Scala, Java (Statically typed only)</td>
+          </tr>
+          <tr>
+            <td class="border border-gray-300 px-4 py-2"><strong>Error Detection</strong></td>
+            <td class="border border-gray-300 px-4 py-2">Runtime (Application crashes during execution)</td>
+            <td class="border border-gray-300 px-4 py-2">Compile Time (Code won't build if types mismatch)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Typed vs. Untyped Objects</h3>
+      <ul>
+        <li>
+            <strong>Typed Objects (Scala/Java):</strong> Each record is a strict object (e.g., a Case Class). The compiler knows field names and types.
+            <br><em>Benefit:</em> Robustness. Accessing a non-existent field causes a compile-time error.
+        </li>
+        <li>
+            <strong>Untyped Objects (Python/R):</strong> Records are treated as generic <strong>Rows</strong>. 
+            <br><em>Risk:</em> If you try to access a column named "tempp" instead of "temp", you will only find out when the code crashes at runtime.
+        </li>
+      </ul>
+
+      <h3>Generic Row</h3>
+      <p>
+        A <strong>Row</strong> is Spark's internal generic container for a record in a DataFrame (Untyped API). 
+        It can hold mixed data types, and fields are accessed by index or name.
+      </p>
+      <pre><code>from pyspark.sql import Row
+row = Row(350, "Learning Spark")
+print(row[0]) # Output: 350</code></pre>
+
+    </div>
+  `,
+            "quiz": {
+                "mcq": [
+                    { "q": "RDD limitation: Spark not optimizing functions:", "options": ["Schema inference", "Opaque computation", "Type safety", "Lazy evaluation"], "a": "Opaque computation" },
+                    { "q": "DataFrame alias for:", "options": ["Dataset[T]", "Dataset[Row]", "RDD[Row]", "RDD[T]"], "a": "Dataset[Row]" },
+                    { "q": "Datasets provide:", "options": ["Runtime safety", "Compile-time safety", "No safety", "Dynamic safety"], "a": "Compile-time safety" },
+                    { "q": "Typed Datasets in:", "options": ["Python, R", "Scala, Java", "All", "None"], "a": "Scala, Java" },
+                    { "q": "DataFrame uses ________ for structure.", "options": ["RDD", "Schema", "Lineage", "Partitions"], "a": "Schema" }
+                ],
+                "fillIn": [
+                    { "q": "RDD resilient due to ________.", "a": "lineage" },
+                    { "q": "DataFrame ________ collection of Row.", "a": "untyped" },
+                    { "q": "Datasets in Python ________.", "a": "untyped" },
+                    { "q": "Optimized ________ abstractions.", "a": "structured" },
+                    { "q": "Generic in DataFrame: ________.", "a": "Row" }
+                ],
+                "openEnded": [
+                    {
+                        "prompt": "Explain RDD limitations, link to new abstractions with example.",
+                        "answer": "Opaque computation: No function optim. Opaque type: No schema. No query optim, high serialization. Example: rdd.map(x => x + 1) unoptimized; df.withColumn('new', col('old') + 1) Catalyst optimizes. Link: DataFrames schema for optim, Datasets type safety."
+                    },
+                    {
+                        "prompt": "Typed vs untyped APIs, example.",
+                        "answer": "Typed Dataset[T]: Compile checks, Scala/Java e.g. ds.filter(_.age > 20) errors compile if age wrong. Untyped DataFrame: Runtime, Python df.filter('age > 20')."
+                    },
+                    {
+                        "prompt": "Create DataFrame with schema, example code/output.",
+                        "answer": "Programmatic: StructType(StructField). DDL: 'author STRING'. Example: spark.createDataFrame([('Tom', 'Book')], schema='author STRING, title STRING').show() // |author|title| \n|Tom|Book|."
+                    }
+                ]
+            }
+        },
+        {
+            "title": "Chapter 9: Machine Learning in Spark",
+  "summary": `
+    <div class="prose max-w-none">
+      
+      <h2>1. Spark Machine Learning Libraries</h2>
+      <p>
+        Spark provides two distinct libraries for machine learning, both of which are scalable and can utilize multi-node clusters with in-memory caching for speed.
+      </p>
+            <ul>
+        <li>
+            <strong>MLlib (Legacy):</strong> The original RDD-based library. It is now in maintenance mode and mostly deprecated.
+        </li>
+        <li>
+            <strong>Spark ML (Modern):</strong> The newer, DataFrame-based API (also known as the "Pipelines API"). This is the standard library we use.
+        </li>
+      </ul>
+
+      <h2>2. Supported Algorithms</h2>
+      <p>Spark ML supports a wide range of algorithms for different tasks:</p>
+      <ul>
+        <li><strong>Regression & Classification:</strong> Linear/Logistic regression, SVM, Naïve Bayes, Decision Trees, Random Forests, Gradient-boosted trees.</li>
+        <li><strong>Clustering:</strong> K-means.</li>
+      </ul>
+
+      <h2>3. The Spark ML Workflow</h2>
+      <p>
+        A typical end-to-end ML workflow in Spark involves distinct stages: reading data, preprocessing, feature extraction, splitting, training, tuning, evaluating, and deploying.
+        Spark ML provides specific abstractions for these stages:
+      </p>
+      
+      <table class="table-auto w-full text-left border-collapse border border-gray-300">
+        <thead>
+          <tr class="bg-gray-100">
+            <th class="border border-gray-300 px-4 py-2">Component</th>
+            <th class="border border-gray-300 px-4 py-2">Role</th>
+            <th class="border border-gray-300 px-4 py-2">Key Method</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="border border-gray-300 px-4 py-2"><strong>DataFrame</strong></td>
+            <td class="border border-gray-300 px-4 py-2">Primary data structure (Schema-aware).</td>
+            <td class="border border-gray-300 px-4 py-2">N/A</td>
+          </tr>
+          <tr>
+            <td class="border border-gray-300 px-4 py-2"><strong>Transformer</strong></td>
+            <td class="border border-gray-300 px-4 py-2">Modifies data (e.g., Feature Engineering or a Trained Model predicting results).</td>
+            <td class="border border-gray-300 px-4 py-2"><code>.transform()</code></td>
+          </tr>
+          <tr>
+            <td class="border border-gray-300 px-4 py-2"><strong>Estimator</strong></td>
+            <td class="border border-gray-300 px-4 py-2">The learning algorithm. Fits on data to produce a Model (Transformer).</td>
+            <td class="border border-gray-300 px-4 py-2"><code>.fit()</code></td>
+          </tr>
+          <tr>
+            <td class="border border-gray-300 px-4 py-2"><strong>Pipeline</strong></td>
+            <td class="border border-gray-300 px-4 py-2">Chains multiple Transformers and Estimators into a single workflow.</td>
+            <td class="border border-gray-300 px-4 py-2"><code>.fit()</code></td>
+          </tr>
+          <tr>
+            <td class="border border-gray-300 px-4 py-2"><strong>Evaluator</strong></td>
+            <td class="border border-gray-300 px-4 py-2">Measures performance (RMSE, Accuracy).</td>
+            <td class="border border-gray-300 px-4 py-2"><code>.evaluate()</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>4. Key Concepts in Depth</h2>
+      
+      <h3>Transformer</h3>
+      <p>
+        Generates a new DataFrame from an existing one. It is immutable (does not change input data).
+        <br><strong>Two Types:</strong>
+        <ol>
+            <li><strong>Feature Transformer:</strong> Prepares data (e.g., <code>VectorAssembler</code>).</li>
+            <li><strong>Model:</strong> A trained model that predicts labels (e.g., <code>LinearRegressionModel</code>).</li>
+        </ol>
+      </p>
+
+      <h3>Estimator</h3>
+      <p>
+        The algorithm itself. It learns parameters from the data.
+        <br><em>Flow:</em> <strong>DataFrame → Estimator.fit() → Model (Transformer)</strong>.
+      </p>
+
+      <h3>Pipeline</h3>
+      <p>
+        Connects stages in order (e.g., Tokenizer → VectorAssembler → Regression).
+        Because a Pipeline is also an Estimator, calling <code>pipeline.fit()</code> trains the whole chain at once and returns a <code>PipelineModel</code>.
+      </p>
+
+      <h2>5. Example Application: Airbnb Price Prediction</h2>
+      <p>
+        <strong>Goal:</strong> Predict nightly rental price (Regression) based on features like "bedrooms".
+        <br><strong>Dataset:</strong> San Francisco Airbnb data (Parquet format).
+      </p>
+      
+      <h3>Step 1: Load and Split Data</h3>
+      <pre><code># Load Data
+filePath = "/databricks-datasets/.../sf-airbnb-clean.parquet/"
+airbnbDF = spark.read.parquet(filePath)
+
+# Split 80/20
+trainDF, testDF = airbnbDF.randomSplit([0.8, 0.2], seed=42)
+print(f"Training Rows: {trainDF.count()}")</code></pre>
+
+      <h3>Step 2: Feature Engineering (VectorAssembler)</h3>
+      <p>
+        Spark ML algorithms require all features to be combined into a single <strong>Vector column</strong>. 
+        You cannot pass "bedrooms" directly; you must wrap it in a vector.
+      </p>
+            <pre><code>from pyspark.ml.feature import VectorAssembler
+
+vecAssembler = VectorAssembler(
+    inputCols=["bedrooms"], 
+    outputCol="features"
+)
+# Note: Usually we put this inside a Pipeline rather than transforming manually here.</code></pre>
+
+      <h3>Step 3: Define Estimator (Linear Regression)</h3>
+      <pre><code>from pyspark.ml.regression import LinearRegression
+
+lr = LinearRegression(featuresCol="features", labelCol="price")</code></pre>
+
+      <h3>Step 4: Build and Train Pipeline</h3>
+      <p>Instead of running steps manually, we combine them.</p>
+      <pre><code>from pyspark.ml import Pipeline
+
+# Define pipeline stages
+pipeline = Pipeline(stages=[vecAssembler, lr])
+
+# Train the model (Estimator -> Transformer)
+pipelineModel = pipeline.fit(trainDF)</code></pre>
+
+      <h3>Step 5: Make Predictions</h3>
+      <p>The trained <code>pipelineModel</code> is now a Transformer. We use it on the test set.</p>
+      <pre><code>predDF = pipelineModel.transform(testDF)
+predDF.select("bedrooms", "price", "prediction").show(5)</code></pre>
+
+      <h3>Step 6: Evaluate Model</h3>
+      <p>We use an Evaluator to check the Root Mean Square Error (RMSE).</p>
+      <pre><code>from pyspark.ml.evaluation import RegressionEvaluator
+
+evaluator = RegressionEvaluator(
+    predictionCol="prediction", 
+    labelCol="price", 
+    metricName="rmse"
+)
+rmse = evaluator.evaluate(predDF)
+print(f"RMSE is {rmse:.1f}")</code></pre>
+
+      <h3>Step 7: Save and Load</h3>
+      <p>Save the model to reuse later without retraining.</p>
+      <pre><code># Save
+pipelineModel.write().overwrite().save("/tmp/lr-model")
+
+# Load
+from pyspark.ml import PipelineModel
+loadedModel = PipelineModel.load("/tmp/lr-model")
+predictions = loadedModel.transform(new_data)</code></pre>
+
+    </div>
+  `,
+            "quiz": {
+                "mcq": [
+                    { "q": "Deprecated library:", "options": ["Spark ML", "MLlib", "Spark SQL", "GraphX"], "a": "MLlib" },
+                    { "q": "Estimator .fit() returns:", "options": ["DataFrame", "Transformer", "Evaluator", "Pipeline"], "a": "Transformer" },
+                    { "q": "Chains stages:", "options": ["Evaluator", "Transformer", "Pipeline", "Estimator"], "a": "Pipeline" },
+                    { "q": "Regression metric:", "options": ["Accuracy", "AUC", "RMSE", "Precision"], "a": "RMSE" },
+                    { "q": "randomSplit varies due to:", "options": ["Shuffling", "Executors", "Schema", "Lazy"], "a": "Executors" },
+                    { "q": "'features' from:", "options": ["Tokenizer", "VectorAssembler", "StopWordsRemover", "LinearRegression"], "a": "VectorAssembler" }
+                ],
+                "fillIn": [
+                    { "q": "Modern: ________ ML.", "a": "Spark" },
+                    { "q": "Generates new DF: ________.", "a": "Transformer" },
+                    { "q": "Pipeline returns ________Model.", "a": "Pipeline" },
+                    { "q": "Performance: ________ like RegressionEvaluator.", "a": "Evaluator" },
+                    { "q": "Save splits to ________ for repro.", "a": "storage" }
+                ],
+                "openEnded": [
+                    {
+                        "prompt": "Outline key steps in Spark ML regression workflow, with main methods/abstractions, link to example.",
+                        "answer": "Read: spark.read.parquet. Split: randomSplit, save storage. Features: VectorAssembler.transform. Estimator: LinearRegression.fit. Pipeline: Pipeline.fit, transform. Evaluate: RegressionEvaluator.evaluate. Save: write.save. Link: Airbnb uses these for price prediction."
+                    },
+                    {
+                        "prompt": "Explain Transformer vs Estimator with examples/code from ML flow.",
+                        "answer": "Transformer: Fixed transform, .transform. Example: VectorAssembler.setInputCols.setOutputCol.transform(df).show() adds features. Estimator: Learns, .fit returns Transformer. Example: lr.fit(train) -> model; model.transform(test).show() predicts."
+                    },
+                    {
+                        "prompt": "Why use Pipeline? Example code/output from Airbnb.",
+                        "answer": "Reproducible/clean workflow, handles order/columns. Example: pipeline = Pipeline(stages=[vecAssembler, lr]); model = pipeline.fit(trainDF); predDF = model.transform(testDF); predDF.show() // |bedrooms|features|price|prediction| e.g. |1.0|[1.0]|100|98.5|."
+                    }
+                ]
+            }
+        }
+    ],
+    "finalTest": {
+        "title": "Final Comprehensive Test",
+        "mcq": [
+            { "q": "Which of the 5Vs of Big Data refers to the trustworthiness and quality of the data?", "options": ["Volume", "Velocity", "Variety", "Veracity"], "a": "Veracity" },
+            { "q": "Scaling out a cluster is also known as:", "options": ["Vertical Scaling", "Horizontal Scaling", "Upsizing", "Resourcing"], "a": "Horizontal Scaling" },
+            { "q": "In HDFS, what is the default replication factor for data blocks?", "options": ["1", "2", "3", "4"], "a": "3" },
+            { "q": "Which component in YARN is responsible for launching and managing an Application Master?", "options": ["NodeManager", "Scheduler", "Resource Manager", "Container"], "a": "Resource Manager" },
+            { "q": "A MapReduce Combiner function is best described as a:", "options": ["Global sort operation", "Local reduce operation", "Custom partitioner", "Final output formatter"], "a": "Local reduce operation" },
+            { "q": "What does schema-on-read mean in the context of Hive?", "options": ["The schema must be defined before loading data", "Data is validated against the schema during writes", "The schema is applied to the data when it is queried", "Hive does not support schemas"], "a": "The schema is applied to the data when it is queried" },
+            { "q": "Dropping an EXTERNAL table in Hive results in:", "options": ["Deletion of both data and metadata", "Deletion of only the data", "Deletion of only the metadata", "An error, as external tables cannot be dropped"], "a": "Deletion of only the metadata" },
+            { "q": "Which Hive command is used for an efficient UPSERT operation?", "options": ["CTAS", "UPDATE", "INSERT OVERWRITE", "MERGE"], "a": "MERGE" },
+            { "q": "What is the primary limitation of the NameNode in a non-HA HDFS cluster?", "options": ["It runs out of disk space quickly", "It is a Single Point of Failure", "It cannot communicate with DataNodes", "It slows down read operations"], "a": "It is a Single Point of Failure" },
+            { "q": "What problem does a custom Partitioner in MapReduce primarily solve?", "options": ["Slow map tasks", "Network congestion", "Data skew", "Small file issues in HDFS"], "a": "Data skew" },
+          
+            // New Spark Chapter 7 & 8 Questions
+            { q: "A process that requires the exchange and redistribution of data partitions across the network, separating Spark execution Stages, is called a:", "options": ["Lineage Recalculation", "Local Sort", "Shuffle", "MapReduce Phase"], "a": "Shuffle" },
+            { q: "Which Spark operation is **lazy** and only records the step in the Lineage Graph?", "options": ["Action", "Collect", "Transformation", "Count"], "a": "Transformation" },
+            { q: "Which Spark abstraction provides the strongest **compile-time type safety**?", "options": ["RDD", "DataFrame", "Row", "Dataset"], "a": "Dataset" },
+            { q: "The Spark initiative focused on maximizing CPU and memory efficiency by using off-heap memory and binary processing is:", "options": ["Project Tungsten", "Project Catalyst", "Project YARN", "Project Lineage"], "a": "Project Tungsten" },
+            { q: "The component responsible for converting a high-level DataFrame query into an efficient physical execution plan is the:", "options": ["Executor", "SparkContext", "Catalyst Optimizer", "DAG Scheduler"], "a": "Catalyst Optimizer" },
+            { q: "In Spark ML, which abstraction chains multiple stages (Transformers/Estimators) into a workflow?", "options": ["Evaluator", "Transformer", "Pipeline", "Estimator"], "a": "Pipeline" },
+            { q: "What does an Estimator return after .fit() on a DataFrame?", "options": ["DataFrame", "Transformer (Model)", "Evaluator", "Pipeline"], "a": "Transformer (Model)" },
+            { q: "Which Transformer combines input columns into a single 'features' vector?", "options": ["Tokenizer", "VectorAssembler", "StopWordsRemover", "LinearRegression"], "a": "VectorAssembler" }
+        ],
+        "fillIn": [
+            // Existing Questions (Ch 1-6)
+            { q: "In a master-slave architecture, the master node that manages the HDFS file system is called the ________.", a: "NameNode" },
+            { q: "The processing paradigm that involves moving the code to the data is known as ________.", a: "Data Locality" },
+            { q: "In YARN, a ________ is a bundle of resources (CPU, memory) allocated on a worker node.", a: "Container" },
+            { q: "The component in Hive that stores all the metadata, such as table schemas and partition information, is the ________.", a: "Metastore" },
+            { q: "To improve query performance in Hive by skipping irrelevant subdirectories, you should use ________ on your tables.", a: "partitions" },
+            { q: "The Hive command that allows populating multiple tables from a single scan of a source table is ________.", a: "Multi-Insert" },
+            { q: "The ________ theorem states that a distributed system can only provide two of three guarantees: Consistency, Availability, and Partition Tolerance.", a: "CAP" },
+            // New Spark Chapter 7 & 8 Questions
+            { q: "The dependency graph that allows Spark to recompute lost data partitions is called the ________.", a: "Lineage" },
+            { q: "A transformation like `filter()` or `map()` that does not require a shuffle is known as a ________ transformation.", a: "Narrow" },
+            { q: "The unified entry point for all modern Spark functionality, including DataFrames and SQL, is the ________.", a: "SparkSession" },
+            { q: "Spark ML's modern library is based on ________.", a: "DataFrame" },
+            { q: "The abstraction that trains a model in Spark ML is called an ________.", a: "Estimator" }
+        ],
+        "openEnded": [
+            // MapReduce as open-ended
+            {
+                "prompt": "You have a dataset of customer transactions, where each line is `CustomerID,TransactionAmount`. You want to calculate the total transaction amount for each customer. Define the input and output for the Map and Reduce phases.",
+                "answer": `
+                    <strong>MAP PHASE:</strong><br>
+                    - <strong>Input:</strong> <code>&lt;key: byte offset, value: 'CustomerID,TransactionAmount'&gt;</code><br>
+                    - <strong>Process:</strong> Split the line to get CustomerID and TransactionAmount.<br>
+                    - <strong>Output:</strong> <code>&lt;key: CustomerID, value: TransactionAmount&gt;</code><br><br>
+                    <strong>REDUCE PHASE:</strong><br>
+                    - <strong>Input:</strong> <code>&lt;key: CustomerID, values: [Amount1, Amount2, ...]&gt;</code><br>
+                    - <strong>Process:</strong> Sum all amounts in the values list.<br>
+                    - <strong>Output:</strong> <code>&lt;key: CustomerID, value: TotalTransactionAmount&gt;</code>
+                `
+            },
+            {
+                "prompt": "You are analyzing weather data. Each line in your file represents a temperature reading for a specific year: `Year,Temperature`. Your goal is to find the maximum temperature recorded for each year. Define the input and output for the Map and Reduce phases.",
+                "answer": `
+                    <strong>MAP PHASE:</strong><br>
+                    - <strong>Input:</strong> <code>&lt;key: byte offset, value: 'Year,Temperature'&gt;</code><br>
+                    - <strong>Process:</strong> Parse the line to extract Year and Temperature.<br>
+                    - <strong>Output:</strong> <code>&lt;key: Year, value: Temperature&gt;</code><br><br>
+                    <strong>REDUCE PHASE:</strong><br>
+                    - <strong>Input:</strong> <code>&lt;key: Year, values: [Temp1, Temp2, ...]&gt;</code><br>
+                    - <strong>Process:</strong> Find the maximum value in the list of temperatures.<br>
+                    - <strong>Output:</strong> <code>&lt;key: Year, value: MaxTemperature&gt;</code>
+                `
+            },
+            // Hive as open-ended
+            {
+                "prompt": "You have two tables: `employees` (emp_id, name, department) and `active_employees` (emp_id). You need to find the names and departments of only the employees who are listed in the `active_employees` table. You do not need any information from the `active_employees` table in your final result, only to use it for filtering. Which join type is the most efficient and appropriate for this task? Write the HiveQL command to get the desired result.",
+                "answer": `
+                    <strong>Part 1 (Best Method):</strong> <strong>LEFT SEMI JOIN</strong> is the most efficient method. It filters the left table (\`employees\`) based on the existence of a match in the right table (\`active_employees\`) without the overhead of a full join.<br><br>
+                    <strong>Part 2 (Command):</strong>
+                    <pre><code>SELECT e.name, e.department
 FROM employees e
 LEFT SEMI JOIN active_employees a
  ON e.emp_id = a.emp_id;</code></pre>
-                        `
-                    },
-                    {
-                        prompt: "You have a single source table `all_transactions` (transaction_id, user_id, amount, country). You need to create two new tables in a single operation: `usa_transactions` containing only transactions where country is 'USA', and `large_transactions` containing transactions where the amount is greater than 1000. What is the best HiveQL feature for this task? Write the HiveQL command to achieve this.",
-                        answer: `
-                            <strong>Part 1 (Best Method):</strong> <strong>Multi-Insert</strong> is the best feature because it allows you to read the source table \`all_transactions\` only once and write to multiple destination tables based on different criteria.<br><br>
-                            <strong>Part 2 (Command):</strong>
-                            <pre><code>FROM all_transactions
+                `
+            },
+            {
+                "prompt": "You have a single source table `all_transactions` (transaction_id, user_id, amount, country). You need to create two new tables in a single operation: `usa_transactions` containing only transactions where country is 'USA', and `large_transactions` containing transactions where the amount is greater than 1000. What is the best HiveQL feature for this task? Write the HiveQL command to achieve this.",
+                "answer": `
+                    <strong>Part 1 (Best Method):</strong> <strong>Multi-Insert</strong> is the best feature because it allows you to read the source table \`all_transactions\` only once and write to multiple destination tables based on different criteria.<br><br>
+                    <strong>Part 2 (Command):</strong>
+                    <pre><code>FROM all_transactions
 INSERT INTO TABLE usa_transactions
  SELECT transaction_id, user_id, amount
  WHERE country = 'USA'
 INSERT INTO TABLE large_transactions
  SELECT transaction_id, user_id, amount, country
  WHERE amount > 1000;</code></pre>
-                        `
-                    },
-                    // Spark open-ended
-                    {
-                        prompt: "Describe the sequence of events that occurs when a Spark **Action** (like <code>.count()</code>) is called on a DataFrame that has undergone several **Transformations** (like <code>.filter()</code> and <code>.groupBy()</code>). Include the roles of the **Lineage** and the **Catalyst Optimizer**.",
-                        answer: "The **Action** is the trigger for execution. When it is called:\n1. **Lineage/Logical Plan:** Spark inspects the accumulated **Lineage** (the Directed Acyclic Graph, or DAG, of all lazy Transformations) to form the initial Logical Plan.\n2. **Catalyst Optimization:** The **Catalyst Optimizer** takes this Logical Plan and executes its phases (Analysis, Logical Optimization, Physical Planning). It generates an **Optimized Physical Plan** to determine the most efficient way to compute the result.\n3. **DAG Scheduler:** The Driver's DAG Scheduler translates the Physical Plan into a set of **Stages**, separated by **Shuffle Boundaries**.\n4. **Task Execution:** The Driver submits these Stages to the Cluster Manager (e.g., YARN), which allocates **Executors**. Tasks (the smallest unit of work) are then launched on the Executors to read data, perform the necessary computation, and return the final result to the Driver."
-                    }
-                ]
+                `
+            },
+            // Spark open-ended
+            {
+                "prompt": "Describe the sequence of events that occurs when a Spark **Action** (like <code>.count()</code>) is called on a DataFrame that has undergone several **Transformations** (like <code>.filter()</code> and <code>.groupBy()</code>). Include the roles of the **Lineage** and the **Catalyst Optimizer**.",
+                "answer": "The **Action** is the trigger for execution. When it is called:\n1. **Lineage/Logical Plan:** Spark inspects the accumulated **Lineage** (the Directed Acyclic Graph, or DAG, of all lazy Transformations) to form the initial Logical Plan.\n2. **Catalyst Optimization:** The **Catalyst Optimizer** takes this Logical Plan and executes its phases (Analysis, Logical Optimization, Physical Planning). It generates an **Optimized Physical Plan** to determine the most efficient way to compute the result.\n3. **DAG Scheduler:** The Driver's DAG Scheduler translates the Physical Plan into a set of **Stages**, separated by **Shuffle Boundaries**.\n4. **Task Execution:** The Driver submits these Stages to the Cluster Manager (e.g., YARN), which allocates **Executors**. Tasks (the smallest unit of work) are then launched on the Executors to read data, perform the necessary computation, and return the final result to the Driver."
+            },
+            {
+                "prompt": "Outline the key steps to build a simple linear regression model in Spark ML for predicting Airbnb prices, including the main abstractions and methods used.",
+                "answer": "1. Read data: spark.read.parquet('file'). 2. Split: randomSplit([0.8, 0.2]). 3. Transformer (VectorAssembler): inputCols=['bedrooms'], outputCol='features'; .transform(). 4. Estimator (LinearRegression): featuresCol='features', labelCol='price'; .fit(train). 5. Pipeline: Pipeline(stages=[assembler, lr]); .fit(). 6. Predict: model.transform(test). 7. Evaluator: RegressionEvaluator(metricName='rmse'); .evaluate(). 8. Save: model.write().save()."
             }
-        };
+        ]
+    }
+};
 // --- DOM ELEMENTS & LOGIC ---
         const mainContent = document.getElementById('main-content');
         const contentArea = document.getElementById('content-area');
